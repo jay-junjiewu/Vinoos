@@ -1,13 +1,12 @@
 import express from "express"
 import { supabaseClient } from "../config/config"
-import { authMiddleware } from "../middleware/auth"
 
 const router = express.Router()
 
 // Get all equipment
 router.get("/", async (req, res, next) => {
   try {
-    const { data, error } = await supabaseClient.from("equipment").select("*").order("created_at", { ascending: false })
+    const { data, error } = await supabaseClient.from("equipment").select("*").order("created_at", { ascending: true })
 
     if (error) throw error
 
@@ -43,26 +42,26 @@ router.get("/:id", async (req, res, next) => {
   }
 })
 
-// Create a new equipment item (protected)
-router.post("/", authMiddleware, async (req, res, next) => {
+// Create a new equipment item
+router.post("/", async (req, res, next) => {
   try {
-    const { title, brand, shortDescription, specifications, images } = req.body
+    const { name, description, category, images } = req.body
 
-    if (!title || !brand || !shortDescription) {
+    if (!name || !description || !category) {
       const validationError = new Error("Missing required fields") as any
       validationError.status = 400
       throw validationError
     }
 
-    // Insert the equipment
+    // Insert the equipment with created_at
     const { data: equipmentData, error: equipmentError } = await supabaseClient
       .from("equipment")
       .insert([
         {
-          title,
-          brand,
-          short_description: shortDescription,
-          specifications: specifications || [],
+          name,
+          description,
+          category,
+          created_at: new Date().toISOString()
         },
       ])
       .select()
@@ -92,19 +91,18 @@ router.post("/", authMiddleware, async (req, res, next) => {
   }
 })
 
-// Update an equipment item (protected)
-router.put("/:id", authMiddleware, async (req, res, next) => {
+// Update an equipment item
+router.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params
-    const { title, brand, shortDescription, specifications } = req.body
+    const { name, description, category, images } = req.body
 
     const { data, error } = await supabaseClient
       .from("equipment")
       .update({
-        title,
-        brand,
-        short_description: shortDescription,
-        specifications: specifications || [],
+        name,
+        description,
+        category,
       })
       .eq("id", id)
       .select()
@@ -121,8 +119,8 @@ router.put("/:id", authMiddleware, async (req, res, next) => {
   }
 })
 
-// Delete an equipment item (protected)
-router.delete("/:id", authMiddleware, async (req, res, next) => {
+// Delete an equipment item
+router.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params
 

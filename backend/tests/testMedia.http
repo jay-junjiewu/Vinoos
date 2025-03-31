@@ -1,0 +1,22 @@
+### Test Media Upload and Retrieval
+
+### Upload a media file
+POST http://localhost:8080/api/media/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="logo.jpg"
+Content-Type: image/jpeg
+
+< ./logo.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get all media files
+GET http://localhost:8080/api/media/
+
+### Get a specific media file by name
+GET http://localhost:8080/api/media/2e93291e-df89-4d81-9d30-df3e96bbce31.jpg
+
+
+### Delete a media file
+DELETE http://localhost:8080/api/media/2e93291e-df89-4d81-9d30-df3e96bbce31.jpg

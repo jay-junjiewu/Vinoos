@@ -1,13 +1,12 @@
 import express from "express"
 import { supabaseClient } from "../config/config" // Adjusted import path for Supabase client
-import { authMiddleware } from "../middleware/auth"
 
 const router = express.Router()
 
 // Get all projects
 router.get("/", async (req, res, next) => {
   try {
-    const { data, error } = await supabaseClient.from("projects").select("*").order("created_at", { ascending: false })
+    const { data, error } = await supabaseClient.from("projects").select("*").order("created_at", { ascending: true })
 
     if (error) throw error
 
@@ -44,7 +43,7 @@ router.get("/:id", async (req, res, next) => {
 })
 
 // Create a new project (protected)
-router.post("/", authMiddleware, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const { title, description, category, images } = req.body
 
@@ -54,10 +53,10 @@ router.post("/", authMiddleware, async (req, res, next) => {
       throw validationError
     }
 
-    // Insert the project
+    // Insert the project with created_at
     const { data: projectData, error: projectError } = await supabaseClient
       .from("projects")
-      .insert([{ title, description, category }])
+      .insert([{ title, description, category, created_at: new Date().toISOString() }])
       .select()
       .single()
 
@@ -86,7 +85,7 @@ router.post("/", authMiddleware, async (req, res, next) => {
 })
 
 // Update a project (protected)
-router.put("/:id", authMiddleware, async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params
     const { title, description, category } = req.body
@@ -110,7 +109,7 @@ router.put("/:id", authMiddleware, async (req, res, next) => {
 })
 
 // Delete a project (protected)
-router.delete("/:id", authMiddleware, async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params
 

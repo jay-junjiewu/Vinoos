@@ -1,0 +1,31 @@
+### Test Server
+GET http://localhost:8080/api/
+
+### Get all equipment
+GET http://localhost:8080/api/equipment/
+
+### Get a specific equipment by ID
+GET http://localhost:8080/api/equipment/1
+
+### Create a new equipment
+POST http://localhost:8080/api/equipment/
+Content-Type: application/json
+
+{
+  "name": "New Equipment",
+  "description": "Description of the new equipment",
+  "category": "Tools"
+}
+
+### Update an equipment
+PUT http://localhost:8080/api/equipment/1
+Content-Type: application/json
+
+{
+  "name": "Updated Equipment Name",
+  "description": "Updated description",
+  "category": "Tools"
+}
+
+### Delete an equipment
+DELETE http://localhost:8080/api/equipment/1
