@@ -4,7 +4,6 @@ import dotenv from "dotenv"
 import projectsRouter from "./routes/projects"
 import equipmentRouter from "./routes/equipment"
 import mediaRouter from "./routes/media"
-import { errorHandler } from "./middleware/errorHandler"
 import { PORT, supabaseClient } from "./config/config" // Importing Supabase client from config.ts
 
 // Load environment variables
@@ -27,9 +26,6 @@ app.get("/api", (req, res) => {
 app.use("/api/projects", projectsRouter)
 app.use("/api/equipment", equipmentRouter)
 app.use("/api/media", mediaRouter)
-
-// Error handler middleware
-app.use(errorHandler)
 
 // Start server
 app.listen(PORT, () => {
