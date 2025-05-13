@@ -3,12 +3,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock, Mail, MapPinIcon, Phone } from 'lucide-react';
-import { BUSINESS_INFO, PROJECTS_DATA, EQUIPMENT_DATA } from '@/lib/constants';
+import { Mail, MapPinIcon, Phone } from 'lucide-react';
+import { BUSINESS_INFO, PROJECTS_DATA } from '@/lib/constants';
+import { ProjectCard } from '@/components/showcase/ProjectCard';
 
 export default function HomePage() {
-  const featuredProject = PROJECTS_DATA[0];
-  const featuredEquipment = EQUIPMENT_DATA[0];
+  const featuredProjects = PROJECTS_DATA.slice(0, 2); // Get the first two projects
 
   return (
     <div className="flex flex-col">
@@ -38,63 +38,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Sections */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {featuredProject && featuredProject.images && featuredProject.images.length > 0 && (
-              <div>
-                <h2 className="text-3xl font-semibold mb-6 text-primary">Featured Project</h2>
-                <Card className="overflow-hidden shadow-xl">
-                  <div className="relative w-full h-64 md:h-80">
-                    <Image
-                      src={featuredProject.images[0].url}
-                      alt={featuredProject.title}
-                      layout="fill"
-                      objectFit="cover"
-                      data-ai-hint={featuredProject.images[0].hint}
-                    />
-                  </div>
-                  <CardHeader>
-                    <CardTitle>{featuredProject.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4">{featuredProject.description}</p>
-                    <Button asChild variant="link" className="text-accent p-0 hover:text-accent/80">
-                      <Link href="/projects">See more projects &rarr;</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-            {featuredEquipment && (
-               <div>
-                <h2 className="text-3xl font-semibold mb-6 text-primary">Featured Equipment</h2>
-                <Card className="overflow-hidden shadow-xl">
-                  <div className="relative w-full h-64 md:h-80">
-                  <Image
-                    src={featuredEquipment.imageUrl}
-                    alt={featuredEquipment.name}
-                    layout="fill"
-                    objectFit="cover"
-                    data-ai-hint={featuredEquipment.imageHint}
-                  />
-                  </div>
-                  <CardHeader>
-                    <CardTitle>{featuredEquipment.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4">{featuredEquipment.description}</p>
-                    <Button asChild variant="link" className="text-accent p-0 hover:text-accent/80">
-                      <Link href="/equipment">Browse all equipment &rarr;</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+      {/* Featured Projects Section */}
+      {featuredProjects.length > 0 && (
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-semibold mb-10 text-center text-primary">
+              Featured Projects
+            </h2>
+            <div className="grid md:grid-cols-2 gap-12">
+              {featuredProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+            {PROJECTS_DATA.length > 2 && (
+               <div className="mt-12 text-center">
+                <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 hover:text-accent-foreground shadow-md">
+                  <Link href="/projects">View All Projects</Link>
+                </Button>
               </div>
             )}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       
       {/* Business Information Section */}
       <section id="contact" className="py-16 bg-secondary/30">
