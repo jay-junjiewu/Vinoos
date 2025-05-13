@@ -9,6 +9,7 @@ export interface Project {
   title: string;
   description: string;
   images: ProjectImage[];
+  categories: string[]; // Added categories field
 }
 
 export interface Equipment {
@@ -19,3 +20,6 @@ export interface Equipment {
   imageHint: string;
   price?: string;
 }
+
+// Define a type for unique categories, can be expanded if needed
+export type ProjectCategory = string;

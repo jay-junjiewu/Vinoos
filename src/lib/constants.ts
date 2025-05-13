@@ -1,10 +1,23 @@
-import type { Project, Equipment } from '@/types';
+import type { Project, Equipment, ProjectCategory } from '@/types';
 
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/equipment', label: 'Equipment' },
 ];
+
+export const PROJECT_CATEGORIES: ProjectCategory[] = [
+  'All', // Special category for showing all projects
+  'Freshwater',
+  'Saltwater',
+  'Planted Tank',
+  'Nano Tank',
+  'Biotope',
+  'Predator Tank',
+  'Community Tank',
+  'Reef Tank',
+];
+
 
 export const PROJECTS_DATA: Project[] = [
   {
@@ -16,6 +29,7 @@ export const PROJECTS_DATA: Project[] = [
       { url: 'https://picsum.photos/seed/project1b/600/400', hint: 'community fish' },
       { url: 'https://picsum.photos/seed/project1c/600/400', hint: 'aquascape layout' },
     ],
+    categories: ['Freshwater', 'Planted Tank', 'Community Tank'],
   },
   {
     id: '2',
@@ -26,6 +40,7 @@ export const PROJECTS_DATA: Project[] = [
       { url: 'https://picsum.photos/seed/project2b/600/400', hint: 'marine corals' },
       { url: 'https://picsum.photos/seed/project2c/600/400', hint: 'saltwater fish' },
     ],
+    categories: ['Saltwater', 'Reef Tank'],
   },
   {
     id: '3',
@@ -36,6 +51,7 @@ export const PROJECTS_DATA: Project[] = [
       { url: 'https://picsum.photos/seed/project3b/600/400', hint: 'nano aquascape' },
       { url: 'https://picsum.photos/seed/project3c/600/400', hint: 'small aquarium' },
     ],
+    categories: ['Freshwater', 'Nano Tank'],
   },
   {
     id: '4',
@@ -46,6 +62,7 @@ export const PROJECTS_DATA: Project[] = [
       { url: 'https://picsum.photos/seed/project4b/600/400', hint: 'river aquarium' },
       { url: 'https://picsum.photos/seed/project4c/600/400', hint: 'naturalistic tank' },
     ],
+    categories: ['Freshwater', 'Biotope'],
   },
   {
     id: '5',
@@ -56,6 +73,7 @@ export const PROJECTS_DATA: Project[] = [
       { url: 'https://picsum.photos/seed/project5b/600/400', hint: 'small planted tank' },
       { url: 'https://picsum.photos/seed/project5c/600/400', hint: 'office fish tank' },
     ],
+    categories: ['Freshwater', 'Nano Tank', 'Planted Tank'],
   },
   {
     id: '6',
@@ -66,6 +84,7 @@ export const PROJECTS_DATA: Project[] = [
       { url: 'https://picsum.photos/seed/project6b/600/400', hint: 'predator tank' },
       { url: 'https://picsum.photos/seed/project6c/600/400', hint: 'monster fish' },
     ],
+    categories: ['Freshwater', 'Predator Tank'],
   },
 ];
 
