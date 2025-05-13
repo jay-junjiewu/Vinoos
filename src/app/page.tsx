@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -41,17 +42,17 @@ export default function HomePage() {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {featuredProject && (
+            {featuredProject && featuredProject.images && featuredProject.images.length > 0 && (
               <div>
                 <h2 className="text-3xl font-semibold mb-6 text-primary">Featured Project</h2>
                 <Card className="overflow-hidden shadow-xl">
                   <div className="relative w-full h-64 md:h-80">
                     <Image
-                      src={featuredProject.imageUrl}
+                      src={featuredProject.images[0].url}
                       alt={featuredProject.title}
                       layout="fill"
                       objectFit="cover"
-                      data-ai-hint={featuredProject.imageHint}
+                      data-ai-hint={featuredProject.images[0].hint}
                     />
                   </div>
                   <CardHeader>

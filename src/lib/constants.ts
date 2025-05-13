@@ -11,43 +11,61 @@ export const PROJECTS_DATA: Project[] = [
     id: '1',
     title: 'Serene Freshwater Scape',
     description: 'A calming 75-gallon freshwater aquarium with lush live plants and peaceful community fish.',
-    imageUrl: 'https://picsum.photos/seed/project1/600/400',
-    imageHint: 'freshwater aquarium',
+    images: [
+      { url: 'https://picsum.photos/seed/project1a/600/400', hint: 'freshwater plants' },
+      { url: 'https://picsum.photos/seed/project1b/600/400', hint: 'community fish' },
+      { url: 'https://picsum.photos/seed/project1c/600/400', hint: 'aquascape layout' },
+    ],
   },
   {
     id: '2',
     title: 'Vibrant Coral Reef',
     description: 'A stunning 120-gallon saltwater reef tank showcasing a variety of colorful corals and marine life.',
-    imageUrl: 'https://picsum.photos/seed/project2/600/400',
-    imageHint: 'coral reef',
+    images: [
+      { url: 'https://picsum.photos/seed/project2a/600/400', hint: 'coral reef tank' },
+      { url: 'https://picsum.photos/seed/project2b/600/400', hint: 'marine corals' },
+      { url: 'https://picsum.photos/seed/project2c/600/400', hint: 'saltwater fish' },
+    ],
   },
   {
     id: '3',
     title: 'Minimalist Betta Bowl',
     description: 'An elegant 5-gallon nano tank designed for a single Betta fish, emphasizing simplicity and style.',
-    imageUrl: 'https://picsum.photos/seed/project3/600/400',
-    imageHint: 'betta fish tank',
+    images: [
+      { url: 'https://picsum.photos/seed/project3a/600/400', hint: 'betta fish tank' },
+      { url: 'https://picsum.photos/seed/project3b/600/400', hint: 'nano aquascape' },
+      { url: 'https://picsum.photos/seed/project3c/600/400', hint: 'small aquarium' },
+    ],
   },
   {
     id: '4',
     title: 'Amazon Biotope',
     description: 'A 55-gallon setup replicating the natural habitat of Amazonian fish species.',
-    imageUrl: 'https://picsum.photos/seed/project4/600/400',
-    imageHint: 'amazon biotope',
+    images: [
+      { url: 'https://picsum.photos/seed/project4a/600/400', hint: 'amazon biotope' },
+      { url: 'https://picsum.photos/seed/project4b/600/400', hint: 'river aquarium' },
+      { url: 'https://picsum.photos/seed/project4c/600/400', hint: 'naturalistic tank' },
+    ],
   },
   {
     id: '5',
     title: 'Office Desk Nano Tank',
     description: 'A compact 10-gallon planted tank, perfect for adding a touch of nature to any workspace.',
-    imageUrl: 'https://picsum.photos/seed/project5/600/400',
-    imageHint: 'nano aquarium',
+    images: [
+      { url: 'https://picsum.photos/seed/project5a/600/400', hint: 'nano aquarium desk' },
+      { url: 'https://picsum.photos/seed/project5b/600/400', hint: 'small planted tank' },
+      { url: 'https://picsum.photos/seed/project5c/600/400', hint: 'office fish tank' },
+    ],
   },
   {
     id: '6',
     title: 'Monster Fish Predator Tank',
     description: 'A large 200-gallon aquarium housing impressive predatory fish species.',
-    imageUrl: 'https://picsum.photos/seed/project6/600/400',
-    imageHint: 'large aquarium',
+    images: [
+      { url: 'https://picsum.photos/seed/project6a/600/400', hint: 'large aquarium fish' },
+      { url: 'https://picsum.photos/seed/project6b/600/400', hint: 'predator tank' },
+      { url: 'https://picsum.photos/seed/project6c/600/400', hint: 'monster fish' },
+    ],
   },
 ];
 

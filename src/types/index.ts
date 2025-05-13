@@ -1,10 +1,14 @@
 
+export interface ProjectImage {
+  url: string;
+  hint: string;
+}
+
 export interface Project {
   id: string;
   title: string;
   description: string;
-  imageUrl: string;
-  imageHint: string;
+  images: ProjectImage[];
 }
 
 export interface Equipment {
