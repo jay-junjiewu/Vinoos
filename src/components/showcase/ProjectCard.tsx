@@ -234,7 +234,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {projectImages.length > 0 && (
          <DialogContent 
-           className="p-1 sm:p-2 md:p-4 border-0 max-w-none w-screen h-screen bg-black/75 flex items-center justify-center overflow-hidden [&>button[data-state=open]]:bg-transparent [&>button[data-state=open]]:text-white [&>button[data-state=open]]:hover:bg-white/10 [&>button[data-state=open]]:hover:text-white [&>button[data-state=open]]:focus:ring-white"
+           className="p-1 sm:p-2 md:p-4 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden [&>button[data-state=open]]:bg-transparent [&>button[data-state=open]]:text-white [&>button[data-state=open]]:hover:bg-white/10 [&>button[data-state=open]]:hover:text-white [&>button[data-state=open]]:focus:ring-white"
            aria-describedby={undefined} // Remove default aria-describedby if DialogTitle/Description not used in modal
            aria-labelledby={undefined}  // Remove default aria-labelledby
          >
@@ -245,4 +245,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
