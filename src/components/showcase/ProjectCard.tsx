@@ -64,8 +64,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
 
   return (
     <div
-      className="relative w-auto h-auto" // Main container for positioning context, shrink-wraps content
-      onClick={(e) => e.stopPropagation()}
+      className="relative w-auto h-auto p-6" // Main container for positioning context, shrink-wraps content, added padding
+      onClick={(e) => e.stopPropagation()} // Prevent closing dialog when clicking carousel container
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
@@ -93,14 +93,16 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
         />
       </div>
 
-      {/* Close Button (Top right, outside image area) */}
-      <button
+      {/* Close Button */}
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={(e) => { e.stopPropagation(); onClose(); }}
-        className="absolute top-0 right-0 z-[80] -mt-3 -mr-3 sm:-mt-4 sm:-mr-4 md:-mt-5 md:-mr-5 p-1.5 bg-black/50 hover:bg-black/70 text-white rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
+        className="absolute top-4 right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
         aria-label="Close image viewer"
       >
-        <X className="h-6 w-6" />
-      </button>
+        <X className="h-5 w-5" />
+      </Button>
 
       {/* Navigation Buttons (Left/Right, outside image area) */}
       {images.length > 1 && (
@@ -108,7 +110,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
           <Button
             variant="ghost"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-[70] -ml-3 sm:-ml-4 md:-ml-5 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image"
           >
@@ -117,7 +119,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-[70] -mr-3 sm:-mr-4 md:-mr-5 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image"
           >
@@ -130,7 +132,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
       {images.length > 1 && (
         <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] -mb-4 sm:-mb-5 md:-mb-6 flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()} // Prevent closing dialog when clicking dot container
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
@@ -262,7 +264,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
          <DialogContent
            className={cn(
              "p-0 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden"
-             // Removed specific styling for default X button as we use a custom one in ModalCarousel
            )}
            aria-describedby={undefined}
            aria-labelledby={undefined}
@@ -278,3 +279,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
