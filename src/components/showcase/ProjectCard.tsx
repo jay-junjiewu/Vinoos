@@ -98,7 +98,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
         variant="ghost"
         size="icon"
         onClick={(e) => { e.stopPropagation(); onClose(); }}
-        className="absolute top-4 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
+        className="absolute top-4 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
         aria-label="Close image viewer"
       >
         <X className="h-5 w-5" />
