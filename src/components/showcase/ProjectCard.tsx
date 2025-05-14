@@ -5,9 +5,9 @@ import Image from 'next/image';
 import type { Project, ProjectImage } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'; // Import X
 import { useState, useEffect, useCallback } from 'react';
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/ui/dialog"; // Import DialogClose
 import { cn } from '@/lib/utils';
 
 interface ProjectCardProps {
@@ -22,10 +22,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
   useEffect(() => {
     if (isOpen) {
       setCurrentIndexInModal(initialImageIndex);
+      // Prevent body scroll when modal is open
       document.body.style.overflow = 'hidden';
     } else {
+      // Restore body scroll when modal is closed
       document.body.style.overflow = '';
     }
+    // Cleanup function to restore scroll on component unmount
     return () => {
       document.body.style.overflow = '';
     };
@@ -49,33 +52,37 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
         goToPreviousModal(event);
       } else if (event.key === 'ArrowRight') {
         goToNextModal(event);
+      } else if (event.key === 'Escape') {
+        onClose(); // Close on Escape key
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, images.length, goToPreviousModal, goToNextModal]);
+  }, [isOpen, images.length, goToPreviousModal, goToNextModal, onClose]);
 
 
   if (!images || images.length === 0) return null;
 
   return (
+    // This div stops clicks within the carousel (e.g., on padding) from closing the modal,
+    // allowing the DialogOverlay to handle clicks on the true "outside".
     <div
       className="relative flex flex-col items-center justify-center" 
-      onClick={(e) => e.stopPropagation()} // Prevents clicks on carousel background/padding from closing if DialogContent itself handles close
+      onClick={(e) => e.stopPropagation()} 
     >
-      {/* Image container with explicit viewport-relative dimensions */}
+      {/* Image container: clicking this will close the modal */}
       <div 
-        className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh] cursor-pointer"
+        className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh] cursor-pointer group/modalimage"
         onClick={(e) => {
-          e.stopPropagation(); // Prevent this click from bubbling to the outer div
+          // e.stopPropagation(); // Stop propagation to prevent other handlers if any
           onClose(); // Close the modal when the image area is clicked
         }}
         role="button"
-        aria-label="Close image viewer"
-        tabIndex={0} // Make it focusable for accessibility if needed, though primary action is click
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClose(); } }} // Allow closing with Enter/Space if focused
+        aria-label="Close image viewer (click image)"
+        tabIndex={0} 
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClose(); } }} 
       >
         <Image
           src={images[currentIndexInModal].url}
@@ -84,17 +91,18 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
           objectFit="contain" 
           data-ai-hint={images[currentIndexInModal].hint}
           className="rounded-md"
-          priority={true}
-          key={images[currentIndexInModal].url}
+          priority={true} // Prioritize loading of the main modal image
+          key={images[currentIndexInModal].url} // Ensure re-render on image change
         />
       </div>
 
+      {/* Navigation Buttons */}
       {images.length > 1 && (
         <>
           <Button
             variant="ghost"
             size="icon"
-            className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+            className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image in modal"
           >
@@ -103,7 +111,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+            className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image in modal"
           >
@@ -112,10 +120,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
         </>
       )}
 
+      {/* Dots Indicator */}
       {images.length > 1 && (
         <div 
-          className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()} // Prevent clicks on dots area from closing modal
+          className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
+          onClick={(e) => e.stopPropagation()} 
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
@@ -188,7 +197,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                priority={project.id === '1' || project.id === '2'}
+                priority={project.id === '1' || project.id === '2'} // Prioritize first few project card images
               />
               {projectImages.length > 1 && (
                 <>
@@ -245,7 +254,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {projectImages.length > 0 && (
          <DialogContent
-           className="p-0 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden [&>button[data-state=open]]:bg-transparent [&>button[data-state=open]]:text-white [&>button[data-state=open]]:hover:bg-white/10 [&>button[data-state=open]]:hover:text-white [&>button[data-state=open]]:focus:ring-white"
+           // Styling for the DialogContent (modal overlay)
+           // The default X button is a child of DialogPrimitive.Content, which DialogContent renders.
+           // We target it using [&>button[type=button]] assuming it's the primary button child, or use DialogClose explicitly.
+           // The DialogOverlay is a sibling to DialogPrimitive.Content, and is responsible for the backdrop click.
+           className={cn(
+             "p-0 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden",
+             // Styles for the default X button rendered by DialogContent (DialogPrimitive.Close)
+             "[&>button[type=button]]:bg-black/30 [&>button[type=button]]:text-white",
+             "[&>button[type=button]]:hover:bg-black/50",
+             "[&>button[type=button]]:focus-visible:ring-2 [&>button[type=button]]:focus-visible:ring-white [&>button[type=button]]:focus-visible:ring-offset-0",
+             "[&>button[type=button]]:opacity-100 [&>button[type=button]]:rounded-full",
+             "[&>button[type=button]]:p-1.5 [&>button[type=button]]:right-4 [&>button[type=button]]:top-4", // Position more reliably
+             "[&>button[type=button]]:z-[80]" // Ensure X button is above carousel content
+           )}
            aria-describedby={undefined} 
            aria-labelledby={undefined}  
          >
@@ -253,10 +275,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
             project={project} 
             initialImageIndex={currentImageIndex} 
             isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)} // Pass the close handler
+            onClose={() => setIsModalOpen(false)}
           />
+          {/* You could also place an explicit DialogClose here if more control is needed,
+              but the default one should be styled by the className above.
+          <DialogClose className="absolute right-4 top-4 z-[80] rounded-full p-1.5 bg-black/30 text-white hover:bg-black/50">
+            <X className="h-5 w-5" />
+            <span className="sr-only">Close</span>
+          </DialogClose>
+          */}
         </DialogContent>
       )}
     </Dialog>
   );
 }
+
