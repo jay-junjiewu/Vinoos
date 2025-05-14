@@ -15,7 +15,7 @@ interface ProjectCardProps {
 }
 
 // ModalCarousel component defined within ProjectCard or could be a separate file
-function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Project; initialImageIndex: number; isOpen: boolean }) {
+function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { project: Project; initialImageIndex: number; isOpen: boolean; onClose: () => void; }) {
   const [currentIndexInModal, setCurrentIndexInModal] = useState(initialImageIndex);
   const images = project.images || [];
 
@@ -32,12 +32,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
   }, [isOpen, initialImageIndex]);
 
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
-    e?.stopPropagation(); // Stop propagation
+    e?.stopPropagation(); 
     setCurrentIndexInModal((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
   }, [images.length]);
 
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
-    e?.stopPropagation(); // Stop propagation
+    e?.stopPropagation(); 
     setCurrentIndexInModal((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   }, [images.length]);
 
@@ -63,10 +63,20 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
   return (
     <div
       className="relative flex flex-col items-center justify-center" 
-      onClick={(e) => e.stopPropagation()} 
+      onClick={(e) => e.stopPropagation()} // Prevents clicks on carousel background/padding from closing if DialogContent itself handles close
     >
       {/* Image container with explicit viewport-relative dimensions */}
-      <div className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh]">
+      <div 
+        className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh] cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent this click from bubbling to the outer div
+          onClose(); // Close the modal when the image area is clicked
+        }}
+        role="button"
+        aria-label="Close image viewer"
+        tabIndex={0} // Make it focusable for accessibility if needed, though primary action is click
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClose(); } }} // Allow closing with Enter/Space if focused
+      >
         <Image
           src={images[currentIndexInModal].url}
           alt={`${project.title} - Image ${currentIndexInModal + 1}`}
@@ -85,7 +95,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
             variant="ghost"
             size="icon"
             className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-            onClick={goToPreviousModal} 
+            onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image in modal"
           >
             <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7" />
@@ -94,7 +104,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
             variant="ghost"
             size="icon"
             className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-            onClick={goToNextModal} 
+            onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image in modal"
           >
             <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7" />
@@ -103,7 +113,10 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
       )}
 
       {images.length > 1 && (
-        <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full">
+        <div 
+          className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
+          onClick={(e) => e.stopPropagation()} // Prevent clicks on dots area from closing modal
+        >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
             <button
@@ -236,11 +249,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
            aria-describedby={undefined} 
            aria-labelledby={undefined}  
          >
-          <ModalCarousel project={project} initialImageIndex={currentImageIndex} isOpen={isModalOpen} />
+          <ModalCarousel 
+            project={project} 
+            initialImageIndex={currentImageIndex} 
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)} // Pass the close handler
+          />
         </DialogContent>
       )}
     </Dialog>
   );
 }
-
-    
