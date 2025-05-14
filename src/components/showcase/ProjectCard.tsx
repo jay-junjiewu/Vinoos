@@ -22,25 +22,22 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
   useEffect(() => {
     if (isOpen) {
       setCurrentIndexInModal(initialImageIndex);
-      // Add overflow hidden to body when modal is open
       document.body.style.overflow = 'hidden';
     } else {
-      // Remove overflow hidden from body when modal is closed
       document.body.style.overflow = '';
     }
-    // Cleanup function to remove style on component unmount
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen, initialImageIndex]);
 
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
-    e?.stopPropagation();
+    e?.stopPropagation(); // Stop propagation
     setCurrentIndexInModal((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
   }, [images.length]);
 
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
-    e?.stopPropagation();
+    e?.stopPropagation(); // Stop propagation
     setCurrentIndexInModal((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   }, [images.length]);
 
@@ -65,19 +62,20 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
 
   return (
     <div
-      className="relative flex flex-col items-center justify-center" // Removed w-full h-full
-      onClick={(e) => e.stopPropagation()}
+      className="relative flex flex-col items-center justify-center" 
+      onClick={(e) => e.stopPropagation()} 
     >
-      <div className="relative w-full max-w-screen-lg h-[85%] max-h-[85vh] flex items-center justify-center">
+      {/* Image container with explicit viewport-relative dimensions */}
+      <div className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh]">
         <Image
           src={images[currentIndexInModal].url}
           alt={`${project.title} - Image ${currentIndexInModal + 1}`}
           layout="fill"
-          objectFit="contain"
+          objectFit="contain" 
           data-ai-hint={images[currentIndexInModal].hint}
           className="rounded-md"
           priority={true}
-          key={images[currentIndexInModal].url} // Add key to force re-render on image change for transitions
+          key={images[currentIndexInModal].url}
         />
       </div>
 
@@ -87,7 +85,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
             variant="ghost"
             size="icon"
             className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 z-50 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-            onClick={goToPreviousModal}
+            onClick={goToPreviousModal} 
             aria-label="Previous image in modal"
           >
             <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7" />
@@ -96,7 +94,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
             variant="ghost"
             size="icon"
             className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-            onClick={goToNextModal}
+            onClick={goToNextModal} 
             aria-label="Next image in modal"
           >
             <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7" />
@@ -110,7 +108,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
           {images.map((_, index) => (
             <button
               key={`modal-dot-${index}`}
-              onClick={(e) => {
+              onClick={(e) => { 
                 e.stopPropagation();
                 setCurrentIndexInModal(index);
               }}
@@ -203,7 +201,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {projectImages.map((_, index) => (
                       <button
                         key={`card-dot-${index}`}
-                        tabIndex={-1} // Make dots non-focusable, main trigger is enough
+                        tabIndex={-1} 
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -224,21 +222,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <p className="text-muted-foreground">No image available</p>
           </div>
         )}
-        <CardHeader className="pt-4 pb-2"> {/* Adjusted padding */}
+        <CardHeader className="pt-4 pb-2"> 
           <CardTitle className="text-xl">{project.title}</CardTitle>
         </CardHeader>
-        <CardContent className="flex-grow pt-0 pb-4"> {/* Adjusted padding */}
+        <CardContent className="flex-grow pt-0 pb-4"> 
           <CardDescription>{project.description}</CardDescription>
         </CardContent>
       </Card>
 
       {projectImages.length > 0 && (
          <DialogContent
-           className="p-1 sm:p-2 md:p-4 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden [&>button[data-state=open]]:bg-transparent [&>button[data-state=open]]:text-white [&>button[data-state=open]]:hover:bg-white/10 [&>button[data-state=open]]:hover:text-white [&>button[data-state=open]]:focus:ring-white"
-           aria-describedby={undefined} // Remove default aria-describedby if DialogTitle/Description not used in modal
-           aria-labelledby={undefined}  // Remove default aria-labelledby
+           className="p-0 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden [&>button[data-state=open]]:bg-transparent [&>button[data-state=open]]:text-white [&>button[data-state=open]]:hover:bg-white/10 [&>button[data-state=open]]:hover:text-white [&>button[data-state=open]]:focus:ring-white"
+           aria-describedby={undefined} 
+           aria-labelledby={undefined}  
          >
-           {/* The X close button is part of DialogContent, styled above to be more visible on dark bg */}
           <ModalCarousel project={project} initialImageIndex={currentImageIndex} isOpen={isModalOpen} />
         </DialogContent>
       )}
@@ -246,3 +243,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
   );
 }
 
+    
