@@ -110,20 +110,20 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
           <Button
             variant="ghost"
             size="icon"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image"
           >
-            <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7" />
+            <ChevronLeft className="h-5 w-5" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image"
           >
-            <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7" />
+            <ChevronRight className="h-5 w-5" />
           </Button>
         </>
       )}
@@ -144,7 +144,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
               }}
               aria-label={`Go to image ${index + 1}`}
               className={cn(
-                'h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full transition-colors duration-150 outline-none focus-visible:ring-1 focus-visible:ring-white',
+                'h-1.5 w-1.5 rounded-full transition-colors duration-150 outline-none focus-visible:ring-1 focus-visible:ring-white',
                 currentIndexInModal === index ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
               )}
             />
