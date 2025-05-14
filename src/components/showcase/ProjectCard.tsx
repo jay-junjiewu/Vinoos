@@ -131,7 +131,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose }: { projec
       {/* Dots/Counter Indicator (Bottom, outside image area) */}
       {images.length > 1 && (
         <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] -mb-4 sm:-mb-5 md:-mb-6 flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
           onClick={(e) => e.stopPropagation()} // Prevent closing dialog when clicking dot container
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
