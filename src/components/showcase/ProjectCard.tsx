@@ -64,9 +64,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
   if (!images || images.length === 0) return null;
 
   return (
-    <div 
-      className="relative w-full h-full flex flex-col items-center justify-center" 
-      onClick={(e) => e.stopPropagation()} 
+    <div
+      className="relative flex flex-col items-center justify-center" // Removed w-full h-full
+      onClick={(e) => e.stopPropagation()}
     >
       <div className="relative w-full max-w-screen-lg h-[85%] max-h-[85vh] flex items-center justify-center">
         <Image
@@ -76,7 +76,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen }: { project: Projec
           objectFit="contain"
           data-ai-hint={images[currentIndexInModal].hint}
           className="rounded-md"
-          priority={true} 
+          priority={true}
           key={images[currentIndexInModal].url} // Add key to force re-render on image change for transitions
         />
       </div>
@@ -134,8 +134,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const projectImages = project.images || [];
 
   const goToPreviousOnCard = (e: React.MouseEvent) => {
-    e.preventDefault(); 
-    e.stopPropagation(); 
+    e.preventDefault();
+    e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? projectImages.length - 1 : prevIndex - 1
     );
@@ -143,12 +143,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   const goToNextOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation(); 
+    e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
       prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1
     );
   };
-  
+
   const handleOpenModal = () => {
     if (projectImages.length > 0) {
       setIsModalOpen(true);
@@ -160,12 +160,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
         {projectImages.length > 0 ? (
           <DialogTrigger asChild>
-            <div 
+            <div
               className="relative w-full h-48 sm:h-56 md:h-64 group cursor-pointer"
               onClick={handleOpenModal}
-              role="button" 
-              tabIndex={0} 
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleOpenModal();} }} 
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleOpenModal();} }}
               aria-label={`View images for ${project.title}`}
               aria-haspopup="dialog"
             >
@@ -177,7 +177,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                priority={project.id === '1' || project.id === '2'} 
+                priority={project.id === '1' || project.id === '2'}
               />
               {projectImages.length > 1 && (
                 <>
@@ -185,7 +185,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     variant="ghost"
                     size="icon"
                     className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white rounded-full h-8 w-8 sm:h-10 sm:w-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
-                    onClick={goToPreviousOnCard} 
+                    onClick={goToPreviousOnCard}
                     aria-label="Previous image on card"
                   >
                     <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -194,7 +194,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     variant="ghost"
                     size="icon"
                     className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white rounded-full h-8 w-8 sm:h-10 sm:w-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
-                    onClick={goToNextOnCard} 
+                    onClick={goToNextOnCard}
                     aria-label="Next image on card"
                   >
                     <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -206,7 +206,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         tabIndex={-1} // Make dots non-focusable, main trigger is enough
                         onClick={(e) => {
                           e.preventDefault();
-                          e.stopPropagation(); 
+                          e.stopPropagation();
                           setCurrentImageIndex(index);
                         }}
                         className={`h-2 w-2 rounded-full transition-colors ${
@@ -233,7 +233,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </Card>
 
       {projectImages.length > 0 && (
-         <DialogContent 
+         <DialogContent
            className="p-1 sm:p-2 md:p-4 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden [&>button[data-state=open]]:bg-transparent [&>button[data-state=open]]:text-white [&>button[data-state=open]]:hover:bg-white/10 [&>button[data-state=open]]:hover:text-white [&>button[data-state=open]]:focus:ring-white"
            aria-describedby={undefined} // Remove default aria-describedby if DialogTitle/Description not used in modal
            aria-labelledby={undefined}  // Remove default aria-labelledby
@@ -245,3 +245,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
