@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, MapPinIcon, Phone, Instagram, Facebook } from 'lucide-react'; // Added Instagram and Facebook
+import { Mail, MapPinIcon, Phone, Instagram, Facebook } from 'lucide-react';
 import { BUSINESS_INFO, PROJECTS_DATA } from '@/lib/constants';
 import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { AutoScrollingHero } from '@/components/showcase/AutoScrollingHero';
@@ -43,12 +43,14 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-semibold text-center mb-12 text-primary">
             Visit or Contact Us
           </h2>
-          <Card className="max-w-4xl mx-auto shadow-xl border-border/50">
+          <Card className="max-w-6xl mx-auto shadow-xl border-border/50"> {/* Increased max-w for 3 columns */}
             <CardHeader className="pb-4">
               <CardTitle className="text-2xl text-center md:text-left text-primary">{BUSINESS_INFO.name}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6 sm:space-y-8">
-              <div className="grid md:grid-cols-2 gap-6 md:gap-10">
+              <div className="grid md:grid-cols-3 gap-6 md:gap-8"> {/* Changed to md:grid-cols-3 */}
+                
+                {/* Business Hours Column */}
                 <div className="rounded-lg border bg-card p-6 h-full">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Business Hours</h3>
                   <ul className="space-y-1.5 text-muted-foreground">
@@ -57,6 +59,22 @@ export default function HomePage() {
                     ))}
                   </ul>
                 </div>
+
+                {/* Location Column */}
+                <div className="rounded-lg border bg-card p-6 h-full">
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">Our Location</h3>
+                  <ul className="space-y-3 text-muted-foreground">
+                    <li className="flex items-start gap-3">
+                      <MapPinIcon className="h-5 w-5 text-accent mt-1 shrink-0" />
+                      <a href={BUSINESS_INFO.googleMapsLink} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                        {BUSINESS_INFO.address}
+                      </a>
+                    </li>
+                    {/* You can add a small embedded map or image here if desired in the future */}
+                  </ul>
+                </div>
+
+                {/* Contact Details Column */}
                 <div className="rounded-lg border bg-card p-6 h-full">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Contact Details</h3>
                   <ul className="space-y-3 text-muted-foreground">
@@ -67,12 +85,6 @@ export default function HomePage() {
                     <li className="flex items-center gap-3">
                       <Mail className="h-5 w-5 text-accent" />
                       <a href={`mailto:${BUSINESS_INFO.email}`} className="hover:text-accent transition-colors">{BUSINESS_INFO.email}</a>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <MapPinIcon className="h-5 w-5 text-accent mt-1 shrink-0" />
-                      <a href={BUSINESS_INFO.googleMapsLink} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                        {BUSINESS_INFO.address}
-                      </a>
                     </li>
                     {BUSINESS_INFO.instagramUrl && BUSINESS_INFO.instagramHandle && (
                       <li className="flex items-center gap-3">
