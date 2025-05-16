@@ -50,31 +50,34 @@ export default function HomePage() {
             <CardContent className="space-y-6 sm:space-y-8">
               <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                 
-                {/* Location Column (Top-Left) */}
-                <div className="rounded-lg border bg-card p-6 h-full">
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">Our Location</h3>
-                  <ul className="space-y-3 text-muted-foreground">
-                    <li className="flex items-start gap-3">
-                      <MapPinIcon className="h-5 w-5 text-accent mt-1 shrink-0" />
-                      <a href={BUSINESS_INFO.googleMapsLink} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                        {BUSINESS_INFO.address}
-                      </a>
-                    </li>
-                  </ul>
+                {/* Left Column: Stacked Location and Hours */}
+                <div className="flex flex-col gap-6 md:gap-8">
+                  {/* Location Box */}
+                  <div className="rounded-lg border bg-card p-6">
+                    <h3 className="text-xl font-semibold mb-3 text-foreground">Our Location</h3>
+                    <ul className="space-y-3 text-muted-foreground">
+                      <li className="flex items-start gap-3">
+                        <MapPinIcon className="h-5 w-5 text-accent mt-1 shrink-0" />
+                        <a href={BUSINESS_INFO.googleMapsLink} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                          {BUSINESS_INFO.address}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Business Hours Box */}
+                  <div className="rounded-lg border bg-card p-6">
+                    <h3 className="text-xl font-semibold mb-3 text-foreground">Business Hours</h3>
+                    <ul className="space-y-1.5 text-muted-foreground">
+                      {BUSINESS_INFO.hours.map((line, index) => (
+                        <li key={index}>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
 
-                {/* Business Hours Column (Top-Right) */}
+                {/* Right Column: Contact Details Box */}
                 <div className="rounded-lg border bg-card p-6 h-full">
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">Business Hours</h3>
-                  <ul className="space-y-1.5 text-muted-foreground">
-                    {BUSINESS_INFO.hours.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Contact Details Column (Bottom, Spanning 2 columns) */}
-                <div className="rounded-lg border bg-card p-6 md:col-span-2">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Contact Details</h3>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-center gap-3">
