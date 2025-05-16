@@ -130,27 +130,7 @@ export function Header() {
             </Sheet>
           </div>
         )}
-         {!isMobile && ( /* Fallback for desktop if JS for isMobile is slow, to prevent layout shift of menu button */
-            <div className="hidden md:flex gap-5 items-center">
-                 {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "text-sm font-medium transition-colors",
-                      isActive
-                        ? "text-primary font-semibold underline underline-offset-4"
-                        : "text-foreground/80 hover:text-primary hover:underline hover:underline-offset-4"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </div>
-        )}
+         {/* Fallback for desktop if JS for isMobile is slow was removed here to prevent duplicate links */}
       </div>
     </header>
   );
