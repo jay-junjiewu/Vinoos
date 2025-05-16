@@ -51,7 +51,7 @@ export default function HomePage() {
               <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                 
                 {/* Left Column: Stacked Location and Hours */}
-                <div className="flex flex-col gap-6 md:gap-8">
+                <div className="flex flex-col gap-3 md:gap-4"> {/* Reduced gap here */}
                   {/* Location Box */}
                   <div className="rounded-lg border bg-card p-6">
                     <h3 className="text-xl font-semibold mb-3 text-foreground">Our Location</h3>

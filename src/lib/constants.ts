@@ -153,8 +153,7 @@ export const BUSINESS_INFO = {
   facebookHandle: 'AquaCraftShowcase',
   facebookUrl: 'https://facebook.com/aquacraftshowcase', // Placeholder
   hours: [
-    'All Day:',
-    '9:00 AM - 6:00 PM',
+    'All Day: 9:00 AM - 6:00 PM',
   ],
 };
 
