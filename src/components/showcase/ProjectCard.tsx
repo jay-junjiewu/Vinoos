@@ -38,13 +38,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     if (!isMobile || images.length <= 1) return;
     setTouchStartX(e.touches[0].clientX);
     setTouchEndX(null);
-    // e.stopPropagation(); // Removed: Let events bubble if not handled specifically
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isMobile || images.length <= 1 || !touchStartX) return;
     setTouchEndX(e.touches[0].clientX);
-    // e.stopPropagation(); // Removed
   };
 
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
@@ -58,7 +56,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   }, [images.length]);
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    // e.stopPropagation(); // Removed
     if (!isMobile || images.length <= 1 || !touchStartX || !touchEndX) {
       setTouchStartX(null);
       setTouchEndX(null);
@@ -149,10 +146,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             className="group/modalimage" 
             onClick={(e) => {
               if (!isMobile || images.length <= 1) { 
-                e.stopPropagation(); // Stop propagation only if this click is meant to close.
+                e.stopPropagation(); 
                 onClose();
               }
-              // If it's mobile and multiple images, tap on image does nothing here, swipe handles it.
             }}
             onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
             onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -230,7 +226,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const projectImages = project.images || [];
-  const isMobile = useIsMobile();
+  
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const hookIsMobile = useIsMobile();
+  const isMobile = isClient ? hookIsMobile : false; // Default to false for SSR and initial client render
 
   const goToPreviousOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -253,6 +256,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
       setIsModalOpen(true);
     }
   };
+
+  if (!isClient && projectImages.length === 0) {
+    // Avoid rendering image-related DOM for "no image" case on SSR if it helps simplify hydration logic
+    // Or render the placeholder consistently on server and client initial
+  }
+
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -342,25 +351,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {projectImages.length > 0 && (
          <DialogPortal>
-           <DialogOverlay 
-            onClick={(e) => { 
-              // Ensure clicking overlay closes the modal
-              // Stop propagation if the click target is ModalCarousel's content, otherwise let it close.
-              if ((e.target as HTMLElement).closest('.group\\/modalimage')) { // check if click is inside the main image area
-                 // if it's mobile and multiple images, do nothing (swipe handles interaction)
-                if (isMobile && projectImages.length > 1) return; 
-                // if it's desktop, or mobile with single image, image click closes
-                // but this is overlay click, so it should always close unless propagation stopped by content.
-              }
-              // Default Radix behavior for overlay click is to close, which is what we want
-            }}
-           />
+           <DialogOverlay />
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 grid w-auto translate-x-[-50%] translate-y-[-50%] gap-4 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center" 
+              "flex items-center justify-center"
              )}
-             // onInteractOutside={(e) => e.preventDefault()} // Prevent closing on click outside if not desired
            >
             <ModalCarousel
               project={project}
@@ -375,4 +371,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-

@@ -74,15 +74,6 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
 
 export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
-    id: '1',
-    title: 'Serene Freshwater Scape',
-    description: 'A calming 75-gallon freshwater aquarium with lush live plants and peaceful community fish.',
-    images: [
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A1-1.jpg', hint: 'A1-1' },
-    ],
-    categories: ['Acrylic'],
-  },
-  {
     id: '2',
     title: 'Vibrant Coral Reef',
     description: 'A stunning 120-gallon saltwater reef tank showcasing a variety of colorful corals and marine life.',
@@ -90,19 +81,7 @@ export const ACRYLIC_PROJECTS_DATA: Project[] = [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'A2-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'T2-2' },
     ],
-    categories: ['Box'],
-  },
-  {
-    id: '3',
-    title: 'Minimalist Acrylic Betta Bowl',
-    description: 'An elegant 5-gallon nano tank designed for a single Betta fish, emphasizing simplicity and style, crafted from acrylic.',
-    images: [
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A3-1.jpg', hint: 'A3-1' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A3-2.jpg', hint: 'A3-2' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A3-3.jpg', hint: 'A3-3' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A3-4.jpg', hint: 'A3-4' },
-    ],
-    categories: ['Box'],
+    categories: ['Acrylic', 'Box'],
   },
 ];
 
