@@ -116,19 +116,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      className="relative w-auto h-auto" // ModalCarousel root has no padding now
+      className="relative w-auto h-auto"
     >
-       {!isMobile && (
-        <Button
-            variant="ghost"
-            size="icon"
-            onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute top-0 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
-            aria-label="Close image viewer"
-        >
-            <X className="h-5 w-5" />
-        </Button>
-      )}
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
       <div className="flex flex-row items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4">
         {/* Left Arrow (Desktop Only) */}
@@ -145,11 +134,22 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
 
         {/* Image and Dots Column */}
-        <div className="flex flex-col items-center"> {/* This div no longer needs to be relative for X button */}
+        <div className="relative flex flex-col items-center">
+           {!isMobile && (
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={(e) => { e.stopPropagation(); onClose(); }}
+                className="absolute -top-1 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+                aria-label="Close image viewer"
+            >
+                <X className="h-5 w-5" />
+            </Button>
+          )}
           <div
-            className="relative group/modalimage"
+            className="group/modalimage" // Removed relative from here
             onClick={(e) => {
-              if (!isMobile) { // Only close on image click for desktop
+              if (!isMobile) { 
                 e.stopPropagation();
                 onClose();
               }
@@ -334,7 +334,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center overflow-hidden p-4" // Added p-4 here
+              "flex items-center justify-center overflow-hidden" 
              )}
            >
             <ModalCarousel
