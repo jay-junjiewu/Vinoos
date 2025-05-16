@@ -36,11 +36,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     if (!isMobile || images.length <= 1) return;
     setTouchStartX(e.touches[0].clientX);
     setTouchEndX(null); // Reset touch end X
+    e.stopPropagation();
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isMobile || images.length <= 1 || !touchStartX) return;
     setTouchEndX(e.touches[0].clientX);
+    e.stopPropagation();
   };
 
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
@@ -53,9 +55,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     setCurrentIndexInModal((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   }, [images.length]);
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.stopPropagation();
     if (!isMobile || images.length <= 1 || !touchStartX || !touchEndX) {
-      // Reset and return if not a valid swipe sequence for navigation.
       setTouchStartX(null);
       setTouchEndX(null);
       return;
@@ -110,7 +112,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   return (
     <div
       className="relative w-auto h-auto p-6"
-      // onClick={(e) => e.stopPropagation()} // Removed: Allow clicks on padding to close modal
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
@@ -120,11 +121,10 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       <div
         className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh] group/modalimage"
         onClick={(e) => {
-          e.stopPropagation(); // Stop propagation so click on image doesn't close via DialogContent
-          if (!isMobile) { // Desktop: click image to close
+          e.stopPropagation(); 
+          if (!isMobile) { 
             onClose();
           }
-          // On mobile, tap on image does nothing, swipe handles navigation.
         }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -146,21 +146,19 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         />
       </div>
 
-      {/* Close Button: Hidden on mobile (xs), shown sm and up */}
       <Button
         variant="ghost"
         size="icon"
         onClick={(e) => { e.stopPropagation(); onClose(); }}
         className={cn(
           "absolute top-4 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0",
-          "hidden sm:flex" // Hidden on mobile, flex on sm+
+          "hidden sm:flex" 
         )}
         aria-label="Close image viewer"
       >
         <X className="h-5 w-5" />
       </Button>
 
-      {/* Navigation Buttons: Hidden on mobile (xs), shown sm and up */}
       {images.length > 1 && (
         <>
           <Button
@@ -168,7 +166,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             size="icon"
             className={cn(
               "absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0",
-              "hidden sm:flex" // Hidden on mobile, flex on sm+
+              "hidden sm:flex" 
             )}
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image"
@@ -180,7 +178,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             size="icon"
             className={cn(
               "absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0",
-              "hidden sm:flex" // Hidden on mobile, flex on sm+
+              "hidden sm:flex"
             )}
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image"
@@ -193,14 +191,14 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       {images.length > 1 && (
         <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()} // Stop propagation for clicks on dots container
+          onClick={(e) => e.stopPropagation()}
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
             <button
               key={`modal-dot-${project.id}-${index}`}
               onClick={(e) => {
-                e.stopPropagation(); // Stop propagation for clicks on individual dots
+                e.stopPropagation(); 
                 setCurrentIndexInModal(index);
               }}
               aria-label={`Go to image ${index + 1}`}
@@ -221,7 +219,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const projectImages = project.images || [];
-  const isMobile = useIsMobile(); // Use the hook
+  const isMobile = useIsMobile(); 
 
   const goToPreviousOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -325,7 +323,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {projectImages.length > 0 && (
          <DialogContent
            className={cn(
-             "p-0 border-0 max-w-none w-screen h-screen bg-transparent flex items-center justify-center overflow-hidden"
+             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden"
            )}
            aria-describedby={undefined}
            aria-labelledby={undefined}
@@ -335,14 +333,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
             initialImageIndex={currentImageIndex}
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            isMobile={isMobile} // Pass isMobile prop
+            isMobile={isMobile} 
           />
         </DialogContent>
       )}
     </Dialog>
   );
 }
-
-    
-
-    
