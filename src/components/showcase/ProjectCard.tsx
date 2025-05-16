@@ -112,7 +112,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div
-      className="relative w-auto h-auto" 
+      className="relative w-auto h-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
@@ -136,8 +136,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           <div
             className="relative group/modalimage"
             onClick={(e) => {
-              if (!isMobile) { 
-                e.stopPropagation(); 
+              if (!isMobile) {
+                e.stopPropagation();
                 onClose();
               }
               // On mobile, tap on image does nothing to allow swipe
@@ -153,33 +153,33 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             <Image
               src={images[currentIndexInModal].url}
               alt={`${project.title} - Image ${currentIndexInModal + 1}`}
-              width={1200} 
+              width={1200}
               height={800}
               style={{
-                display: 'block', 
+                display: 'block',
                 objectFit: 'contain',
-                width: 'auto', 
-                height: 'auto', 
-                maxWidth: '90vw', 
-                maxHeight: '90vh', 
+                width: 'auto',
+                height: 'auto',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
               }}
               className="rounded-md mx-auto"
               data-ai-hint={images[currentIndexInModal].hint}
-              priority={true} 
-              key={images[currentIndexInModal].url} 
+              priority={true}
+              key={images[currentIndexInModal].url}
             />
           </div>
 
           {images.length > 1 && (
             <div
               className="mt-4 flex items-center space-x-2 bg-black/50 p-1.5 rounded-full"
-              onClick={(e) => e.stopPropagation()} 
+              onClick={(e) => e.stopPropagation()}
             >
               {images.map((_, index) => (
                 <button
                   key={`modal-dot-${project.id}-${index}`}
                   onClick={(e) => {
-                    e.stopPropagation(); 
+                    e.stopPropagation();
                     setCurrentIndexInModal(index);
                   }}
                   aria-label={`Go to image ${index + 1}`}
@@ -213,7 +213,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           variant="ghost"
           size="icon"
           onClick={(e) => { e.stopPropagation(); onClose(); }}
-          className="absolute top-4 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
+          className="absolute top-1 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
           aria-label="Close image viewer"
         >
           <X className="h-5 w-5" />
@@ -300,7 +300,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {projectImages.map((_, index) => (
                       <button
                         key={`card-dot-${project.id}-${index}`}
-                        tabIndex={-1} 
+                        tabIndex={-1}
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -335,7 +335,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-              "border-0 bg-transparent shadow-none p-0 flex items-center justify-center overflow-hidden max-w-none" 
+              "border-0 bg-transparent shadow-none p-0 flex items-center justify-center overflow-hidden max-w-none"
              )}
            >
             <ModalCarousel
@@ -351,4 +351,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
