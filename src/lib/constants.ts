@@ -148,6 +148,10 @@ export const BUSINESS_INFO = {
   email: 'contact@aquacraftshowcase.com',
   address: '123 Ocean Drive, Aqua City, AC 12345',
   googleMapsLink: 'https://maps.google.com/?q=123+Ocean+Drive,+Aqua+City,+AC+12345',
+  instagramHandle: '@aquacraftshowcase',
+  instagramUrl: 'https://instagram.com/aquacraftshowcase', // Placeholder
+  facebookHandle: 'AquaCraftShowcase',
+  facebookUrl: 'https://facebook.com/aquacraftshowcase', // Placeholder
   hours: [
     { day: 'Monday - Friday', time: '9:00 AM - 6:00 PM' },
     { day: 'Saturday', time: '10:00 AM - 4:00 PM' },
@@ -160,3 +164,4 @@ export const HERO_IMAGES: HeroImage[] = [
   { id: 'hero2', url: 'https://picsum.photos/seed/heroaqua2/1920/1080', alt: 'Vibrant coral reef tank', hint: 'coral reef fish', },
   { id: 'hero3', url: 'https://picsum.photos/seed/heroaqua3/1920/1080', alt: 'Lush planted freshwater tank', hint: 'planted tank scape', },
 ];
+

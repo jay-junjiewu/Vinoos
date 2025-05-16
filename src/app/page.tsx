@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, MapPinIcon, Phone } from 'lucide-react';
+import { Mail, MapPinIcon, Phone, Instagram, Facebook } from 'lucide-react'; // Added Instagram and Facebook
 import { BUSINESS_INFO, PROJECTS_DATA } from '@/lib/constants';
 import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { AutoScrollingHero } from '@/components/showcase/AutoScrollingHero';
@@ -77,6 +77,22 @@ export default function HomePage() {
                         {BUSINESS_INFO.address}
                       </a>
                     </li>
+                    {BUSINESS_INFO.instagramUrl && BUSINESS_INFO.instagramHandle && (
+                      <li className="flex items-center gap-3">
+                        <Instagram className="h-5 w-5 text-accent" />
+                        <a href={BUSINESS_INFO.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                          {BUSINESS_INFO.instagramHandle}
+                        </a>
+                      </li>
+                    )}
+                    {BUSINESS_INFO.facebookUrl && BUSINESS_INFO.facebookHandle && (
+                     <li className="flex items-center gap-3">
+                        <Facebook className="h-5 w-5 text-accent" />
+                        <a href={BUSINESS_INFO.facebookUrl} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                          {BUSINESS_INFO.facebookHandle}
+                        </a>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -87,3 +103,4 @@ export default function HomePage() {
     </div>
   );
 }
+
