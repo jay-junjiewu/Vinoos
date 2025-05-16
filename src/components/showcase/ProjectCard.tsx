@@ -116,8 +116,19 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      className="relative w-auto h-auto"
+      className="relative w-auto h-auto" // ModalCarousel root has no padding now
     >
+       {!isMobile && (
+        <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="absolute top-0 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            aria-label="Close image viewer"
+        >
+            <X className="h-5 w-5" />
+        </Button>
+      )}
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
       <div className="flex flex-row items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4">
         {/* Left Arrow (Desktop Only) */}
@@ -134,22 +145,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
 
         {/* Image and Dots Column */}
-        <div className="relative flex flex-col items-center">
-            {!isMobile && (
-            <Button
-                variant="ghost"
-                size="icon"
-                onClick={(e) => { e.stopPropagation(); onClose(); }}
-                className="absolute top-0 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
-                aria-label="Close image viewer"
-            >
-                <X className="h-5 w-5" />
-            </Button>
-            )}
+        <div className="flex flex-col items-center"> {/* This div no longer needs to be relative for X button */}
           <div
             className="relative group/modalimage"
             onClick={(e) => {
-              if (!isMobile) {
+              if (!isMobile) { // Only close on image click for desktop
                 e.stopPropagation();
                 onClose();
               }
@@ -178,20 +178,20 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
               className="rounded-md mx-auto"
               data-ai-hint={images[currentIndexInModal].hint}
               priority={true}
-              key={images[currentIndexInModal].url} // Ensure re-render on image change for priority
+              key={images[currentIndexInModal].url} 
             />
           </div>
 
           {images.length > 1 && (
             <div
               className="mt-4 flex items-center space-x-2 bg-black/50 p-1.5 rounded-full"
-              onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking dots
+              onClick={(e) => e.stopPropagation()} 
             >
               {images.map((_, index) => (
                 <button
                   key={`modal-dot-${project.id}-${index}`}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent closing modal
+                    e.stopPropagation(); 
                     setCurrentIndexInModal(index);
                   }}
                   aria-label={`Go to image ${index + 1}`}
@@ -273,7 +273,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                priority={project.id === '1' || project.id === '2'} // Prioritize first few project card images
+                priority={project.id === '1' || project.id === '2'} 
               />
               {projectImages.length > 1 && (
                 <>
@@ -299,7 +299,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {projectImages.map((_, index) => (
                       <button
                         key={`card-dot-${project.id}-${index}`}
-                        tabIndex={-1} // Not focusable
+                        tabIndex={-1} 
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -333,8 +333,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogOverlay />
            <DialogPrimitive.Content
              className={cn(
-              "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 p-0 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center overflow-hidden" 
+              "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+              "flex items-center justify-center overflow-hidden p-4" // Added p-4 here
              )}
            >
             <ModalCarousel
@@ -350,3 +350,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
