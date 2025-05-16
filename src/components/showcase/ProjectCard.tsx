@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Image from 'next/image';
@@ -112,11 +113,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div
-      className="relative w-auto h-auto"
+      className="relative w-auto h-auto" // Main container for carousel and its external controls
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
     >
+      {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
       <div className="flex flex-row items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4">
         {/* Left Arrow (Desktop Only) */}
         {!isMobile && images.length > 1 && (
@@ -140,7 +142,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                 e.stopPropagation();
                 onClose();
               }
-              // On mobile, tap on image does nothing to allow swipe
             }}
             onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
             onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -207,13 +208,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
       </div>
 
-      {/* X Button (Desktop only) */}
+      {/* X Button (Desktop only, positioned relative to ModalCarousel root) */}
       {!isMobile && (
         <Button
           variant="ghost"
           size="icon"
           onClick={(e) => { e.stopPropagation(); onClose(); }}
-          className="absolute top-1 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
+          className="absolute top-0 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
           aria-label="Close image viewer"
         >
           <X className="h-5 w-5" />
@@ -334,8 +335,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogOverlay />
            <DialogPrimitive.Content
              className={cn(
-              "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-              "border-0 bg-transparent shadow-none p-0 flex items-center justify-center overflow-hidden max-w-none"
+              "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 p-0 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+              "flex items-center justify-center overflow-hidden" // Ensure centering for ModalCarousel
              )}
            >
             <ModalCarousel
@@ -351,3 +352,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
