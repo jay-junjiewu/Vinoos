@@ -7,7 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog"; // Import DialogPrimitive
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -89,7 +90,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
 
   useEffect(() => {
-    if (!isOpen || images.length <= 1 || isMobile) return;
+    if (!isOpen || images.length <= 1 || isMobile) return; // Keyboard nav only for desktop
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
@@ -111,23 +112,23 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div
-      className="relative w-auto h-auto" // Removed p-6
-      role="dialog"
+      className="relative w-auto h-auto" 
+      role="dialog" // Keep role dialog for semantics if ModalCarousel is the main content
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      // onClick={(e) => e.stopPropagation()} // Removed to allow backdrop click to close on mobile.
+      // Clicks on this div (padding area) will propagate to DialogOverlay to close on mobile
     >
       <h2 id={`modal-title-${project.id}`} className="sr-only">Image gallery for {project.title}</h2>
 
       <div
         className="relative group/modalimage"
         onClick={(e) => {
-          if (!isMobile) {
-            e.stopPropagation(); // Stop propagation only if it's not mobile and we are closing.
+          if (!isMobile) { // On desktop, click image to close
+            e.stopPropagation(); 
             onClose();
           }
-          // On mobile, clicks on the image itself do nothing here, swipe is handled by touch events.
-          // Clicks on backdrop will close.
+          // On mobile, taps on image do nothing (swipe is handled)
+          // Taps on backdrop (DialogOverlay) will close.
         }}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -140,23 +141,24 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         <Image
           src={images[currentIndexInModal].url}
           alt={`${project.title} - Image ${currentIndexInModal + 1}`}
-          width={1200}
+          width={1200} 
           height={800}
           style={{
-            display: 'block',
+            display: 'block', // Ensures image behaves as a block element
             objectFit: 'contain',
-            width: 'auto',
-            height: 'auto',
-            maxWidth: '90vw',
-            maxHeight: '90vh',
+            width: 'auto', // Image scales based on height constraint first
+            height: 'auto', // Image scales based on width constraint first
+            maxWidth: '90vw', // Max width is 90% of viewport width
+            maxHeight: '90vh', // Max height is 90% of viewport height
           }}
-          className="rounded-md mx-auto"
+          className="rounded-md mx-auto" // mx-auto for horizontal centering if narrower than container
           data-ai-hint={images[currentIndexInModal].hint}
-          priority={true}
-          key={images[currentIndexInModal].url}
+          priority={true} // Prioritize loading the visible modal image
+          key={images[currentIndexInModal].url} // Re-render if URL changes
         />
       </div>
 
+      {/* Custom X button, only for desktop */}
       { !isMobile && (
         <Button
           variant="ghost"
@@ -171,6 +173,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         </Button>
       )}
 
+      {/* Navigation arrows, only for desktop and if multiple images */}
       { !isMobile && images.length > 1 && (
         <>
           <Button
@@ -198,17 +201,18 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         </>
       )}
 
+      {/* Dots and Counter - visible on all screen sizes if multiple images */}
       {images.length > 1 && (
          <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()} // Prevent closing modal when interacting with dots/counter
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
             <button
               key={`modal-dot-${project.id}-${index}`}
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Stop propagation for dot clicks as well
                 setCurrentIndexInModal(index);
               }}
               aria-label={`Go to image ${index + 1}`}
@@ -301,7 +305,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {projectImages.map((_, index) => (
                       <button
                         key={`card-dot-${project.id}-${index}`}
-                        tabIndex={-1}
+                        tabIndex={-1} // Not focusable, for visual indication only
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -331,22 +335,30 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </Card>
 
       {projectImages.length > 0 && (
-         <DialogContent
-           className={cn(
-             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden"
-           )}
-           aria-describedby={undefined}
-           aria-labelledby={undefined}
-         >
-          <ModalCarousel
-            project={project}
-            initialImageIndex={currentImageIndex}
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            isMobile={isMobile}
-          />
-        </DialogContent>
+         <DialogPortal>
+           <DialogOverlay />
+           <DialogPrimitive.Content
+             className={cn(
+              // Base styling from original DialogContent
+              "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+              // Customizations for this modal instance: transparent, no padding, flex centering
+              "border-0 bg-transparent shadow-none p-0 flex items-center justify-center overflow-hidden max-w-none" // Ensure it can go full width/height for content
+             )}
+             // onOpenAutoFocus={(e) => e.preventDefault()} // Optional: prevent focus stealing if needed
+             // onPointerDownOutside={(e) => e.preventDefault()} // Helps if backdrop click isn't working
+           >
+            <ModalCarousel
+              project={project}
+              initialImageIndex={currentImageIndex}
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              isMobile={isMobile}
+            />
+            {/* No DialogPrimitive.Close here, ModalCarousel handles its own conditionally */}
+           </DialogPrimitive.Content>
+         </DialogPortal>
       )}
     </Dialog>
   );
 }
+
