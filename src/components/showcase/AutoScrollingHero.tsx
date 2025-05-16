@@ -52,10 +52,18 @@ export function AutoScrollingHero() {
           Let us bring your aquatic vision to life.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl px-8 py-3 text-base">
+          <Button 
+            asChild 
+            size="lg" 
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
+          >
             <Link href="/projects">View our Fish Tanks</Link>
           </Button>
-          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl px-8 py-3 text-base">
+          <Button 
+            asChild 
+            size="lg" 
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
+          >
             <Link href="/acrylic-projects">View our Acrylics</Link>
           </Button>
         </div>
