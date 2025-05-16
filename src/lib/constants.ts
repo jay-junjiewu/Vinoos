@@ -3,7 +3,7 @@ import type { Project, Equipment, ProjectCategory } from '@/types';
 
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
+  { href: '/projects', label: 'Fish Tank Projects' },
   { href: '/acrylic-projects', label: 'Acrylic Projects' },
   { href: '/equipment', label: 'Equipment' },
 ];
@@ -18,7 +18,7 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
   'Predator Tank',
   'Community Tank',
   'Reef Tank',
-  'Acrylic', // Added Acrylic category
+  'Acrylic',
 ];
 
 

@@ -26,11 +26,16 @@ import type { Metadata } from 'next';
 export default function AcrylicProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('All');
 
-  const uniqueCategories = PROJECT_CATEGORIES;
+  // Base data for this page: projects that DO include 'Acrylic'
+  const acrylicProjectsData = PROJECTS_DATA.filter(project => project.categories.includes('Acrylic'));
+
+  // Categories for filtering on this page: all PROJECT_CATEGORIES except 'Acrylic'
+  // "All" on this page means "All Acrylic Projects". Other categories filter within the acrylic set.
+  const uniqueCategories = PROJECT_CATEGORIES.filter(category => category !== 'Acrylic');
 
   const filteredProjects = selectedCategory === 'All'
-    ? PROJECTS_DATA
-    : PROJECTS_DATA.filter(project => project.categories.includes(selectedCategory));
+    ? acrylicProjectsData
+    : acrylicProjectsData.filter(project => project.categories.includes(selectedCategory));
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -85,9 +90,9 @@ export default function AcrylicProjectsPage() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-xl text-muted-foreground">No projects found for &quot;{selectedCategory}&quot;.</p>
+          <p className="text-xl text-muted-foreground">No acrylic projects found for &quot;{selectedCategory}&quot;.</p>
           <Button variant="link" onClick={() => setSelectedCategory('All')} className="mt-4 text-accent">
-            Show all projects
+            Show all acrylic projects
           </Button>
         </div>
       )}

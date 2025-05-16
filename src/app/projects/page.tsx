@@ -19,24 +19,28 @@ import {
 // For dynamic metadata based on filters, consider moving this to a server component if possible
 // or using a more advanced setup. For now, it remains static.
 // export const metadata: Metadata = {
-// title: 'Our Projects - AquaCraft Showcase',
-// description: 'Explore our portfolio of custom fish tank builds and aquarium designs.',
+// title: 'Fish Tank Projects - AquaCraft Showcase',
+// description: 'Explore our portfolio of custom fish tank builds and aquarium designs (excluding acrylic).',
 // };
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('All');
 
-  const uniqueCategories = PROJECT_CATEGORIES;
+  // Base data for this page: projects that DO NOT include 'Acrylic'
+  const fishTankProjectsData = PROJECTS_DATA.filter(project => !project.categories.includes('Acrylic'));
+
+  // Categories for filtering on this page: all PROJECT_CATEGORIES except 'Acrylic'
+  const uniqueCategories = PROJECT_CATEGORIES.filter(category => category !== 'Acrylic');
 
   const filteredProjects = selectedCategory === 'All'
-    ? PROJECTS_DATA
-    : PROJECTS_DATA.filter(project => project.categories.includes(selectedCategory));
+    ? fishTankProjectsData
+    : fishTankProjectsData.filter(project => project.categories.includes(selectedCategory));
 
   return (
     <div className="container mx-auto px-4 py-12">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-primary tracking-tight sm:text-5xl">
-          Project Gallery
+          Fish Tank Project Gallery
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
           Discover the artistry and craftsmanship behind our unique aquarium creations. Each project is a testament to our passion for aquatic life.
@@ -87,7 +91,7 @@ export default function ProjectsPage() {
         <div className="text-center py-12">
           <p className="text-xl text-muted-foreground">No projects found for &quot;{selectedCategory}&quot;.</p>
           <Button variant="link" onClick={() => setSelectedCategory('All')} className="mt-4 text-accent">
-            Show all projects
+            Show all fish tank projects
           </Button>
         </div>
       )}
