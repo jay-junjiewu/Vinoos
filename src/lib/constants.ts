@@ -28,7 +28,7 @@ export const ACRYLIC_PROJECT_CATEGORIES: ProjectCategory[] = [
 export const FISH_TANK_PROJECTS_DATA: Project[] = [
   {
     id: '1',
-    title: 'Project Title',
+    title: 'Project Title1',
     description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T1-1.jpg', hint: 'T1-1' },
