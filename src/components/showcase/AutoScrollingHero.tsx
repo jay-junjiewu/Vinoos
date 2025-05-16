@@ -53,10 +53,10 @@ export function AutoScrollingHero() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl px-8 py-3 text-base">
-            <Link href="/projects">View Our Projects</Link>
+            <Link href="/projects">View our Fish Tanks</Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="border-primary-foreground/70 text-primary-foreground hover:bg-primary-foreground/10 shadow-xl backdrop-blur-sm px-8 py-3 text-base">
-            <Link href="/equipment">Shop Equipment</Link>
+          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl px-8 py-3 text-base">
+            <Link href="/acrylic-projects">View our Acrylics</Link>
           </Button>
         </div>
       </div>
@@ -78,3 +78,4 @@ export function AutoScrollingHero() {
     </section>
   );
 }
+
