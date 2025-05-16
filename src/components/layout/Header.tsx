@@ -17,7 +17,7 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20); // Trigger change after scrolling a bit
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -32,6 +32,15 @@ export function Header() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  const logoTextColorClass = scrolled ? "text-primary" : "text-primary-foreground";
+  const navLinkColor = (href: string) => 
+    cn(
+      "text-sm font-medium transition-colors",
+      scrolled
+        ? (pathname === href ? "text-primary" : "text-foreground hover:text-primary")
+        : (pathname === href ? "text-primary-foreground font-semibold underline" : "text-primary-foreground/80 hover:text-primary-foreground")
+    );
+
   return (
     <header
       className={cn(
@@ -42,33 +51,39 @@ export function Header() {
       )}
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" aria-label="AquaCraft Showcase Home">
-          <Fish className="h-8 w-8 text-primary transition-transform duration-300 hover:scale-110" />
-          <span className="font-bold text-xl text-primary">AquaCraft</span>
-        </Link>
-        
-        <nav className="hidden md:flex gap-6 items-center">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                pathname === link.href ? "text-primary" : (scrolled ? "text-foreground/70" : "text-primary-foreground/90 hover:text-primary-foreground")
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2" aria-label="AquaCraft Showcase Home">
+            <Fish className={cn("h-8 w-8 transition-colors duration-300 hover:scale-110", logoTextColorClass)} />
+            <span className={cn("font-bold text-xl transition-colors duration-300", logoTextColorClass)}>AquaCraft</span>
+          </Link>
+          
+          <nav className="hidden md:flex gap-5 items-center">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={navLinkColor(link.href)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
 
         <div className="md:hidden">
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(true)} 
-                className={cn(scrolled ? "text-primary" : "text-primary-foreground hover:bg-white/20")}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setMobileMenuOpen(true)} 
+                className={cn(
+                  "transition-colors",
+                  scrolled ? "text-primary hover:bg-accent/10" : "text-primary-foreground hover:bg-white/20"
+                )}
+                aria-label="Toggle Menu"
+              >
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[280px] p-6 bg-background">

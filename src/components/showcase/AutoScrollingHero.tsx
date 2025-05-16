@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -11,13 +11,17 @@ import { HERO_IMAGES } from '@/lib/constants';
 export function AutoScrollingHero() {
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
 
+  const handleSelectImage = useCallback((index: number) => {
+    setCurrentHeroIndex(index);
+  }, []);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentHeroIndex((prevIndex) => (prevIndex + 1) % HERO_IMAGES.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000); 
 
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, []); // Empty dependency array ensures this runs once on mount and cleans up on unmount
+    return () => clearInterval(intervalId);
+  }, [currentHeroIndex]); // Re-create interval if currentHeroIndex changes manually
 
   return (
     <section className="relative h-[70vh] md:h-[calc(100vh-4rem)] min-h-[400px] max-h-[1080px] w-full overflow-hidden text-primary-foreground">
@@ -26,14 +30,14 @@ export function AutoScrollingHero() {
           key={image.id}
           src={image.url}
           alt={image.alt}
-          layout="fill"
-          objectFit="cover"
+          fill // Changed from layout="fill" objectFit="cover"
+          style={{ objectFit: 'cover' }} // Replaced objectFit prop
           className={cn(
             "transition-opacity duration-1000 ease-in-out",
             index === currentHeroIndex ? "opacity-100" : "opacity-0"
           )}
           data-ai-hint={image.hint}
-          priority={index === 0} // Prioritize the first image for LCP
+          priority={index === 0} 
         />
       ))}
       {/* Overlay for text contrast */}
@@ -55,6 +59,21 @@ export function AutoScrollingHero() {
             <Link href="/equipment">Shop Equipment</Link>
           </Button>
         </div>
+      </div>
+
+      {/* Bullet Indicators */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+        {HERO_IMAGES.map((_, index) => (
+          <button
+            key={`hero-dot-${index}`}
+            onClick={() => handleSelectImage(index)}
+            aria-label={`Go to slide ${index + 1}`}
+            className={cn(
+              "h-3 w-3 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/50",
+              currentHeroIndex === index ? "bg-white scale-125" : "bg-white/50 hover:bg-white/75"
+            )}
+          />
+        ))}
       </div>
     </section>
   );
