@@ -111,19 +111,18 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div
-      className="relative w-auto h-auto p-6"
+      className="relative w-auto h-auto" // Removed p-6
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      // onClick={(e) => e.stopPropagation()} // Removed to allow backdrop click by parent DialogContent
     >
       <h2 id={`modal-title-${project.id}`} className="sr-only">Image gallery for {project.title}</h2>
 
       <div
-        className="relative group/modalimage" // Container will be sized by the Image below. Removed md:max-w-4xl
+        className="relative group/modalimage" 
         onClick={(e) => {
-          e.stopPropagation(); 
           if (!isMobile) { 
+            e.stopPropagation();
             onClose();
           }
         }}
@@ -138,15 +137,15 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         <Image
           src={images[currentIndexInModal].url}
           alt={`${project.title} - Image ${currentIndexInModal + 1}`}
-          width={1200} // Provide a base width for aspect ratio calculation
-          height={800} // Provide a base height for aspect ratio calculation
+          width={1200} 
+          height={800} 
           style={{
             display: 'block', 
             objectFit: 'contain',
             width: 'auto', 
             height: 'auto', 
             maxWidth: '90vw', 
-            maxHeight: '90vh', // Changed from 85vh to 90vh
+            maxHeight: '90vh', 
           }}
           className="rounded-md mx-auto" 
           data-ai-hint={images[currentIndexInModal].hint}
@@ -349,4 +348,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
