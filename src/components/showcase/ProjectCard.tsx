@@ -4,7 +4,7 @@
 
 import Image from 'next/image';
 import type { Project } from '@/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
@@ -12,6 +12,7 @@ import { Dialog, DialogTrigger, DialogOverlay, DialogPortal } from "@/components
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Badge } from '@/components/ui/badge'; // Import Badge
 
 interface ProjectCardProps {
   project: Project;
@@ -120,7 +121,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     >
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
       <div className="flex flex-row items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4">
-        {/* Left Arrow (Desktop Only) */}
         {!isMobile && images.length > 1 && (
           <Button
             variant="ghost"
@@ -205,7 +205,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           )}
         </div>
 
-        {/* Right Arrow (Desktop Only) */}
         {!isMobile && images.length > 1 && (
           <Button
             variant="ghost"
@@ -326,6 +325,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <CardContent className="flex-grow pt-0 pb-4">
           <CardDescription>{project.description}</CardDescription>
         </CardContent>
+        {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
+          <CardFooter className="flex flex-wrap gap-2 p-4 pt-2">
+            {project.categories.filter(cat => cat !== 'All').map((category) => (
+              <Badge key={category} variant="secondary" className="text-sm">
+                {category}
+              </Badge>
+            ))}
+          </CardFooter>
+        )}
       </Card>
 
       {projectImages.length > 0 && (
