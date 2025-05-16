@@ -32,41 +32,40 @@ export function Header() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  const logoTextColorClass = scrolled ? "text-primary" : "text-primary-foreground";
-  const navLinkColor = (href: string) => 
-    cn(
-      "text-sm font-medium transition-colors",
-      scrolled
-        ? (pathname === href ? "text-primary" : "text-foreground hover:text-primary")
-        : (pathname === href ? "text-primary-foreground font-semibold underline" : "text-primary-foreground/80 hover:text-primary-foreground")
-    );
-
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300 ease-in-out",
+        "sticky top-0 z-50 w-full transition-all duration-300 ease-in-out border-b border-border/40",
         scrolled
-          ? "bg-background/90 backdrop-blur-md shadow-lg border-b border-border"
-          : "bg-transparent border-b border-transparent shadow-none"
+          ? "bg-background/90 backdrop-blur-md shadow-lg"
+          : "bg-background shadow-md"
       )}
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2" aria-label="AquaCraft Showcase Home">
-            <Fish className={cn("h-8 w-8 transition-colors duration-300 hover:scale-110", logoTextColorClass)} />
-            <span className={cn("font-bold text-xl transition-colors duration-300", logoTextColorClass)}>AquaCraft</span>
+            <Fish className={cn("h-8 w-8 text-primary transition-transform duration-300 hover:scale-110")} />
+            <span className={cn("font-bold text-xl text-primary transition-opacity duration-300 hover:opacity-80")}>AquaCraft</span>
           </Link>
           
           <nav className="hidden md:flex gap-5 items-center">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={navLinkColor(link.href)}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-primary",
+                    isActive
+                      ? "text-primary font-semibold underline underline-offset-4"
+                      : "text-foreground/80 hover:underline hover:underline-offset-4"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
@@ -77,10 +76,7 @@ export function Header() {
                 variant="ghost" 
                 size="icon" 
                 onClick={() => setMobileMenuOpen(true)} 
-                className={cn(
-                  "transition-colors",
-                  scrolled ? "text-primary hover:bg-accent/10" : "text-primary-foreground hover:bg-white/20"
-                )}
+                className={cn("transition-colors text-primary hover:bg-primary/10")}
                 aria-label="Toggle Menu"
               >
                 <Menu className="h-6 w-6" />
@@ -104,7 +100,7 @@ export function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(
                       "text-lg font-medium transition-colors hover:text-primary",
-                      pathname === link.href ? "text-primary" : "text-foreground"
+                      pathname === link.href ? "text-primary font-semibold" : "text-foreground"
                     )}
                   >
                     {link.label}
