@@ -3,8 +3,8 @@ import type { Project, Equipment, ProjectCategory, HeroImage } from '@/types';
 
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Fish Tank Projects' },
-  { href: '/acrylic-projects', label: 'Acrylic Projects' },
+  { href: '/projects', label: 'Fish Tank' },
+  { href: '/acrylic-projects', label: 'Acrylic Project' },
   { href: '/equipment', label: 'Equipment' },
 ];
 
@@ -160,3 +160,4 @@ export const HERO_IMAGES: HeroImage[] = [
   { id: 'hero2', url: 'https://picsum.photos/seed/heroaqua2/1920/1080', alt: 'Vibrant coral reef tank', hint: 'coral reef fish', },
   { id: 'hero3', url: 'https://picsum.photos/seed/heroaqua3/1920/1080', alt: 'Lush planted freshwater tank', hint: 'planted tank scape', },
 ];
+
