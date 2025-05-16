@@ -2,14 +2,14 @@
 "use client";
 
 import Image from 'next/image';
-import type { Project } from '@/types'; // Removed ProjectImage as it's not directly used here
+import type { Project } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile'; // Import useIsMobile
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ProjectCardProps {
   project: Project;
@@ -20,7 +20,7 @@ interface ModalCarouselProps {
   initialImageIndex: number;
   isOpen: boolean;
   onClose: () => void;
-  isMobile?: boolean; // Added isMobile prop
+  isMobile?: boolean;
 }
 
 function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }: ModalCarouselProps) {
@@ -30,12 +30,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
-  const swipeThreshold = 50; // Min distance for a swipe
+  const swipeThreshold = 50; 
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!isMobile || images.length <= 1) return;
     setTouchStartX(e.touches[0].clientX);
-    setTouchEndX(null); // Reset touch end X
+    setTouchEndX(null); 
     e.stopPropagation();
   };
 
@@ -65,9 +65,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
     const diff = touchStartX - touchEndX;
 
-    if (diff > swipeThreshold) { // Swiped left
+    if (diff > swipeThreshold) { 
       goToNextModal();
-    } else if (diff < -swipeThreshold) { // Swiped right
+    } else if (diff < -swipeThreshold) { 
       goToPreviousModal();
     }
     setTouchStartX(null);
@@ -89,7 +89,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
 
   useEffect(() => {
-    if (!isOpen || images.length <= 1 || isMobile) return; // Keyboard nav for desktop only
+    if (!isOpen || images.length <= 1 || isMobile) return; 
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
@@ -115,11 +115,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
+      // onClick={(e) => e.stopPropagation()} // Removed to allow backdrop click
     >
       <h2 id={`modal-title-${project.id}`} className="sr-only">Image gallery for {project.title}</h2>
 
       <div
-        className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh] group/modalimage"
+        className="relative md:max-w-4xl group/modalimage" // Container will be sized by the Image below
         onClick={(e) => {
           e.stopPropagation(); 
           if (!isMobile) { 
@@ -137,12 +138,20 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         <Image
           src={images[currentIndexInModal].url}
           alt={`${project.title} - Image ${currentIndexInModal + 1}`}
-          fill
-          style={{ objectFit: 'contain' }}
+          width={1200} // Provide a base width for aspect ratio calculation
+          height={800} // Provide a base height for aspect ratio calculation
+          style={{
+            display: 'block', // Good for layout
+            objectFit: 'contain',
+            width: 'auto', // Let image determine its width based on constraints and aspect ratio
+            height: 'auto', // Let image determine its height based on constraints and aspect ratio
+            maxWidth: '90vw', // Max width relative to viewport
+            maxHeight: '85vh', // Max height relative to viewport
+          }}
+          className="rounded-md mx-auto" // mx-auto for centering if width:auto results in narrower than container
           data-ai-hint={images[currentIndexInModal].hint}
-          className="rounded-md"
           priority={true}
-          key={images[currentIndexInModal].url}
+          key={images[currentIndexInModal].url} // Ensures re-render on src change if needed
         />
       </div>
 
@@ -189,7 +198,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       )}
 
       {images.length > 1 && (
-        <div
+         <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
           onClick={(e) => e.stopPropagation()}
         >
@@ -323,7 +332,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {projectImages.length > 0 && (
          <DialogContent
            className={cn(
-             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden"
+             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden" // Let this center ModalCarousel
            )}
            aria-describedby={undefined}
            aria-labelledby={undefined}
@@ -340,3 +349,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
