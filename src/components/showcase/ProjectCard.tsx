@@ -143,7 +143,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             </Button>
           )}
           <div
-            className="group/modalimage" 
+            className="group/modalimage overflow-hidden" // Added overflow-hidden
             onClick={(e) => {
               if (!isMobile || images.length <= 1) { 
                 e.stopPropagation(); 
@@ -158,28 +158,33 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
             style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
           >
-            {images.map((image, index) => (
-              <Image
-                key={image.url}
-                src={image.url}
-                alt={`${project.title} - Image ${index + 1}`}
-                width={1200}
-                height={800}
-                style={{
-                  display: index === currentIndexInModal ? 'block' : 'none',
-                  objectFit: 'contain',
-                  width: 'auto',
-                  height: 'auto',
-                  maxWidth: '90vw',
-                  maxHeight: '90vh',
-                }}
-                className="rounded-md mx-auto"
-                data-ai-hint={image.hint}
-                priority={index === currentIndexInModal} 
-                loading={index !== currentIndexInModal ? "eager" : undefined}
-                sizes="(max-width: 1200px) 90vw, 1200px"
-              />
-            ))}
+            <div 
+              className="flex transition-transform duration-300 ease-in-out"
+              style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
+            >
+              {images.map((image, index) => (
+                <div key={image.url} className="w-full flex-shrink-0">
+                  <Image
+                    src={image.url}
+                    alt={`${project.title} - Image ${index + 1}`}
+                    width={1200}
+                    height={800}
+                    style={{
+                      objectFit: 'contain',
+                      width: 'auto',
+                      height: 'auto',
+                      maxWidth: '90vw',
+                      maxHeight: '90vh',
+                    }}
+                    className="rounded-md mx-auto"
+                    data-ai-hint={image.hint}
+                    priority={index === currentIndexInModal} 
+                    loading={index !== currentIndexInModal ? "eager" : undefined}
+                    sizes="(max-width: 1200px) 90vw, 1200px"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           {images.length > 1 && (
@@ -233,7 +238,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   }, []);
 
   const hookIsMobile = useIsMobile();
-  const isMobile = isClient ? hookIsMobile : false; // Default to false for SSR and initial client render
+  const isMobile = isClient ? hookIsMobile : false; 
 
   const goToPreviousOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -259,7 +264,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   if (!isClient && projectImages.length === 0) {
     // Avoid rendering image-related DOM for "no image" case on SSR if it helps simplify hydration logic
-    // Or render the placeholder consistently on server and client initial
   }
 
 
@@ -269,7 +273,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {projectImages.length > 0 ? (
           <DialogTrigger asChild>
             <div
-              className="relative w-full h-48 sm:h-56 md:h-64 group cursor-pointer"
+              className="relative w-full aspect-[3/2] sm:aspect-auto sm:h-56 md:h-64 group cursor-pointer"
               onClick={handleOpenModal}
               role="button"
               tabIndex={0}
@@ -328,7 +332,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </DialogTrigger>
         ) : (
-          <div className="relative w-full h-48 sm:h-56 md:h-64 bg-muted flex items-center justify-center">
+          <div className="relative w-full aspect-[3/2] sm:aspect-auto sm:h-56 md:h-64 bg-muted flex items-center justify-center">
             <p className="text-muted-foreground">No image available</p>
           </div>
         )}
@@ -355,7 +359,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 grid w-auto translate-x-[-50%] translate-y-[-50%] gap-4 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center"
+              "flex items-center justify-center" // Removed overflow-hidden
              )}
            >
             <ModalCarousel
@@ -371,3 +375,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
