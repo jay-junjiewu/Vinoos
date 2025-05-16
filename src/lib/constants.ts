@@ -28,8 +28,8 @@ export const ACRYLIC_PROJECT_CATEGORIES: ProjectCategory[] = [
 export const FISH_TANK_PROJECTS_DATA: Project[] = [
   {
     id: '1',
-    title: 'Serene Freshwater Scape',
-    description: 'A calming 75-gallon freshwater aquarium with lush live plants and peaceful community fish.',
+    title: 'Project Title',
+    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T1-1.jpg', hint: 'T1-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T1-2.jpg', hint: 'T1-2' },
@@ -38,8 +38,8 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
   },
   {
     id: '2',
-    title: 'Vibrant Coral Reef',
-    description: 'A stunning 120-gallon saltwater reef tank showcasing a variety of colorful corals and marine life.',
+    title: 'Project Title',
+    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T2-1.jpg', hint: 'T2-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T2-2.jpg', hint: 'T2-2' },
@@ -49,8 +49,8 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
   },
   {
     id: '3',
-    title: 'Minimalist Acrylic Betta Bowl',
-    description: 'An elegant 5-gallon nano tank designed for a single Betta fish, emphasizing simplicity and style, crafted from acrylic.',
+    title: 'Project Title',
+    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T3-1.jpg', hint: 'T3-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T3-2.jpg', hint: 'T3-2' },
@@ -60,8 +60,8 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
   },
   {
     id: '4',
-    title: 'Amazon Biotope',
-    description: 'A 55-gallon setup replicating the natural habitat of Amazonian fish species.',
+    title: 'Project Title',
+    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-1.jpg', hint: 'T4-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-2.jpg', hint: 'T4-2' },
@@ -75,8 +75,8 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
 export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
     id: '2',
-    title: 'Vibrant Coral Reef',
-    description: 'A stunning 120-gallon saltwater reef tank showcasing a variety of colorful corals and marine life.',
+    title: 'Project Title',
+    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'A2-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'T2-2' },
@@ -106,7 +106,7 @@ export const BUSINESS_INFO = {
   name: 'Vinoos Trading EST.',
   phone: '+971 52 970 1938',
   email: 'vinoos@vinoostrading.com',
-  address: 'Umm Al Thuoob - UAQ - UAQ',
+  address: 'Umm Al Thuoob - UAQ - UAE',
   googleMapsLink: 'https://maps.app.goo.gl/agFPCt9HdoTREx1Z6',
   instagramHandle: '@wuvinoos',
   instagramUrl: 'https://www.instagram.com/wuvinoos/',
