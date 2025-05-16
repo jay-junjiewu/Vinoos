@@ -153,9 +153,8 @@ export const BUSINESS_INFO = {
   facebookHandle: 'AquaCraftShowcase',
   facebookUrl: 'https://facebook.com/aquacraftshowcase', // Placeholder
   hours: [
-    { day: 'Monday - Friday', time: '9:00 AM - 6:00 PM' },
-    { day: 'Saturday', time: '9:00 AM - 6:00 PM' },
-    { day: 'Sunday', time: 'Closed' },
+    'All Day:',
+    '9:00 AM - 6:00 PM',
   ],
 };
 
@@ -164,4 +163,3 @@ export const HERO_IMAGES: HeroImage[] = [
   { id: 'hero2', url: 'https://picsum.photos/seed/heroaqua2/1920/1080', alt: 'Vibrant coral reef tank', hint: 'coral reef fish', },
   { id: 'hero3', url: 'https://picsum.photos/seed/heroaqua3/1920/1080', alt: 'Lush planted freshwater tank', hint: 'planted tank scape', },
 ];
-

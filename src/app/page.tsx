@@ -52,11 +52,8 @@ export default function HomePage() {
                 <div className="rounded-lg border bg-card p-6 h-full">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Business Hours</h3>
                   <ul className="space-y-1.5 text-muted-foreground">
-                    {BUSINESS_INFO.hours.map((item) => (
-                      <li key={item.day} className="flex justify-between">
-                        <span>{item.day}:</span>
-                        <span>{item.time}</span>
-                      </li>
+                    {BUSINESS_INFO.hours.map((line, index) => (
+                      <li key={index}>{line}</li>
                     ))}
                   </ul>
                 </div>
@@ -103,4 +100,3 @@ export default function HomePage() {
     </div>
   );
 }
-
