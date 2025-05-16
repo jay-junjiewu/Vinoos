@@ -2,10 +2,10 @@
 "use client";
 
 import Link from 'next/link';
-import { Menu } from 'lucide-react'; // Removed Fish import
+import { Menu } from 'lucide-react';
 import { NAV_LINKS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'; // Added SheetTitle
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
@@ -102,13 +102,13 @@ export function Header() {
                 side="right" 
                 className="w-full h-full p-6 bg-background" // Full page mobile menu
               >
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 <Link 
                   href="/" 
                   className="flex items-center gap-2 mb-8" 
                   onClick={() => setMobileMenuOpen(false)}
                   aria-label="Vinoos Home"
                 >
-                  {/* Fish icon removed here */}
                   <span className="font-bold text-xl text-primary">Vinoos</span>
                 </Link>
                 <nav className="flex flex-col gap-4">
