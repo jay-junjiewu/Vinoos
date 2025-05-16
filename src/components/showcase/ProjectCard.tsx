@@ -113,53 +113,104 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   return (
     <div
       className="relative w-auto h-auto" 
-      role="dialog" // Keep role dialog for semantics if ModalCarousel is the main content
+      role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      // Clicks on this div (padding area) will propagate to DialogOverlay to close on mobile
     >
       <h2 id={`modal-title-${project.id}`} className="sr-only">Image gallery for {project.title}</h2>
 
-      <div
-        className="relative group/modalimage"
-        onClick={(e) => {
-          if (!isMobile) { // On desktop, click image to close
-            e.stopPropagation(); 
-            onClose();
-          }
-          // On mobile, taps on image do nothing (swipe is handled)
-          // Taps on backdrop (DialogOverlay) will close.
-        }}
-        onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
-        onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
-        onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
-        role={!isMobile ? "button" : undefined}
-        aria-label={!isMobile ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
-        tabIndex={!isMobile ? 0 : -1}
-        style={{ cursor: isMobile && images.length > 1 ? 'grab' : (!isMobile ? 'pointer' : 'default') }}
-      >
-        <Image
-          src={images[currentIndexInModal].url}
-          alt={`${project.title} - Image ${currentIndexInModal + 1}`}
-          width={1200} 
-          height={800}
-          style={{
-            display: 'block', // Ensures image behaves as a block element
-            objectFit: 'contain',
-            width: 'auto', // Image scales based on height constraint first
-            height: 'auto', // Image scales based on width constraint first
-            maxWidth: '90vw', // Max width is 90% of viewport width
-            maxHeight: '90vh', // Max height is 90% of viewport height
+      {/* Main content wrapper for image and controls below it */}
+      <div className="flex flex-col items-center">
+        {/* Image container */}
+        <div
+          className="relative group/modalimage"
+          onClick={(e) => {
+            if (!isMobile) { 
+              e.stopPropagation(); 
+              onClose();
+            }
           }}
-          className="rounded-md mx-auto" // mx-auto for horizontal centering if narrower than container
-          data-ai-hint={images[currentIndexInModal].hint}
-          priority={true} // Prioritize loading the visible modal image
-          key={images[currentIndexInModal].url} // Re-render if URL changes
-        />
+          onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
+          onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
+          onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
+          role={!isMobile ? "button" : undefined}
+          aria-label={!isMobile ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
+          tabIndex={!isMobile ? 0 : -1}
+          style={{ cursor: isMobile && images.length > 1 ? 'grab' : (!isMobile ? 'pointer' : 'default') }}
+        >
+          <Image
+            src={images[currentIndexInModal].url}
+            alt={`${project.title} - Image ${currentIndexInModal + 1}`}
+            width={1200} 
+            height={800}
+            style={{
+              display: 'block', 
+              objectFit: 'contain',
+              width: 'auto', 
+              height: 'auto', 
+              maxWidth: '90vw', 
+              maxHeight: '90vh', 
+            }}
+            className="rounded-md mx-auto"
+            data-ai-hint={images[currentIndexInModal].hint}
+            priority={true} 
+            key={images[currentIndexInModal].url} 
+          />
+        </div>
+
+        {/* Controls container (below image) */}
+        {images.length > 1 && (
+          <div className="mt-4 flex flex-col items-center space-y-3">
+            {/* Navigation arrows (DESKTOP ONLY) */}
+            {!isMobile && (
+              <div className="flex items-center justify-center space-x-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+                  onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+                  onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              </div>
+            )}
+
+            {/* Dots (visible on all screen sizes if multiple images) */}
+            <div
+              className="flex items-center space-x-2 bg-black/50 p-1.5 rounded-full"
+              onClick={(e) => e.stopPropagation()} 
+            >
+              {images.map((_, index) => (
+                <button
+                  key={`modal-dot-${project.id}-${index}`}
+                  onClick={(e) => {
+                    e.stopPropagation(); 
+                    setCurrentIndexInModal(index);
+                  }}
+                  aria-label={`Go to image ${index + 1}`}
+                  className={cn(
+                    'h-1.5 w-1.5 rounded-full transition-colors duration-150 outline-none focus-visible:ring-1 focus-visible:ring-white',
+                    currentIndexInModal === index ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Custom X button, only for desktop */}
-      { !isMobile && (
+      {!isMobile && (
         <Button
           variant="ghost"
           size="icon"
@@ -171,58 +222,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         >
           <X className="h-5 w-5" />
         </Button>
-      )}
-
-      {/* Navigation arrows, only for desktop and if multiple images */}
-      { !isMobile && images.length > 1 && (
-        <>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-            )}
-            onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-            )}
-            onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
-            aria-label="Next image"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </Button>
-        </>
-      )}
-
-      {/* Dots and Counter - visible on all screen sizes if multiple images */}
-      {images.length > 1 && (
-         <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()} // Prevent closing modal when interacting with dots/counter
-        >
-           <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
-          {images.map((_, index) => (
-            <button
-              key={`modal-dot-${project.id}-${index}`}
-              onClick={(e) => {
-                e.stopPropagation(); // Stop propagation for dot clicks as well
-                setCurrentIndexInModal(index);
-              }}
-              aria-label={`Go to image ${index + 1}`}
-              className={cn(
-                'h-1.5 w-1.5 rounded-full transition-colors duration-150 outline-none focus-visible:ring-1 focus-visible:ring-white',
-                currentIndexInModal === index ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
-              )}
-            />
-          ))}
-        </div>
       )}
     </div>
   );
@@ -305,7 +304,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     {projectImages.map((_, index) => (
                       <button
                         key={`card-dot-${project.id}-${index}`}
-                        tabIndex={-1} // Not focusable, for visual indication only
+                        tabIndex={-1} 
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -339,13 +338,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogOverlay />
            <DialogPrimitive.Content
              className={cn(
-              // Base styling from original DialogContent
               "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-              // Customizations for this modal instance: transparent, no padding, flex centering
-              "border-0 bg-transparent shadow-none p-0 flex items-center justify-center overflow-hidden max-w-none" // Ensure it can go full width/height for content
+              "border-0 bg-transparent shadow-none p-0 flex items-center justify-center overflow-hidden max-w-none" 
              )}
-             // onOpenAutoFocus={(e) => e.preventDefault()} // Optional: prevent focus stealing if needed
-             // onPointerDownOutside={(e) => e.preventDefault()} // Helps if backdrop click isn't working
            >
             <ModalCarousel
               project={project}
@@ -354,11 +349,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
               onClose={() => setIsModalOpen(false)}
               isMobile={isMobile}
             />
-            {/* No DialogPrimitive.Close here, ModalCarousel handles its own conditionally */}
            </DialogPrimitive.Content>
          </DialogPortal>
       )}
     </Dialog>
   );
 }
-
