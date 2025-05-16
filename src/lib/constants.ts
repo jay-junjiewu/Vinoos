@@ -154,7 +154,7 @@ export const BUSINESS_INFO = {
   facebookUrl: 'https://facebook.com/aquacraftshowcase', // Placeholder
   hours: [
     { day: 'Monday - Friday', time: '9:00 AM - 6:00 PM' },
-    { day: 'Saturday', time: '10:00 AM - 4:00 PM' },
+    { day: 'Saturday', time: '9:00 AM - 6:00 PM' },
     { day: 'Sunday', time: 'Closed' },
   ],
 };

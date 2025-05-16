@@ -49,7 +49,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent className="space-y-6 sm:space-y-8">
               <div className="grid md:grid-cols-2 gap-6 md:gap-10">
-                <div>
+                <div className="rounded-lg border bg-card p-6 h-full">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Business Hours</h3>
                   <ul className="space-y-1.5 text-muted-foreground">
                     {BUSINESS_INFO.hours.map((item) => (
@@ -60,7 +60,7 @@ export default function HomePage() {
                     ))}
                   </ul>
                 </div>
-                <div>
+                <div className="rounded-lg border bg-card p-6 h-full">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Contact Details</h3>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-center gap-3">
