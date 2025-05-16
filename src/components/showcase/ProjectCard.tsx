@@ -20,7 +20,7 @@ interface ModalCarouselProps {
   initialImageIndex: number;
   isOpen: boolean;
   onClose: () => void;
-  isMobile?: boolean;
+  isMobile: boolean;
 }
 
 function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }: ModalCarouselProps) {
@@ -30,12 +30,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
-  const swipeThreshold = 50; 
+  const swipeThreshold = 50;
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!isMobile || images.length <= 1) return;
     setTouchStartX(e.touches[0].clientX);
-    setTouchEndX(null); 
+    setTouchEndX(null);
     e.stopPropagation();
   };
 
@@ -65,9 +65,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
     const diff = touchStartX - touchEndX;
 
-    if (diff > swipeThreshold) { 
+    if (diff > swipeThreshold) {
       goToNextModal();
-    } else if (diff < -swipeThreshold) { 
+    } else if (diff < -swipeThreshold) {
       goToPreviousModal();
     }
     setTouchStartX(null);
@@ -89,7 +89,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
 
   useEffect(() => {
-    if (!isOpen || images.length <= 1 || isMobile) return; 
+    if (!isOpen || images.length <= 1 || isMobile) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
@@ -111,20 +111,23 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div
-      className="relative w-auto h-auto"
+      className="relative w-auto h-auto" // Removed p-6
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
+      // onClick={(e) => e.stopPropagation()} // Removed to allow backdrop click to close on mobile.
     >
       <h2 id={`modal-title-${project.id}`} className="sr-only">Image gallery for {project.title}</h2>
 
       <div
-        className="relative group/modalimage" 
+        className="relative group/modalimage"
         onClick={(e) => {
-          if (!isMobile) { 
-            e.stopPropagation();
+          if (!isMobile) {
+            e.stopPropagation(); // Stop propagation only if it's not mobile and we are closing.
             onClose();
           }
+          // On mobile, clicks on the image itself do nothing here, swipe is handled by touch events.
+          // Clicks on backdrop will close.
         }}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -137,20 +140,20 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         <Image
           src={images[currentIndexInModal].url}
           alt={`${project.title} - Image ${currentIndexInModal + 1}`}
-          width={1200} 
-          height={800} 
+          width={1200}
+          height={800}
           style={{
-            display: 'block', 
+            display: 'block',
             objectFit: 'contain',
-            width: 'auto', 
-            height: 'auto', 
-            maxWidth: '90vw', 
-            maxHeight: '90vh', 
+            width: 'auto',
+            height: 'auto',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
           }}
-          className="rounded-md mx-auto" 
+          className="rounded-md mx-auto"
           data-ai-hint={images[currentIndexInModal].hint}
           priority={true}
-          key={images[currentIndexInModal].url} // Add key for re-renders on image change
+          key={images[currentIndexInModal].url}
         />
       </div>
 
@@ -161,7 +164,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           onClick={(e) => { e.stopPropagation(); onClose(); }}
           className={cn(
             "absolute top-4 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
-            // Removed "hidden sm:flex"
           )}
           aria-label="Close image viewer"
         >
@@ -176,7 +178,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             size="icon"
             className={cn(
               "absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-              // Removed "hidden sm:flex"
             )}
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image"
@@ -188,7 +189,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             size="icon"
             className={cn(
               "absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
-              // Removed "hidden sm:flex"
             )}
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image"
@@ -201,14 +201,14 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       {images.length > 1 && (
          <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()} // Prevent closing modal when interacting with dots
+          onClick={(e) => e.stopPropagation()}
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
             <button
               key={`modal-dot-${project.id}-${index}`}
               onClick={(e) => {
-                e.stopPropagation(); 
+                e.stopPropagation();
                 setCurrentIndexInModal(index);
               }}
               aria-label={`Go to image ${index + 1}`}
@@ -229,7 +229,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const projectImages = project.images || [];
-  const isMobile = useIsMobile(); 
+  const isMobile = useIsMobile();
 
   const goToPreviousOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -333,21 +333,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {projectImages.length > 0 && (
          <DialogContent
            className={cn(
-             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden" // Ensure DialogContent itself allows clicks through its background
+             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden"
            )}
-           aria-describedby={undefined} // Descriptions handled by ModalCarousel if needed
-           aria-labelledby={undefined} // Titles handled by ModalCarousel if needed
+           aria-describedby={undefined}
+           aria-labelledby={undefined}
          >
           <ModalCarousel
             project={project}
             initialImageIndex={currentImageIndex}
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            isMobile={isMobile} 
+            isMobile={isMobile}
           />
         </DialogContent>
       )}
     </Dialog>
   );
 }
-
