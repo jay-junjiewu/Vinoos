@@ -3,7 +3,7 @@ import { EQUIPMENT_DATA } from '@/lib/constants';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Aquarium Equipment - AquaCraft Showcase',
+  title: 'Aquarium Equipment - Vinoos',
   description: 'Browse our selection of high-quality fish tank equipment and supplies.',
 };
 
@@ -15,7 +15,7 @@ export default function EquipmentPage() {
           Equipment Showcase
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Find the best gear for your aquarium. We offer a curated selection of filters, lights, heaters, and more to keep your aquatic pets thriving.
+        Our equipment, machinery, and warehouse facilities.
         </p>
       </header>
 

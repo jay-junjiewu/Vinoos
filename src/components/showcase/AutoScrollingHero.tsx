@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -45,11 +44,10 @@ export function AutoScrollingHero() {
       
       <div className="container mx-auto px-4 h-full flex flex-col items-center justify-center text-center relative z-10">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-          Welcome to AquaCraft Showcase
+          Welcome to Vinoos Trading EST.
         </h1>
         <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto drop-shadow-md">
-          Discover stunning custom fish tank builds and top-quality aquarium equipment.
-          Let us bring your aquatic vision to life.
+        We design and build custom, high-quality fish tanks, cabinets, and acrylic projects for homes and businesses, crafting unique aquatic environments since 1997.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button 
@@ -57,14 +55,14 @@ export function AutoScrollingHero() {
             size="lg" 
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
           >
-            <Link href="/projects">View our Fish Tanks</Link>
+            <Link href="/projects">View our Fish Tank Projects</Link>
           </Button>
           <Button 
             asChild 
             size="lg" 
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
           >
-            <Link href="/acrylic-projects">View our Acrylics</Link>
+            <Link href="/acrylic-projects">View our Acrylic Projects</Link>
           </Button>
         </div>
       </div>

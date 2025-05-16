@@ -1,9 +1,8 @@
-
 "use client";
 
 import { useState } from 'react';
 import { ProjectCard } from '@/components/showcase/ProjectCard';
-import { PROJECTS_DATA, PROJECT_CATEGORIES } from '@/lib/constants';
+import { ACRYLIC_PROJECTS_DATA, ACRYLIC_PROJECT_CATEGORIES } from '@/lib/constants';
 import type { ProjectCategory } from '@/types';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -18,7 +17,7 @@ import type { Metadata } from 'next';
 
 // Static metadata for the page
 // export const metadata: Metadata = {
-// title: 'Acrylic Projects - AquaCraft Showcase',
+// title: 'Acrylic Projects - Vinoos',
 // description: 'Explore our portfolio of custom acrylic fish tank builds and aquarium designs.',
 // };
 
@@ -26,12 +25,8 @@ import type { Metadata } from 'next';
 export default function AcrylicProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('All');
 
-  // Base data for this page: projects that DO include 'Acrylic'
-  const acrylicProjectsData = PROJECTS_DATA.filter(project => project.categories.includes('Acrylic'));
-
-  // Categories for filtering on this page: all PROJECT_CATEGORIES except 'Acrylic'
-  // "All" on this page means "All Acrylic Projects". Other categories filter within the acrylic set.
-  const uniqueCategories = PROJECT_CATEGORIES.filter(category => category !== 'Acrylic');
+  const acrylicProjectsData = ACRYLIC_PROJECTS_DATA;
+  const uniqueCategories = ACRYLIC_PROJECT_CATEGORIES;
 
   const filteredProjects = selectedCategory === 'All'
     ? acrylicProjectsData
@@ -41,11 +36,11 @@ export default function AcrylicProjectsPage() {
     <div className="container mx-auto px-4 py-12">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-primary tracking-tight sm:text-5xl">
-          Acrylic Project Gallery
+          Acrylic Projects
         </h1>
-        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Discover the artistry and craftsmanship behind our unique acrylic aquarium creations.
-        </p>
+        {/* <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+        Our previous custom fish tank projects.
+        </p> */}
       </header>
 
       {/* Category Filters for Desktop */}

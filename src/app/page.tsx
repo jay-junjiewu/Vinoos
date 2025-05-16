@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, MapPinIcon, Phone, Instagram, Facebook } from 'lucide-react';
-import { BUSINESS_INFO, PROJECTS_DATA } from '@/lib/constants';
+import { BUSINESS_INFO, FISH_TANK_PROJECTS_DATA } from '@/lib/constants';
 import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { AutoScrollingHero } from '@/components/showcase/AutoScrollingHero';
 
 export default function HomePage() {
-  const featuredProjects = PROJECTS_DATA.slice(0, 4); // Show 4 featured projects
+  const featuredProjects = FISH_TANK_PROJECTS_DATA.slice(0, 4); // Show 4 featured projects
 
   return (
     <div className="flex flex-col">
@@ -26,7 +26,7 @@ export default function HomePage() {
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
-            {PROJECTS_DATA.length > featuredProjects.length && (
+            {FISH_TANK_PROJECTS_DATA.length > featuredProjects.length && (
                <div className="mt-12 text-center">
                 <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 hover:text-accent-foreground shadow-md">
                   <Link href="/projects">View All Projects</Link>

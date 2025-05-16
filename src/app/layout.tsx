@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'AquaCraft Showcase',
+  title: 'Vinoos',
   description: 'Beautiful custom fish tank builds and quality aquarium equipment.',
 };
 

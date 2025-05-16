@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -43,10 +42,9 @@ export function Header() {
       )}
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
-        <div className="flex items-center gap-6"> {/* Increased gap for nav links */}
-          <Link href="/" className="flex items-center gap-2" aria-label="AquaCraft Showcase Home">
-            <Fish className={cn("h-8 w-8 text-primary transition-transform duration-300 hover:scale-110")} />
-            <span className={cn("font-bold text-xl text-primary transition-opacity duration-300 hover:opacity-80")}>AquaCraft</span>
+        <div className="flex items-center gap-6 pl-4"> {/* Added pl-4 for left padding */}
+          <Link href="/" className="flex items-center gap-2" aria-label="Vinoos Home">
+            <span className={cn("font-bold text-xl text-primary transition-opacity duration-300 hover:opacity-80")}>Vinoos</span>
           </Link>
           
           <nav className="hidden md:flex gap-5 items-center"> {/* Adjusted gap for nav links */}
@@ -91,10 +89,10 @@ export function Header() {
                 href="/" 
                 className="flex items-center gap-2 mb-8" 
                 onClick={() => setMobileMenuOpen(false)}
-                aria-label="AquaCraft Showcase Home"
+                aria-label="Vinoos Home"
               >
                 <Fish className="h-8 w-8 text-primary" />
-                <span className="font-bold text-xl text-primary">AquaCraft</span>
+                <span className="font-bold text-xl text-primary">Vinoos</span>
               </Link>
               <nav className="flex flex-col gap-4">
                 {NAV_LINKS.map((link) => (
