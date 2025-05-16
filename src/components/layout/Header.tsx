@@ -2,11 +2,11 @@
 "use client";
 
 import Link from 'next/link';
-import { Fish, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react'; // Removed Fish import
 import { NAV_LINKS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -108,7 +108,7 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   aria-label="Vinoos Home"
                 >
-                  <Fish className="h-8 w-8 text-primary" />
+                  {/* Fish icon removed here */}
                   <span className="font-bold text-xl text-primary">Vinoos</span>
                 </Link>
                 <nav className="flex flex-col gap-4">
@@ -130,7 +130,6 @@ export function Header() {
             </Sheet>
           </div>
         )}
-         {/* Fallback for desktop if JS for isMobile is slow was removed here to prevent duplicate links */}
       </div>
     </header>
   );
