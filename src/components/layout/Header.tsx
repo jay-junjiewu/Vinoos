@@ -77,10 +77,10 @@ export function Header() {
                 variant="ghost" 
                 size="icon" 
                 onClick={() => setMobileMenuOpen(true)} 
-                className={cn("transition-colors text-primary hover:bg-primary/10")} // Consistent icon color
+                className={cn("transition-colors text-primary hover:bg-primary/10 h-10 w-10")} // Consistent icon color & size
                 aria-label="Toggle Menu"
               >
-                <Menu className="h-6 w-6" />
+                <Menu className="h-8 w-8" /> {/* Increased size */}
               </Button>
             </SheetTrigger>
             <SheetContent 
