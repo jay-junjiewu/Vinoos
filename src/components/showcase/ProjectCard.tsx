@@ -115,12 +115,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      // onClick={(e) => e.stopPropagation()} // Removed to allow backdrop click
+      // onClick={(e) => e.stopPropagation()} // Removed to allow backdrop click by parent DialogContent
     >
       <h2 id={`modal-title-${project.id}`} className="sr-only">Image gallery for {project.title}</h2>
 
       <div
-        className="relative md:max-w-4xl group/modalimage" // Container will be sized by the Image below
+        className="relative group/modalimage" // Container will be sized by the Image below. Removed md:max-w-4xl
         onClick={(e) => {
           e.stopPropagation(); 
           if (!isMobile) { 
@@ -141,17 +141,17 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           width={1200} // Provide a base width for aspect ratio calculation
           height={800} // Provide a base height for aspect ratio calculation
           style={{
-            display: 'block', // Good for layout
+            display: 'block', 
             objectFit: 'contain',
-            width: 'auto', // Let image determine its width based on constraints and aspect ratio
-            height: 'auto', // Let image determine its height based on constraints and aspect ratio
-            maxWidth: '90vw', // Max width relative to viewport
-            maxHeight: '85vh', // Max height relative to viewport
+            width: 'auto', 
+            height: 'auto', 
+            maxWidth: '90vw', 
+            maxHeight: '90vh', // Changed from 85vh to 90vh
           }}
-          className="rounded-md mx-auto" // mx-auto for centering if width:auto results in narrower than container
+          className="rounded-md mx-auto" 
           data-ai-hint={images[currentIndexInModal].hint}
           priority={true}
-          key={images[currentIndexInModal].url} // Ensures re-render on src change if needed
+          key={images[currentIndexInModal].url}
         />
       </div>
 
@@ -332,7 +332,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {projectImages.length > 0 && (
          <DialogContent
            className={cn(
-             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden" // Let this center ModalCarousel
+             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden"
            )}
            aria-describedby={undefined}
            aria-labelledby={undefined}
