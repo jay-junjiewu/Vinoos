@@ -1,8 +1,10 @@
+
 import type { Project, Equipment, ProjectCategory } from '@/types';
 
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
+  { href: '/acrylic-projects', label: 'Acrylic Projects' },
   { href: '/equipment', label: 'Equipment' },
 ];
 
@@ -16,6 +18,7 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
   'Predator Tank',
   'Community Tank',
   'Reef Tank',
+  'Acrylic', // Added Acrylic category
 ];
 
 
@@ -44,14 +47,14 @@ export const PROJECTS_DATA: Project[] = [
   },
   {
     id: '3',
-    title: 'Minimalist Betta Bowl',
-    description: 'An elegant 5-gallon nano tank designed for a single Betta fish, emphasizing simplicity and style.',
+    title: 'Minimalist Betta Bowl (Acrylic)',
+    description: 'An elegant 5-gallon nano tank designed for a single Betta fish, emphasizing simplicity and style, crafted from acrylic.',
     images: [
       { url: 'https://picsum.photos/seed/project3a/600/400', hint: 'betta fish tank' },
       { url: 'https://picsum.photos/seed/project3b/600/400', hint: 'nano aquascape' },
       { url: 'https://picsum.photos/seed/project3c/600/400', hint: 'small aquarium' },
     ],
-    categories: ['Freshwater', 'Nano Tank'],
+    categories: ['Freshwater', 'Nano Tank', 'Acrylic'],
   },
   {
     id: '4',
@@ -66,14 +69,14 @@ export const PROJECTS_DATA: Project[] = [
   },
   {
     id: '5',
-    title: 'Office Desk Nano Tank',
-    description: 'A compact 10-gallon planted tank, perfect for adding a touch of nature to any workspace.',
+    title: 'Office Desk Acrylic Nano Tank',
+    description: 'A compact 10-gallon planted tank made from clear acrylic, perfect for adding a touch of nature to any workspace.',
     images: [
       { url: 'https://picsum.photos/seed/project5a/600/400', hint: 'nano aquarium desk' },
       { url: 'https://picsum.photos/seed/project5b/600/400', hint: 'small planted tank' },
       { url: 'https://picsum.photos/seed/project5c/600/400', hint: 'office fish tank' },
     ],
-    categories: ['Freshwater', 'Nano Tank', 'Planted Tank'],
+    categories: ['Freshwater', 'Nano Tank', 'Planted Tank', 'Acrylic'],
   },
   {
     id: '6',
