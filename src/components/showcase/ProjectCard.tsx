@@ -110,7 +110,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   return (
     <div
       className="relative w-auto h-auto p-6"
-      onClick={(e) => e.stopPropagation()}
+      // onClick={(e) => e.stopPropagation()} // Removed: Allow clicks on padding to close modal
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
@@ -120,7 +120,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       <div
         className="relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[85vh] md:max-w-4xl md:max-h-[85vh] group/modalimage"
         onClick={(e) => {
-          e.stopPropagation();
+          e.stopPropagation(); // Stop propagation so click on image doesn't close via DialogContent
           if (!isMobile) { // Desktop: click image to close
             onClose();
           }
@@ -193,14 +193,14 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       {images.length > 1 && (
         <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()} // Stop propagation for clicks on dots container
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
             <button
               key={`modal-dot-${project.id}-${index}`}
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Stop propagation for clicks on individual dots
                 setCurrentIndexInModal(index);
               }}
               aria-label={`Go to image ${index + 1}`}
@@ -342,5 +342,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
+    
 
     
