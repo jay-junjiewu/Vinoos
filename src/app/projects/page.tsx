@@ -1,6 +1,8 @@
-"use client";
 
-import { useState } from 'react';
+// No "use client" at the top of this file, so it's a Server Component module.
+
+import type { Metadata } from 'next';
+import { useState } from 'react'; // This import is fine at the top level
 import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { FISH_TANK_PROJECTS_DATA, FISH_TANK_PROJECT_CATEGORIES } from '@/lib/constants';
 import type { ProjectCategory } from '@/types';
@@ -12,24 +14,26 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"; // Import Select components
+} from "@/components/ui/select";
 
-// Metadata can't be dynamically changed in client components in the app router easily.
-// For dynamic metadata based on filters, consider moving this to a server component if possible
-// or using a more advanced setup. For now, it remains static.
-// export const metadata: Metadata = {
-// title: 'Fish Tank Projects - Vinoos',
-// description: 'Explore our portfolio of custom fish tank builds and aquarium designs (excluding acrylic).',
-// };
+export const metadata: Metadata = {
+  title: 'Fish Tank Projects - Vinoos',
+  description: 'Explore our portfolio of custom fish tank builds and aquarium designs (excluding acrylic).',
+};
 
-export default function ProjectsPage() {
+// Define the Client Component part of the page
+function ProjectsPageClientContent() {
+  "use client"; // This directive applies only to this function component
+
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('All');
 
   const fishTankProjectsData = FISH_TANK_PROJECTS_DATA;
+  // FISH_TANK_PROJECT_CATEGORIES should ideally not contain 'Acrylic' if data is separate
   const uniqueCategories = FISH_TANK_PROJECT_CATEGORIES;
 
+
   const filteredProjects = selectedCategory === 'All'
-    ? fishTankProjectsData
+    ? fishTankProjectsData // Assuming FISH_TANK_PROJECTS_DATA is already filtered to non-acrylic
     : fishTankProjectsData.filter(project => project.categories.includes(selectedCategory));
 
   return (
@@ -38,9 +42,6 @@ export default function ProjectsPage() {
         <h1 className="text-4xl font-bold text-primary tracking-tight sm:text-5xl">
           Fish Tank Projects
         </h1>
-        {/* <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Our previous custom fish tank projects.
-        </p> */}
       </header>
 
       {/* Category Filters for Desktop */}
@@ -93,4 +94,9 @@ export default function ProjectsPage() {
       )}
     </div>
   );
+}
+
+// The default export for the page is a Server Component
+export default function ProjectsPage() {
+  return <ProjectsPageClientContent />;
 }

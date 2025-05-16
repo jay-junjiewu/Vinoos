@@ -1,6 +1,8 @@
-"use client";
 
-import { useState } from 'react';
+// No "use client" at the top of this file, so it's a Server Component module.
+
+import type { Metadata } from 'next';
+import { useState } from 'react'; // This import is fine at the top level
 import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { ACRYLIC_PROJECTS_DATA, ACRYLIC_PROJECT_CATEGORIES } from '@/lib/constants';
 import type { ProjectCategory } from '@/types';
@@ -13,23 +15,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Metadata } from 'next';
 
 // Static metadata for the page
-// export const metadata: Metadata = {
-// title: 'Acrylic Projects - Vinoos',
-// description: 'Explore our portfolio of custom acrylic fish tank builds and aquarium designs.',
-// };
+export const metadata: Metadata = {
+  title: 'Acrylic Projects - Vinoos',
+  description: 'Explore our portfolio of custom acrylic fish tank builds and aquarium designs.',
+};
 
+// Define the Client Component part of the page
+function AcrylicProjectsClientContent() {
+  "use client"; // This directive applies only to this function component
 
-export default function AcrylicProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('All');
 
   const acrylicProjectsData = ACRYLIC_PROJECTS_DATA;
   const uniqueCategories = ACRYLIC_PROJECT_CATEGORIES;
 
   const filteredProjects = selectedCategory === 'All'
-    ? acrylicProjectsData
+    ? acrylicProjectsData // Assuming ACRYLIC_PROJECTS_DATA is already filtered to acrylic-only
     : acrylicProjectsData.filter(project => project.categories.includes(selectedCategory));
 
   return (
@@ -38,9 +41,6 @@ export default function AcrylicProjectsPage() {
         <h1 className="text-4xl font-bold text-primary tracking-tight sm:text-5xl">
           Acrylic Projects
         </h1>
-        {/* <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-        Our previous custom fish tank projects.
-        </p> */}
       </header>
 
       {/* Category Filters for Desktop */}
@@ -93,4 +93,9 @@ export default function AcrylicProjectsPage() {
       )}
     </div>
   );
+}
+
+// The default export for the page is a Server Component
+export default function AcrylicProjectsPage() {
+  return <AcrylicProjectsClientContent />;
 }
