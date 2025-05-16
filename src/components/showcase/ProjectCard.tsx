@@ -134,7 +134,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
 
         {/* Image and Dots Column */}
-        <div className="flex flex-col items-center">
+        <div className="relative flex flex-col items-center"> {/* Added relative here */}
           <div
             className="relative group/modalimage"
             onClick={(e) => {
@@ -192,6 +192,18 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
               ))}
             </div>
           )}
+           {/* X Button (Desktop only, positioned relative to this "Image and Dots Column") */}
+            {!isMobile && (
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={(e) => { e.stopPropagation(); onClose(); }}
+                className="absolute top-0 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
+                aria-label="Close image viewer"
+            >
+                <X className="h-5 w-5" />
+            </Button>
+            )}
         </div>
 
         {/* Right Arrow (Desktop Only) */}
@@ -207,19 +219,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           </Button>
         )}
       </div>
-
-      {/* X Button (Desktop only, positioned relative to ModalCarousel root) */}
-      {!isMobile && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(e) => { e.stopPropagation(); onClose(); }}
-          className="absolute top-0 right-0 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
-          aria-label="Close image viewer"
-        >
-          <X className="h-5 w-5" />
-        </Button>
-      )}
     </div>
   );
 }
