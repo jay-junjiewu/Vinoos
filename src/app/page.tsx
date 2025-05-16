@@ -8,7 +8,7 @@ import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { AutoScrollingHero } from '@/components/showcase/AutoScrollingHero';
 
 export default function HomePage() {
-  const featuredProjects = PROJECTS_DATA.slice(0, 3); // Show 3 featured projects
+  const featuredProjects = PROJECTS_DATA.slice(0, 4); // Show 4 featured projects
 
   return (
     <div className="flex flex-col">
@@ -21,7 +21,7 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-semibold mb-12 text-center text-primary">
               Featured Projects
             </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12"> {/* Updated grid to accommodate 4 projects */}
               {featuredProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}

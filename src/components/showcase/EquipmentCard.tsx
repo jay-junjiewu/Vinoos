@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { Equipment } from '@/types';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+// Removed Badge import as it's no longer used for price
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -25,11 +25,7 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
       <CardContent className="flex-grow">
         <CardDescription>{equipment.description}</CardDescription>
       </CardContent>
-      {equipment.price && (
-        <CardFooter>
-          <Badge variant="secondary" className="text-lg font-semibold">{equipment.price}</Badge>
-        </CardFooter>
-      )}
+      {/* CardFooter with price has been removed */}
     </Card>
   );
 }
