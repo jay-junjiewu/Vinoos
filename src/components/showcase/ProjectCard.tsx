@@ -143,7 +143,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             </Button>
           )}
           <div
-            className="group/modalimage overflow-hidden" // Added overflow-hidden
+            className="group/modalimage overflow-hidden"
             onClick={(e) => {
               if (!isMobile || images.length <= 1) { 
                 e.stopPropagation(); 
@@ -273,7 +273,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {projectImages.length > 0 ? (
           <DialogTrigger asChild>
             <div
-              className="relative w-full aspect-[3/2] sm:aspect-auto sm:h-56 md:h-64 group cursor-pointer"
+              className="relative w-full aspect-[4/3] sm:aspect-auto sm:h-56 md:h-64 group cursor-pointer"
               onClick={handleOpenModal}
               role="button"
               tabIndex={0}
@@ -332,7 +332,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </DialogTrigger>
         ) : (
-          <div className="relative w-full aspect-[3/2] sm:aspect-auto sm:h-56 md:h-64 bg-muted flex items-center justify-center">
+          <div className="relative w-full aspect-[4/3] sm:aspect-auto sm:h-56 md:h-64 bg-muted flex items-center justify-center">
             <p className="text-muted-foreground">No image available</p>
           </div>
         )}
@@ -359,7 +359,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 grid w-auto translate-x-[-50%] translate-y-[-50%] gap-4 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center" // Removed overflow-hidden
+              "flex items-center justify-center"
              )}
            >
             <ModalCarousel
