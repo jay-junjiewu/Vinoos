@@ -23,3 +23,10 @@ export interface Equipment {
 
 // Define a type for unique categories, can be expanded if needed
 export type ProjectCategory = string;
+
+export interface HeroImage {
+  id: string;
+  url: string;
+  alt: string;
+  hint: string;
+}

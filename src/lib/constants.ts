@@ -1,5 +1,5 @@
 
-import type { Project, Equipment, ProjectCategory } from '@/types';
+import type { Project, Equipment, ProjectCategory, HeroImage } from '@/types';
 
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -47,7 +47,7 @@ export const PROJECTS_DATA: Project[] = [
   },
   {
     id: '3',
-    title: 'Minimalist Betta Bowl (Acrylic)',
+    title: 'Minimalist Acrylic Betta Bowl',
     description: 'An elegant 5-gallon nano tank designed for a single Betta fish, emphasizing simplicity and style, crafted from acrylic.',
     images: [
       { url: 'https://picsum.photos/seed/project3a/600/400', hint: 'betta fish tank' },
@@ -154,3 +154,9 @@ export const BUSINESS_INFO = {
     { day: 'Sunday', time: 'Closed' },
   ],
 };
+
+export const HERO_IMAGES: HeroImage[] = [
+  { id: 'hero1', url: 'https://picsum.photos/seed/heroaqua1/1920/1080', alt: 'Stunning custom aquarium build', hint: 'custom aquarium underwater', },
+  { id: 'hero2', url: 'https://picsum.photos/seed/heroaqua2/1920/1080', alt: 'Vibrant coral reef tank', hint: 'coral reef fish', },
+  { id: 'hero3', url: 'https://picsum.photos/seed/heroaqua3/1920/1080', alt: 'Lush planted freshwater tank', hint: 'planted tank scape', },
+];

@@ -17,11 +17,10 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      setScrolled(window.scrollY > 20); // Trigger change after scrolling a bit
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Initial check in case page loads already scrolled
     handleScroll(); 
     
     return () => {
@@ -29,7 +28,6 @@ export function Header() {
     };
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
@@ -37,13 +35,15 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300 ease-in-out",
-        scrolled ? "border-border shadow-md" : "border-transparent shadow-none"
+        "sticky top-0 z-50 w-full transition-all duration-300 ease-in-out",
+        scrolled
+          ? "bg-background/90 backdrop-blur-md shadow-lg border-b border-border"
+          : "bg-transparent border-b border-transparent shadow-none"
       )}
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
         <Link href="/" className="flex items-center gap-2" aria-label="AquaCraft Showcase Home">
-          <Fish className="h-8 w-8 text-primary" />
+          <Fish className="h-8 w-8 text-primary transition-transform duration-300 hover:scale-110" />
           <span className="font-bold text-xl text-primary">AquaCraft</span>
         </Link>
         
@@ -54,7 +54,7 @@ export function Header() {
               href={link.href}
               className={cn(
                 "text-sm font-medium transition-colors hover:text-primary",
-                pathname === link.href ? "text-primary" : "text-foreground/70"
+                pathname === link.href ? "text-primary" : (scrolled ? "text-foreground/70" : "text-primary-foreground/90 hover:text-primary-foreground")
               )}
             >
               {link.label}
@@ -65,7 +65,8 @@ export function Header() {
         <div className="md:hidden">
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(true)}>
+              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(true)} 
+                className={cn(scrolled ? "text-primary" : "text-primary-foreground hover:bg-white/20")}>
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
