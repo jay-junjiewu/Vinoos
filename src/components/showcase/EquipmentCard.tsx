@@ -1,7 +1,7 @@
+
 import Image from 'next/image';
 import type { Equipment } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-// Removed Badge import as it's no longer used for price
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -14,9 +14,11 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
         <Image
           src={equipment.imageUrl}
           alt={equipment.name}
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: 'cover' }}
           data-ai-hint={equipment.imageHint}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          // Consider adding priority if these cards are often above the fold
         />
       </div>
       <CardHeader>
@@ -25,7 +27,6 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
       <CardContent className="flex-grow">
         <CardDescription>{equipment.description}</CardDescription>
       </CardContent>
-      {/* CardFooter with price has been removed */}
     </Card>
   );
 }

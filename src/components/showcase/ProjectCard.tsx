@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import Image from 'next/image';
@@ -12,7 +11,7 @@ import { Dialog, DialogTrigger, DialogOverlay, DialogPortal } from "@/components
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Badge } from '@/components/ui/badge'; // Import Badge
+import { Badge } from '@/components/ui/badge';
 
 interface ProjectCardProps {
   project: Project;
@@ -177,7 +176,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
               }}
               className="rounded-md mx-auto"
               data-ai-hint={images[currentIndexInModal].hint}
-              priority={true}
+              priority={true} 
+              sizes="(max-width: 1200px) 90vw, 1200px"
               key={images[currentIndexInModal].url} 
             />
           </div>
@@ -271,7 +271,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 style={{ objectFit: 'cover' }}
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                 priority={project.id === '1' || project.id === '2'} 
               />
               {projectImages.length > 1 && (
@@ -358,4 +358,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-

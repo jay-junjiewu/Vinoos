@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -20,7 +21,7 @@ export function AutoScrollingHero() {
     }, 5000); 
 
     return () => clearInterval(intervalId);
-  }, [currentHeroIndex]); // Re-create interval if currentHeroIndex changes manually
+  }, []); // Removed currentHeroIndex from dependencies to prevent interval reset on manual change
 
   return (
     <section className="relative h-[70vh] md:h-[calc(100vh-4rem)] min-h-[400px] max-h-[1080px] w-full overflow-hidden text-primary-foreground">
@@ -29,14 +30,15 @@ export function AutoScrollingHero() {
           key={image.id}
           src={image.url}
           alt={image.alt}
-          fill // Changed from layout="fill" objectFit="cover"
-          style={{ objectFit: 'cover' }} // Replaced objectFit prop
+          fill
+          style={{ objectFit: 'cover' }}
           className={cn(
             "transition-opacity duration-1000 ease-in-out",
             index === currentHeroIndex ? "opacity-100" : "opacity-0"
           )}
           data-ai-hint={image.hint}
           priority={index === 0} 
+          sizes="100vw"
         />
       ))}
       {/* Overlay for text contrast */}
@@ -55,14 +57,14 @@ export function AutoScrollingHero() {
             size="lg" 
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
           >
-            <Link href="/projects">View our Fish Tank Projects</Link>
+            <Link href="/projects">View our Fish Tanks</Link>
           </Button>
           <Button 
             asChild 
             size="lg" 
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
           >
-            <Link href="/acrylic-projects">View our Acrylic Projects</Link>
+            <Link href="/acrylic-projects">View our Acrylics</Link>
           </Button>
         </div>
       </div>
@@ -84,4 +86,3 @@ export function AutoScrollingHero() {
     </section>
   );
 }
-
