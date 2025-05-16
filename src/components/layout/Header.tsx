@@ -29,6 +29,7 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    // Close mobile menu on path change
     setMobileMenuOpen(false);
   }, [pathname]);
 
@@ -38,17 +39,17 @@ export function Header() {
         "sticky top-0 z-50 w-full transition-all duration-300 ease-in-out border-b border-border/40",
         scrolled
           ? "bg-background/90 backdrop-blur-md shadow-lg"
-          : "bg-background shadow-md"
+          : "bg-background shadow-md" // Consistent background and shadow
       )}
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6"> {/* Increased gap for nav links */}
           <Link href="/" className="flex items-center gap-2" aria-label="AquaCraft Showcase Home">
             <Fish className={cn("h-8 w-8 text-primary transition-transform duration-300 hover:scale-110")} />
             <span className={cn("font-bold text-xl text-primary transition-opacity duration-300 hover:opacity-80")}>AquaCraft</span>
           </Link>
           
-          <nav className="hidden md:flex gap-5 items-center">
+          <nav className="hidden md:flex gap-5 items-center"> {/* Adjusted gap for nav links */}
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -56,10 +57,10 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-primary",
+                    "text-sm font-medium transition-colors",
                     isActive
-                      ? "text-primary font-semibold underline underline-offset-4"
-                      : "text-foreground/80 hover:underline hover:underline-offset-4"
+                      ? "text-primary font-semibold underline underline-offset-4" // Active: primary color, bold, underlined
+                      : "text-foreground/80 hover:text-primary hover:underline hover:underline-offset-4" // Inactive: slightly muted, hover to primary & underline
                   )}
                 >
                   {link.label}
@@ -76,13 +77,16 @@ export function Header() {
                 variant="ghost" 
                 size="icon" 
                 onClick={() => setMobileMenuOpen(true)} 
-                className={cn("transition-colors text-primary hover:bg-primary/10")}
+                className={cn("transition-colors text-primary hover:bg-primary/10")} // Consistent icon color
                 aria-label="Toggle Menu"
               >
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] p-6 bg-background">
+            <SheetContent 
+              side="right" 
+              className="w-full h-full p-6 bg-background" // Full page mobile menu
+            >
               <Link 
                 href="/" 
                 className="flex items-center gap-2 mb-8" 
@@ -99,7 +103,7 @@ export function Header() {
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(
-                      "text-lg font-medium transition-colors hover:text-primary",
+                      "text-xl font-medium transition-colors hover:text-primary", // Increased font size
                       pathname === link.href ? "text-primary font-semibold" : "text-foreground"
                     )}
                   >
