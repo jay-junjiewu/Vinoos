@@ -43,24 +43,14 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-semibold text-center mb-12 text-primary">
             Visit or Contact Us
           </h2>
-          <Card className="max-w-6xl mx-auto shadow-xl border-border/50"> {/* Increased max-w for 3 columns */}
+          <Card className="max-w-3xl mx-auto shadow-xl border-border/50">
             <CardHeader className="pb-4">
               <CardTitle className="text-2xl text-center md:text-left text-primary">{BUSINESS_INFO.name}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6 sm:space-y-8">
-              <div className="grid md:grid-cols-3 gap-6 md:gap-8"> {/* Changed to md:grid-cols-3 */}
+              <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                 
-                {/* Business Hours Column */}
-                <div className="rounded-lg border bg-card p-6 h-full">
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">Business Hours</h3>
-                  <ul className="space-y-1.5 text-muted-foreground">
-                    {BUSINESS_INFO.hours.map((line, index) => (
-                      <li key={index}>{line}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Location Column */}
+                {/* Location Column (Top-Left) */}
                 <div className="rounded-lg border bg-card p-6 h-full">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Our Location</h3>
                   <ul className="space-y-3 text-muted-foreground">
@@ -70,12 +60,21 @@ export default function HomePage() {
                         {BUSINESS_INFO.address}
                       </a>
                     </li>
-                    {/* You can add a small embedded map or image here if desired in the future */}
                   </ul>
                 </div>
 
-                {/* Contact Details Column */}
+                {/* Business Hours Column (Top-Right) */}
                 <div className="rounded-lg border bg-card p-6 h-full">
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">Business Hours</h3>
+                  <ul className="space-y-1.5 text-muted-foreground">
+                    {BUSINESS_INFO.hours.map((line, index) => (
+                      <li key={index}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Contact Details Column (Bottom, Spanning 2 columns) */}
+                <div className="rounded-lg border bg-card p-6 md:col-span-2">
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Contact Details</h3>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-center gap-3">
