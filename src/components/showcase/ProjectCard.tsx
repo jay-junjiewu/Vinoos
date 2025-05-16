@@ -38,13 +38,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     if (!isMobile || images.length <= 1) return;
     setTouchStartX(e.touches[0].clientX);
     setTouchEndX(null);
-    e.stopPropagation();
+    // e.stopPropagation(); // Removed: Let events bubble if not handled specifically
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isMobile || images.length <= 1 || !touchStartX) return;
     setTouchEndX(e.touches[0].clientX);
-    e.stopPropagation();
+    // e.stopPropagation(); // Removed
   };
 
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
@@ -58,7 +58,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   }, [images.length]);
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    e.stopPropagation();
+    // e.stopPropagation(); // Removed
     if (!isMobile || images.length <= 1 || !touchStartX || !touchEndX) {
       setTouchStartX(null);
       setTouchEndX(null);
@@ -148,38 +148,42 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           <div
             className="group/modalimage" 
             onClick={(e) => {
-              if (!isMobile) { 
-                e.stopPropagation();
+              if (!isMobile || images.length <= 1) { 
+                e.stopPropagation(); // Stop propagation only if this click is meant to close.
                 onClose();
               }
+              // If it's mobile and multiple images, tap on image does nothing here, swipe handles it.
             }}
             onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
             onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
             onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
-            role={!isMobile ? "button" : undefined}
-            aria-label={!isMobile ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
-            tabIndex={!isMobile ? 0 : -1}
-            style={{ cursor: isMobile && images.length > 1 ? 'grab' : (!isMobile ? 'pointer' : 'default') }}
+            role={(!isMobile || images.length <=1) ? "button" : undefined}
+            aria-label={(!isMobile || images.length <=1) ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
+            tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
+            style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
           >
-            <Image
-              src={images[currentIndexInModal].url}
-              alt={`${project.title} - Image ${currentIndexInModal + 1}`}
-              width={1200}
-              height={800}
-              style={{
-                display: 'block',
-                objectFit: 'contain',
-                width: 'auto',
-                height: 'auto',
-                maxWidth: '90vw',
-                maxHeight: '90vh',
-              }}
-              className="rounded-md mx-auto"
-              data-ai-hint={images[currentIndexInModal].hint}
-              priority={true} 
-              sizes="(max-width: 1200px) 90vw, 1200px"
-              key={images[currentIndexInModal].url} 
-            />
+            {images.map((image, index) => (
+              <Image
+                key={image.url}
+                src={image.url}
+                alt={`${project.title} - Image ${index + 1}`}
+                width={1200}
+                height={800}
+                style={{
+                  display: index === currentIndexInModal ? 'block' : 'none',
+                  objectFit: 'contain',
+                  width: 'auto',
+                  height: 'auto',
+                  maxWidth: '90vw',
+                  maxHeight: '90vh',
+                }}
+                className="rounded-md mx-auto"
+                data-ai-hint={image.hint}
+                priority={index === currentIndexInModal} 
+                loading={index !== currentIndexInModal ? "eager" : undefined}
+                sizes="(max-width: 1200px) 90vw, 1200px"
+              />
+            ))}
           </div>
 
           {images.length > 1 && (
@@ -338,12 +342,25 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {projectImages.length > 0 && (
          <DialogPortal>
-           <DialogOverlay />
+           <DialogOverlay 
+            onClick={(e) => { 
+              // Ensure clicking overlay closes the modal
+              // Stop propagation if the click target is ModalCarousel's content, otherwise let it close.
+              if ((e.target as HTMLElement).closest('.group\\/modalimage')) { // check if click is inside the main image area
+                 // if it's mobile and multiple images, do nothing (swipe handles interaction)
+                if (isMobile && projectImages.length > 1) return; 
+                // if it's desktop, or mobile with single image, image click closes
+                // but this is overlay click, so it should always close unless propagation stopped by content.
+              }
+              // Default Radix behavior for overlay click is to close, which is what we want
+            }}
+           />
            <DialogPrimitive.Content
              className={cn(
-              "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+              "fixed left-[50%] top-[50%] z-50 grid w-auto translate-x-[-50%] translate-y-[-50%] gap-4 border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
               "flex items-center justify-center" 
              )}
+             // onInteractOutside={(e) => e.preventDefault()} // Prevent closing on click outside if not desired
            >
             <ModalCarousel
               project={project}
@@ -358,3 +375,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
