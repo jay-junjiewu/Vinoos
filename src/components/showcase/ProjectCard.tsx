@@ -111,7 +111,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div
-      className="relative w-auto h-auto" // Removed p-6
+      className="relative w-auto h-auto"
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
@@ -126,13 +126,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             onClose();
           }
         }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
+        onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
+        onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
         role={!isMobile ? "button" : undefined}
         aria-label={!isMobile ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
         tabIndex={!isMobile ? 0 : -1}
-        style={{ cursor: isMobile ? 'grab' : 'pointer' }}
+        style={{ cursor: isMobile && images.length > 1 ? 'grab' : (!isMobile ? 'pointer' : 'default') }}
       >
         <Image
           src={images[currentIndexInModal].url}
@@ -150,31 +150,33 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           className="rounded-md mx-auto" 
           data-ai-hint={images[currentIndexInModal].hint}
           priority={true}
-          key={images[currentIndexInModal].url}
+          key={images[currentIndexInModal].url} // Add key for re-renders on image change
         />
       </div>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={(e) => { e.stopPropagation(); onClose(); }}
-        className={cn(
-          "absolute top-4 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0",
-          "hidden sm:flex" 
-        )}
-        aria-label="Close image viewer"
-      >
-        <X className="h-5 w-5" />
-      </Button>
+      { !isMobile && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={(e) => { e.stopPropagation(); onClose(); }}
+          className={cn(
+            "absolute top-4 -right-4 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
+            // Removed "hidden sm:flex"
+          )}
+          aria-label="Close image viewer"
+        >
+          <X className="h-5 w-5" />
+        </Button>
+      )}
 
-      {images.length > 1 && (
+      { !isMobile && images.length > 1 && (
         <>
           <Button
             variant="ghost"
             size="icon"
             className={cn(
-              "absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0",
-              "hidden sm:flex" 
+              "absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+              // Removed "hidden sm:flex"
             )}
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image"
@@ -185,8 +187,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             variant="ghost"
             size="icon"
             className={cn(
-              "absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0",
-              "hidden sm:flex"
+              "absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0"
+              // Removed "hidden sm:flex"
             )}
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image"
@@ -199,7 +201,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       {images.length > 1 && (
          <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 z-[70] flex items-center space-x-2 bg-black/50 p-1.5 sm:p-2 rounded-full"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()} // Prevent closing modal when interacting with dots
         >
            <p className="text-white text-xs sm:text-sm mx-1 sm:mx-2 select-none">{currentIndexInModal + 1} / {images.length}</p>
           {images.map((_, index) => (
@@ -331,10 +333,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {projectImages.length > 0 && (
          <DialogContent
            className={cn(
-             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden"
+             "p-0 border-0 bg-transparent flex items-center justify-center overflow-hidden" // Ensure DialogContent itself allows clicks through its background
            )}
-           aria-describedby={undefined}
-           aria-labelledby={undefined}
+           aria-describedby={undefined} // Descriptions handled by ModalCarousel if needed
+           aria-labelledby={undefined} // Titles handled by ModalCarousel if needed
          >
           <ModalCarousel
             project={project}
@@ -348,3 +350,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
