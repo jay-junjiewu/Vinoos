@@ -37,7 +37,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0;
+      if (prevIndex === 0) return 0; // Stop at first image
       return prevIndex - 1;
     });
   }, []);
@@ -45,7 +45,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1;
+      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -108,71 +108,64 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   if (!images || images.length === 0) return null;
   
-  // This div is the main container for the carousel content, including the image area and dots.
-  // It defines the overall size constraints (98% viewport on mobile, 50% on desktop).
+  // This div is the main container for the carousel content (image viewport + dots).
+  // It establishes the overall size and aspect ratio for the modal content.
   const ImageAndDotsColumn = (
     <div
       className={cn(
-        'relative flex flex-col items-center justify-center', // Centers the 4:3 box within this container
-        isMobile ? 'w-[98vw] h-[98vh]' : 'w-[50vw] h-[50vh]'
+        'relative flex flex-col items-center justify-center', // Center the 4/3 box if it's smaller than w/h percentages
+        'overflow-hidden aspect-[4/3]', // Aspect ratio and overflow here
+        isMobile ? 'w-[98vw] h-[98vh]' : 'w-[50vw] h-[50vh]' // Max bounds, aspect ratio will adjust within these
       )}
+      onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
+      onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
+      onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
+      onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
+      role={isMobile && images.length <= 1 ? "button" : undefined}
+      aria-label={isMobile && images.length <=1 ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
+      tabIndex={isMobile && images.length <=1 ? 0 : -1}
+      style={{ cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default' }}
     >
-      {/* This div is the 4:3 aspect ratio box that will contain the image track. */}
-      {/* It takes the full width of its parent and lets aspect-ratio determine height, */}
-      {/* effectively fitting the 4:3 box within the parent's dimensions. */}
-      <div
-        className={cn(
-          'relative w-full aspect-[4/3]'
-          // overflow-hidden is removed here, DialogPrimitive.Content should handle overall clipping
-        )}
-        onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
-        onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
-        onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
-        onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
-        role={isMobile && images.length <= 1 ? "button" : undefined}
-        aria-label={isMobile && images.length <=1 ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
-        tabIndex={isMobile && images.length <=1 ? 0 : -1}
-        style={{ cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default' }}
-      >
-        {!isMobile && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute -top-8 -right-8 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
-            aria-label="Close image viewer"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        )}
-
-        <div // Image Track
-          className="flex h-full transition-transform duration-300 ease-in-out" // h-full of the 4:3 aspect parent
-          style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
+      {!isMobile && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={(e) => { e.stopPropagation(); onClose(); }}
+          className="absolute -top-8 -right-8 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+          aria-label="Close image viewer"
         >
-          {images.map((image, index) => (
-            <div // Slide
-              key={image.url}
-              className="w-full h-full flex-shrink-0 flex justify-center items-center" // Fills the track's dimensions for this slide
-            >
-              <Image
-                src={image.url} alt={`${project.title} - Image ${index + 1}`}
-                width={1200} height={900} // Intrinsic aspect 4:3
-                className="w-full h-full rounded-md" // Image fills the slide
-                style={{ objectFit: 'contain' }}     // Contained within the slide
-                data-ai-hint={image.hint}
-                priority={index === currentIndexInModal}
-                loading={index !== currentIndexInModal ? "eager" : undefined}
-                sizes={isMobile ? "98vw" : "50vw"} // Hint for optimized source
-              />
-            </div>
-          ))}
-        </div>
+          <X className="h-5 w-5" />
+        </Button>
+      )}
+
+      {/* Image Track: Takes full width/height of the ImageAndDotsColumn (which is 4/3 aspect) */}
+      <div
+        className="flex w-full h-full transition-transform duration-300 ease-in-out"
+        style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
+      >
+        {images.map((image, index) => (
+          // Slide: Each slide fills the track and centers its content
+          <div
+            key={image.url}
+            className="w-full h-full flex-shrink-0 flex justify-center items-center"
+          >
+            <Image
+              src={image.url} alt={`${project.title} - Image ${index + 1}`}
+              width={1200} height={900} // Intrinsic aspect 4:3
+              className="rounded-md" // Image styling
+              style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} // Contained within the slide
+              data-ai-hint={image.hint}
+              priority={index === currentIndexInModal}
+              loading={index !== currentIndexInModal ? "eager" : undefined}
+              sizes={isMobile ? "98vw" : "50vw"}
+            />
+          </div>
+        ))}
       </div>
       
       {images.length > 1 && (
         <div
-          className="absolute bottom-[-2rem] flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2" // Positioned relative to ImageAndDotsColumn
+          className="absolute bottom-[-2rem] flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2"
           onClick={(e) => e.stopPropagation()}
         >
           {images.map((_, index) => (
@@ -194,14 +187,15 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     </div>
   );
 
+  // This outer div groups the arrows and the main ImageAndDotsColumn.
+  // `inline-flex` helps keep arrows snug if ImageAndDotsColumn is narrower than DialogPrimitive.Content allows.
+  // DialogPrimitive.Content will center this inline-flex block.
   return (
-    // This outer div groups the arrows and the main ImageAndDotsColumn.
-    // `inline-flex` helps keep arrows snug.
     <div className="inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4">
       {!isMobile && images.length > 1 && (
         <Button
           variant="ghost" size="icon"
-          className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
+          className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0 disabled:opacity-50 disabled:hover:bg-black/40"
           onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
           aria-label="Previous image"
           disabled={currentIndexInModal === 0}
@@ -215,7 +209,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       {!isMobile && images.length > 1 && (
         <Button
           variant="ghost" size="icon"
-          className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
+          className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0 disabled:opacity-50 disabled:hover:bg-black/40"
           onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
           aria-label="Next image"
           disabled={currentIndexInModal === images.length - 1}
@@ -253,7 +247,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1
+      // Ensure this correctly handles projectImages.length being 0 or 1
+      projectImages.length === 0 ? 0 : (prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1)
     );
   };
 
@@ -364,8 +359,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 p-0 translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center w-[98vw] h-[98vh] max-w-[1800px] max-h-[1200px]" 
+              "flex items-center justify-center" // Removed explicit w/h, DialogPrimitive will handle content sizing, ModalCarousel defines its own max-w/h
              )}
+             // Removed onClick={handleCloseModal} here, overlay handles it.
            >
             <ModalCarousel
               project={project}
@@ -380,6 +376,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
-
-    
