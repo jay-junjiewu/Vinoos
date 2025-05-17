@@ -112,7 +112,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     <div 
       className={cn(
         'relative flex flex-col items-center',
-        isMobile ? 'max-w-[98vw]' : 'max-w-[60vw]' // Adjusted for desktop
+        isMobile ? 'max-w-[98vw]' : 'max-w-[50vw]' // Adjusted for desktop
       )}
       onClick={(e) => e.stopPropagation()} // Stop propagation on the main content wrapper
     >
@@ -132,7 +132,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       {/* ImageAreaViewport: This is the main container for the image and its immediate controls (Arrows) */}
       <div
         className="group/modalimage relative w-full aspect-[4/3] overflow-hidden"
-        style={{ maxHeight: isMobile ? '98vh' : '60vh' }} // Adjusted for desktop
+        style={{ maxHeight: isMobile ? '98vh' : '50vh' }} // Adjusted for desktop
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : (e) => e.stopPropagation()}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -181,7 +181,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
                 style={{ objectFit: 'contain' }}
-                sizes={isMobile ? "98vw" : "60vw"} // Adjusted for desktop
+                sizes={isMobile ? "98vw" : "50vw"} // Adjusted for desktop
               />
             </div>
           ))}
@@ -371,3 +371,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
