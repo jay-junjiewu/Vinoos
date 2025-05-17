@@ -4,8 +4,8 @@ import type { Project, Equipment, ProjectCategory, HeroImage } from '@/types';
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Fish Tank' },
-  { href: '/acrylic-projects', label: 'Acrylic Project' },
-  { href: '/cabinet-projects', label: 'Cabinet Projects' }, // Added Cabinet Projects link
+  { href: '/acrylic-projects', label: 'Acrylic' },
+  { href: '/cabinet-projects', label: 'Cabinet' },
   { href: '/equipment', label: 'Equipment' },
   { href: '/#contact', label: 'Contact Us' },
 ];
@@ -28,10 +28,9 @@ export const ACRYLIC_PROJECT_CATEGORIES: ProjectCategory[] = [
 
 export const CABINET_PROJECT_CATEGORIES: ProjectCategory[] = [ // New categories for cabinets
   'All',
-  'Cabinet',
-  'Modern',
-  'Classic',
-  'Wood',
+  'Aluminum',
+  'Steel',
+  'MDF',
 ];
 
 export const FISH_TANK_PROJECTS_DATA: Project[] = [
@@ -83,37 +82,27 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
 
 export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
-    id: 'A1', // Changed ID to avoid conflict
+    id: 'A1',
     title: 'Custom Acrylic Box',
     description: 'A clear, custom-fabricated acrylic box for display purposes.',
     images: [
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'acrylic box' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'transparent case' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'A2-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'A2-1' },
     ],
     categories: ['Acrylic', 'Box'],
   },
 ];
 
-export const CABINET_PROJECTS_DATA: Project[] = [ // New data for cabinets
+export const CABINET_PROJECTS_DATA: Project[] = [
   {
     id: 'C1',
-    title: 'Modern Oak Cabinet',
-    description: 'A sleek and modern cabinet made from high-quality oak, perfect for aquarium stands.',
+    title: 'Modern MDF Cabinet',
+    description: 'A sleek and modern cabinet made from high-quality MDF, perfect for aquarium stands.',
     images: [
-      { url: 'https://placehold.co/1200x800.png', hint: 'modern cabinet' },
-      { url: 'https://placehold.co/1200x800.png', hint: 'oak wood' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'C1-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'C1-1' },
     ],
-    categories: ['Cabinet', 'Modern', 'Wood'],
-  },
-  {
-    id: 'C2',
-    title: 'Classic Mahogany Stand',
-    description: 'Elegant mahogany cabinet with classic design elements, providing sturdy support.',
-    images: [
-      { url: 'https://placehold.co/1200x800.png', hint: 'classic stand' },
-      { url: 'https://placehold.co/1200x800.png', hint: 'mahogany detail' },
-    ],
-    categories: ['Cabinet', 'Classic', 'Wood'],
+    categories: ['MDF'],
   },
 ];
 
