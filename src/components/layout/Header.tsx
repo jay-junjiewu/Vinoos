@@ -29,15 +29,23 @@ export function Header() {
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
-    setScrolled(currentScrollY > 20);
+    setScrolled(currentScrollY > 20); // For background/shadow styling
 
     if (isMobile) {
-      if (currentScrollY > lastScrollY && currentScrollY > 50) { // Hide if scrolling down and past 50px
-        setHeaderMobileVisible(false);
-      } else { // Show if scrolling up or near the top
+      if (currentScrollY < 10) { // Always show if very near the top
         setHeaderMobileVisible(true);
+      } else {
+        // Determine scroll direction for visibility change
+        if (currentScrollY > lastScrollY) { // Scrolling Down
+          if (currentScrollY > 50) { // Only hide if scrolled past a threshold
+            setHeaderMobileVisible(false);
+          }
+        } else if (currentScrollY < lastScrollY) { // Scrolling Up
+          setHeaderMobileVisible(true);
+        }
+        // If currentScrollY === lastScrollY, headerMobileVisible remains unchanged
       }
-      setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY);
+      setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY); // Update lastScrollY, ensuring it's not negative
     } else {
       setHeaderMobileVisible(true); // Always visible on desktop
     }
@@ -64,12 +72,12 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full border-b border-border/40",
-        "transition-transform transition-colors transition-shadow duration-300 ease-in-out", // More specific transitions
+        "transition-transform transition-colors transition-shadow duration-300 ease-in-out", 
         scrolled
           ? "bg-background/90 backdrop-blur-md shadow-lg"
           : "bg-background shadow-md",
         // Mobile slide-away effect
-        isMobile ? "transform-gpu" : "",
+        isMobile ? "transform-gpu" : "", // Ensure GPU acceleration for transform
         isMobile && headerMobileVisible ? "translate-y-0" : isMobile && !headerMobileVisible ? "-translate-y-full" : ""
       )}
     >
@@ -82,7 +90,7 @@ export function Header() {
           {!isMobile && (
             <nav className="hidden md:flex gap-5 items-center">
               {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href || (link.href.includes('#') && pathname === link.href.split('#')[0]);
+                const isActive = pathname === link.href || (pathname.startsWith(link.href + '/') && link.href !== '/') || (link.href.includes('#') && pathname === link.href.split('#')[0]);
                 return (
                   <Link
                     key={link.href}
@@ -137,7 +145,7 @@ export function Header() {
                       onClick={() => setMobileMenuOpen(false)}
                       className={cn(
                         "text-xl font-medium transition-colors hover:text-primary",
-                        (pathname === link.href || (link.href.includes('#') && pathname === link.href.split('#')[0])) ? "text-primary font-semibold" : "text-foreground"
+                        (pathname === link.href || (pathname.startsWith(link.href + '/') && link.href !== '/') || (link.href.includes('#') && pathname === link.href.split('#')[0])) ? "text-primary font-semibold" : "text-foreground"
                       )}
                     >
                       {link.label}
