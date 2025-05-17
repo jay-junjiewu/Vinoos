@@ -122,7 +122,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       className="relative w-auto h-auto" 
     >
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
-      <div className="flex flex-row items-center justify-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
+      <div className="flex flex-row items-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
         {!isMobile && images.length > 1 && (
           <Button
             variant="ghost"
@@ -383,6 +383,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+    
+
     
 
     
