@@ -29,25 +29,23 @@ export function Header() {
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
-    setScrolled(currentScrollY > 20); // For background/shadow styling
+    setScrolled(currentScrollY > 20);
 
     if (isMobile) {
-      if (currentScrollY < 10) { // Always show if very near the top
+      if (currentScrollY < 10) {
         setHeaderMobileVisible(true);
       } else {
-        // Determine scroll direction for visibility change
-        if (currentScrollY > lastScrollY) { // Scrolling Down
-          if (currentScrollY > 50) { // Only hide if scrolled past a threshold
+        if (currentScrollY > lastScrollY) { 
+          if (currentScrollY > 50) { 
             setHeaderMobileVisible(false);
           }
-        } else if (currentScrollY < lastScrollY) { // Scrolling Up
+        } else if (currentScrollY < lastScrollY) { 
           setHeaderMobileVisible(true);
         }
-        // If currentScrollY === lastScrollY, headerMobileVisible remains unchanged
       }
-      setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY); // Update lastScrollY, ensuring it's not negative
+      setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY); 
     } else {
-      setHeaderMobileVisible(true); // Always visible on desktop
+      setHeaderMobileVisible(true); 
     }
   }, [isMobile, lastScrollY, setScrolled, setHeaderMobileVisible, setLastScrollY]);
 
@@ -55,7 +53,7 @@ export function Header() {
     if (!isClient) return;
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    handleScroll(); 
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -64,7 +62,6 @@ export function Header() {
 
   useEffect(() => {
     if (!isClient) return;
-    // Close mobile menu on path change
     setMobileMenuOpen(false);
   }, [pathname, isClient]);
 
@@ -72,13 +69,12 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full border-b border-border/40",
-        "transition-transform transition-colors transition-shadow duration-1000 ease-in-out", 
+        "transform transition-transform transition-colors transition-shadow duration-1000 ease-in-out", // Base transform and transition properties
         scrolled
           ? "bg-background/90 backdrop-blur-md shadow-lg"
           : "bg-background shadow-md",
-        // Mobile slide-away effect
-        isMobile ? "transform-gpu" : "", // Ensure GPU acceleration for transform
-        isMobile && headerMobileVisible ? "translate-y-0" : isMobile && !headerMobileVisible ? "-translate-y-full" : ""
+        // Conditional transform for mobile slide based on visibility state
+        isMobile && !headerMobileVisible ? "-translate-y-full" : "translate-y-0"
       )}
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
@@ -160,3 +156,5 @@ export function Header() {
     </header>
   );
 }
+
+    
