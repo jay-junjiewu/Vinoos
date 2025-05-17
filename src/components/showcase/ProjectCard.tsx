@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -118,7 +119,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      className="w-auto h-auto" // Changed from p-6
+      className="w-auto h-auto" 
     >
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
       <div className="flex flex-row items-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
@@ -136,7 +137,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
 
         {/* Image and Dots Column */}
-        <div className="relative flex flex-col items-center"> {/* Added relative here */}
+        <div className="relative flex flex-col items-center max-w-[90vw]"> {/* Added max-w-[90vw] */}
            {!isMobile && ( // X button only for desktop
             <Button
                 variant="ghost"
@@ -149,9 +150,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             </Button>
           )}
           <div
-            className="group/modalimage overflow-hidden" // Overflow hidden for the track
+            className="group/modalimage overflow-hidden w-full" // Added w-full
             onClick={(e) => {
-              if (!isMobile || images.length <= 1) {
+              if ((!isMobile || images.length <= 1)) {
                 e.stopPropagation();
                 onClose();
               }
@@ -180,14 +181,14 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                       objectFit: 'contain',
                       width: 'auto', 
                       height: 'auto', 
-                      maxWidth: '90vw',
+                      maxWidth: '100%', // Changed from 90vw
                       maxHeight: '90vh',
                     }}
                     className="rounded-md" 
                     data-ai-hint={image.hint}
                     priority={index === currentIndexInModal}
                     loading={index !== currentIndexInModal ? "eager" : undefined}
-                    sizes="90vw" // Simplified sizes prop
+                    sizes="90vw" 
                   />
                 </div>
               ))}
@@ -196,7 +197,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
           {images.length > 1 && (
             <div
-              className="mt-4 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full" // Centering dots
+              className="mt-4 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full" 
               onClick={(e) => e.stopPropagation()}
             >
               {images.map((_, index) => (
@@ -297,7 +298,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                priority={project.id === '1' || project.id === '2'} // Example: prioritize first few projects
+                priority={project.id === '1' || project.id === '2'} 
               />
               {projectImages.length > 1 && (
                 <>
@@ -367,7 +368,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 w-auto translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center" // Removed overflow-hidden here
+              "flex items-center justify-center" 
              )}
            >
             <ModalCarousel
@@ -383,3 +384,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
