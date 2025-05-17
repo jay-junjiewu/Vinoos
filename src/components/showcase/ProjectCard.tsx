@@ -48,7 +48,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; // Stop at first image
+      if (prevIndex === 0) return 0;
       return prevIndex - 1;
     });
   }, []);
@@ -56,7 +56,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
+      if (prevIndex === images.length - 1) return images.length - 1;
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -108,12 +108,10 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   if (!images || images.length === 0) return null;
 
+  // This is the main container that DialogPrimitive.Content will center.
   return (
-    <div // Root of ModalCarousel. This will be centered by DialogContent's flex properties.
-      className="inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4"
-      onClick={(e) => e.stopPropagation()} // Prevent modal close if padding/gap is clicked
-    >
-      {/* Desktop X Button: Positioned relative to THIS inline-flex container */}
+    <div className="flex flex-col items-center relative max-w-[98vw]" onClick={(e) => e.stopPropagation()}>
+      {/* X Button (Desktop) - positioned relative to this div */}
       {!isMobile && (
         <Button
             variant="ghost"
@@ -126,24 +124,10 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         </Button>
       )}
 
-      {/* Desktop Navigation Arrow - PREVIOUS */}
-      {!isMobile && images.length > 1 && (
-        <Button
-          variant="ghost"
-          size="icon"
-          className="z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
-          onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
-          aria-label="Previous image"
-          disabled={currentIndexInModal === 0}
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </Button>
-      )}
-      
-      {/* Image Display Area (The Viewport for the Track) */}
-      {/* This div's size is determined by the image inside it, constrained by viewport. */}
+      {/* Image Area Viewport - now also contains arrows */}
       <div
-        className="group/modalimage overflow-hidden relative flex items-center justify-center"
+        className="group/modalimage overflow-hidden relative w-full" 
+        style={{ maxHeight: '98vh' }} // Constrain height here
         onClick={(!isMobile || images.length <= 1) ? (e) => { e.stopPropagation(); onClose(); } : (e) => e.stopPropagation()}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -153,56 +137,58 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
         style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
       >
-        <div // The Track
+        {/* Desktop Navigation Arrow - PREVIOUS (Absolute) */}
+        {!isMobile && images.length > 1 && (
+          <Button
+            variant="ghost" size="icon"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
+            onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
+            aria-label="Previous image"
+            disabled={currentIndexInModal === 0}
+          > <ChevronLeft className="h-5 w-5" /> </Button>
+        )}
+
+        {/* The Track */}
+        <div
           className="flex h-full transition-transform duration-300 ease-in-out"
           style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
         >
           {images.map((image, index) => (
-            <div // Each Slide: Its width comes from the parent "group/modalimage" div.
+            <div // Each Slide
               key={image.url}
-              className="flex-shrink-0 flex justify-center items-center"
-              // Each slide takes 100% width of the group/modalimage viewport
-              // The width of group/modalimage is implicitly set by the Image component it contains
-              style={{ width: '100%' }} 
+              className="w-full h-full flex-shrink-0 flex justify-center items-center" 
             >
               <Image
-                src={image.url}
-                alt={`${project.title} - Image ${index + 1}`}
-                width={1200} // Aspect ratio for next/image optimization
-                height={800} // Aspect ratio for next/image optimization
+                src={image.url} alt={`${project.title} - Image ${index + 1}`}
+                width={1200} height={800} // Aspect ratio for next/image optimization
                 className="rounded-md" 
                 data-ai-hint={image.hint}
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
                 style={{
                   objectFit: 'contain',
-                  width: 'auto', // Image scales based on constraints
-                  height: 'auto', // Image scales based on constraints
-                  maxWidth: '98vw', // Max width relative to viewport
-                  maxHeight: '98vh', // Max height relative to viewport
+                  width: '100%', 
+                  height: '100%', 
                 }}
                 sizes="98vw"
               />
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Desktop Navigation Arrow - NEXT */}
-      {!isMobile && images.length > 1 && (
-        <Button
-          variant="ghost"
-          size="icon"
-          className="z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
-          onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
-          aria-label="Next image"
-          disabled={currentIndexInModal === images.length - 1}
-        >
-          <ChevronRight className="h-5 w-5" />
-        </Button>
-      )}
+        {/* Desktop Navigation Arrow - NEXT (Absolute) */}
+        {!isMobile && images.length > 1 && (
+          <Button
+            variant="ghost" size="icon"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
+            onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
+            aria-label="Next image"
+            disabled={currentIndexInModal === images.length - 1}
+          > <ChevronRight className="h-5 w-5" /> </Button>
+        )}
+      </div> {/* End of ImageAreaViewport */}
 
-      {/* Dot Indicators: Positioned relative to the main inline-flex container */}
+      {/* Dot Indicators - positioned relative to ImageAndDotsColumn */}
       {images.length > 1 && (
         <div
           className="absolute bottom-[-2rem] left-1/2 -translate-x-1/2 z-30 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full"
@@ -224,7 +210,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           ))}
         </div>
       )}
-    </div>
+    </div> // End of ImageAndDotsColumn (ModalCarousel effective root for centering)
   );
 }
 
@@ -361,7 +347,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 w-[98vw] max-w-[1800px] h-[98vh] max-h-[1200px] p-0 translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center" // This centers the ModalCarousel component
+              "flex items-center justify-center" 
              )}
            >
             <ModalCarousel
@@ -377,4 +363,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
