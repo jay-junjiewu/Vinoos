@@ -21,26 +21,30 @@ export function AutoScrollingHero() {
     }, 5000); 
 
     return () => clearInterval(intervalId);
-  }, []); // Removed currentHeroIndex from dependencies to prevent interval reset on manual change
+  }, []);
 
   return (
     <section className="relative h-[70vh] md:h-[calc(100vh-4rem)] min-h-[400px] max-h-[1080px] w-full overflow-hidden text-primary-foreground">
-      {HERO_IMAGES.map((image, index) => (
-        <Image
-          key={image.id}
-          src={image.url}
-          alt={image.alt}
-          fill
-          style={{ objectFit: 'cover' }}
-          className={cn(
-            "transition-opacity duration-1000 ease-in-out",
-            index === currentHeroIndex ? "opacity-100" : "opacity-0"
-          )}
-          data-ai-hint={image.hint}
-          priority={index === 0} 
-          sizes="100vw"
-        />
-      ))}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <div
+          className="flex h-full transition-transform duration-1000 ease-in-out"
+          style={{ transform: `translateX(-${currentHeroIndex * 100}%)` }}
+        >
+          {HERO_IMAGES.map((image, index) => (
+            <div key={image.id} className="w-full h-full flex-shrink-0 relative">
+              <Image
+                src={image.url}
+                alt={image.alt}
+                fill
+                style={{ objectFit: 'cover' }}
+                data-ai-hint={image.hint}
+                priority={index === 0} 
+                sizes="100vw"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
       {/* Overlay for text contrast */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
       
@@ -57,14 +61,21 @@ export function AutoScrollingHero() {
             size="lg" 
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
           >
-            <Link href="/projects">View our Fish Tanks</Link>
+            <Link href="/projects">Fish Tank Projects</Link>
           </Button>
           <Button 
             asChild 
             size="lg" 
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
           >
-            <Link href="/acrylic-projects">View our Acrylics</Link>
+            <Link href="/acrylic-projects">Acrylic Projects</Link>
+          </Button>
+          <Button 
+            asChild 
+            size="lg" 
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
+          >
+            <Link href="/cabinet-projects">Cabinet Projects</Link>
           </Button>
         </div>
       </div>
