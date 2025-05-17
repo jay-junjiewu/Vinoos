@@ -97,3 +97,4 @@ export function AutoScrollingHero() {
     </section>
   );
 }
+
