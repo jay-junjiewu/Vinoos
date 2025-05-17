@@ -6,6 +6,7 @@ export const NAV_LINKS = [
   { href: '/projects', label: 'Fish Tank' },
   { href: '/acrylic-projects', label: 'Acrylic Project' },
   { href: '/equipment', label: 'Equipment' },
+  { href: '/#contact', label: 'Contact Us' },
 ];
 
 export const FISH_TANK_PROJECT_CATEGORIES: ProjectCategory[] = [
@@ -121,3 +122,4 @@ export const HERO_IMAGES: HeroImage[] = [
   { id: 'hero1', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images//Cover1.jpg', alt: 'Stunning custom aquarium build', hint: 'Cover1', },
   { id: 'hero2', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images//Cover2.jpg', alt: 'Vibrant coral reef tank', hint: 'Cover2', },
 ];
+
