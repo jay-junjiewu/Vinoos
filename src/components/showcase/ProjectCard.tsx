@@ -47,12 +47,18 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
-    setCurrentIndexInModal((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
-  }, [images.length]);
+    setCurrentIndexInModal((prevIndex) => {
+      if (prevIndex === 0) return 0; // Don't loop
+      return prevIndex - 1;
+    });
+  }, []);
 
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
-    setCurrentIndexInModal((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndexInModal((prevIndex) => {
+      if (prevIndex === images.length - 1) return images.length - 1; // Don't loop
+      return prevIndex + 1;
+    });
   }, [images.length]);
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -124,6 +130,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image"
+            disabled={currentIndexInModal === 0}
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -217,6 +224,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image"
+            disabled={currentIndexInModal === images.length - 1}
           >
             <ChevronRight className="h-5 w-5" />
           </Button>
@@ -300,7 +308,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     onClick={goToPreviousOnCard}
                     aria-label="Previous image on card"
                   >
-                    <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <ChevronLeft className="h-5 w-5 sm:h-6 sm-w-6" />
                   </Button>
                   <Button
                     variant="ghost"
@@ -376,3 +384,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
   );
 }
 
+    
