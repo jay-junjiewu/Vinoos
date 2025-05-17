@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { NAV_LINKS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'; // Added SheetTitle
-import { useEffect, useState } from 'react';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
+import { useEffect, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -18,25 +18,41 @@ export function Header() {
   const hookIsMobile = useIsMobile();
 
   const [isClient, setIsClient] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [headerMobileVisible, setHeaderMobileVisible] = useState(true);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  const isMobile = isClient ? hookIsMobile : false;
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    setScrolled(currentScrollY > 20);
+
+    if (isMobile) {
+      if (currentScrollY > lastScrollY && currentScrollY > 50) { // Hide if scrolling down and past 50px
+        setHeaderMobileVisible(false);
+      } else { // Show if scrolling up or near the top
+        setHeaderMobileVisible(true);
+      }
+      setLastScrollY(currentScrollY <= 0 ? 0 : currentScrollY);
+    } else {
+      setHeaderMobileVisible(true); // Always visible on desktop
+    }
+  }, [isMobile, lastScrollY]);
+
   useEffect(() => {
     if (!isClient) return;
 
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); 
+    handleScroll(); // Initial check
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isClient]);
+  }, [isClient, handleScroll]);
 
   useEffect(() => {
     if (!isClient) return;
@@ -44,27 +60,28 @@ export function Header() {
     setMobileMenuOpen(false);
   }, [pathname, isClient]);
 
-  const isMobile = isClient ? hookIsMobile : false;
-
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300 ease-in-out border-b border-border/40",
+        "sticky top-0 z-50 w-full border-b border-border/40 transition-all duration-300 ease-in-out",
         scrolled
           ? "bg-background/90 backdrop-blur-md shadow-lg"
-          : "bg-background shadow-md" // Consistent background and shadow
+          : "bg-background shadow-md",
+        // Mobile slide-away effect
+        isMobile ? "transform-gpu" : "",
+        isMobile && headerMobileVisible ? "translate-y-0" : isMobile && !headerMobileVisible ? "-translate-y-full" : ""
       )}
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
-        <div className="flex items-center gap-6 pl-4"> {/* Added pl-4 for left padding */}
+        <div className="flex items-center gap-6 pl-4">
           <Link href="/" className="flex items-center gap-2" aria-label="Vinoos Home">
             <span className={cn("font-bold text-xl text-primary transition-opacity duration-300 hover:opacity-80")}>Vinoos</span>
           </Link>
           
           {!isMobile && (
-            <nav className="hidden md:flex gap-5 items-center"> {/* Adjusted gap for nav links */}
+            <nav className="hidden md:flex gap-5 items-center">
               {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href;
+                const isActive = pathname === link.href || (link.href.includes('#') && pathname === link.href.split('#')[0]);
                 return (
                   <Link
                     key={link.href}
@@ -72,8 +89,8 @@ export function Header() {
                     className={cn(
                       "text-sm font-medium transition-colors",
                       isActive
-                        ? "text-primary font-semibold underline underline-offset-4" // Active: primary color, bold, underlined
-                        : "text-foreground/80 hover:text-primary hover:underline hover:underline-offset-4" // Inactive: slightly muted, hover to primary & underline
+                        ? "text-primary font-semibold underline underline-offset-4"
+                        : "text-foreground/80 hover:text-primary hover:underline hover:underline-offset-4"
                     )}
                   >
                     {link.label}
@@ -92,15 +109,15 @@ export function Header() {
                   variant="ghost" 
                   size="icon" 
                   onClick={() => setMobileMenuOpen(true)} 
-                  className={cn("transition-colors text-primary hover:bg-primary/10 h-10 w-10")} // Consistent icon color & size
+                  className={cn("transition-colors text-primary hover:bg-primary/10 h-10 w-10")}
                   aria-label="Toggle Menu"
                 >
-                  <Menu className="h-6 w-6" /> {/* Adjusted size to match close button */}
+                  <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent 
                 side="right" 
-                className="w-full h-full p-6 bg-background" // Full page mobile menu
+                className="w-full h-full p-6 bg-background"
               >
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 <Link 
@@ -118,8 +135,8 @@ export function Header() {
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={cn(
-                        "text-xl font-medium transition-colors hover:text-primary", // Increased font size
-                        pathname === link.href ? "text-primary font-semibold" : "text-foreground"
+                        "text-xl font-medium transition-colors hover:text-primary",
+                        (pathname === link.href || (link.href.includes('#') && pathname === link.href.split('#')[0])) ? "text-primary font-semibold" : "text-foreground"
                       )}
                     >
                       {link.label}
