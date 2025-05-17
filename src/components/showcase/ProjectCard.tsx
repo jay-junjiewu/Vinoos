@@ -37,7 +37,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; // Stop at first image
+      if (prevIndex === 0) return 0;
       return prevIndex - 1;
     });
   }, []);
@@ -45,7 +45,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
+      if (prevIndex === images.length - 1) return images.length - 1;
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -108,30 +108,23 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   if (!images || images.length === 0) return null;
   
+  // This div is the main container for the carousel content, including the image area and dots.
+  // It defines the overall size constraints (98% viewport on mobile, 50% on desktop).
   const ImageAndDotsColumn = (
-    <div 
+    <div
       className={cn(
-        'relative flex flex-col items-center',
-        isMobile ? 'max-w-[98vw]' : 'max-w-[50vw]'
+        'relative flex flex-col items-center justify-center', // Centers the 4:3 box within this container
+        isMobile ? 'w-[98vw] h-[98vh]' : 'w-[50vw] h-[50vh]'
       )}
     >
-      {!isMobile && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(e) => { e.stopPropagation(); onClose(); }}
-          className="absolute -top-8 -right-8 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
-          aria-label="Close image viewer"
-        >
-          <X className="h-5 w-5" />
-        </Button>
-      )}
-
+      {/* This div is the 4:3 aspect ratio box that will contain the image track. */}
+      {/* It takes the full width of its parent and lets aspect-ratio determine height, */}
+      {/* effectively fitting the 4:3 box within the parent's dimensions. */}
       <div
         className={cn(
-          'relative w-full overflow-hidden aspect-[4/3]'
+          'relative w-full aspect-[4/3]'
+          // overflow-hidden is removed here, DialogPrimitive.Content should handle overall clipping
         )}
-        style={{ maxHeight: isMobile ? '98vh' : '50vh' }}
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -141,24 +134,36 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         tabIndex={isMobile && images.length <=1 ? 0 : -1}
         style={{ cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default' }}
       >
-        <div
-          className="flex h-full transition-transform duration-300 ease-in-out"
+        {!isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="absolute -top-8 -right-8 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            aria-label="Close image viewer"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        )}
+
+        <div // Image Track
+          className="flex h-full transition-transform duration-300 ease-in-out" // h-full of the 4:3 aspect parent
           style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
         >
           {images.map((image, index) => (
-            <div 
+            <div // Slide
               key={image.url}
-              className="w-full h-full flex-shrink-0 flex justify-center items-center" 
+              className="w-full h-full flex-shrink-0 flex justify-center items-center" // Fills the track's dimensions for this slide
             >
               <Image
                 src={image.url} alt={`${project.title} - Image ${index + 1}`}
-                width={1200} height={900} 
-                className="w-full h-full rounded-md"
+                width={1200} height={900} // Intrinsic aspect 4:3
+                className="w-full h-full rounded-md" // Image fills the slide
+                style={{ objectFit: 'contain' }}     // Contained within the slide
                 data-ai-hint={image.hint}
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
-                style={{ objectFit: 'contain' }}
-                sizes={isMobile ? "98vw" : "50vw"}
+                sizes={isMobile ? "98vw" : "50vw"} // Hint for optimized source
               />
             </div>
           ))}
@@ -167,7 +172,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       
       {images.length > 1 && (
         <div
-          className="absolute bottom-[-2rem] flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2" 
+          className="absolute bottom-[-2rem] flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2" // Positioned relative to ImageAndDotsColumn
           onClick={(e) => e.stopPropagation()}
         >
           {images.map((_, index) => (
@@ -190,6 +195,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   );
 
   return (
+    // This outer div groups the arrows and the main ImageAndDotsColumn.
+    // `inline-flex` helps keep arrows snug.
     <div className="inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4">
       {!isMobile && images.length > 1 && (
         <Button
@@ -246,7 +253,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1 // Corrected to prevIndex + 1
+      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1
     );
   };
 
@@ -259,6 +266,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   if (!isClient && projectImages.length === 0) {
     // Avoid rendering image-related DOM for "no image" case on SSR
   }
+
+  const handleCloseModal = useCallback(() => setIsModalOpen(false), []);
 
 
   return (
@@ -275,7 +284,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         >
           {projectImages.length > 0 ? (
             <div
-              className="relative w-full group cursor-pointer aspect-[4/3]" 
+              className="relative w-full group cursor-pointer aspect-[4/3]"
             >
               <Image
                 src={projectImages[currentImageIndex].url}
@@ -355,20 +364,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 p-0 translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center"
+              "flex items-center justify-center w-[98vw] h-[98vh] max-w-[1800px] max-h-[1200px]" 
              )}
-             onClick={(e) => {
-                // Check if the click target is the DialogContent itself (the backdrop)
-                if (e.target === e.currentTarget) {
-                  onClose();
-                }
-              }}
            >
             <ModalCarousel
               project={project}
               initialImageIndex={currentImageIndex}
               isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
+              onClose={handleCloseModal}
               isMobile={isMobile}
             />
            </DialogPrimitive.Content>
@@ -377,3 +380,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
+
+    
