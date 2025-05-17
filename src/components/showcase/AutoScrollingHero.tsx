@@ -49,8 +49,9 @@ export function AutoScrollingHero() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10"></div>
       
       <div className="container mx-auto px-4 h-full flex flex-col items-center justify-center text-center relative z-10">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-          Welcome to Vinoos Trading EST.
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg flex flex-col items-center">
+          <span>Welcome to</span>
+          <span>Vinoos Trading EST.</span>
         </h1>
         <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto drop-shadow-md">
         We design and build custom, high-quality fish tanks, cabinets, and acrylic projects for homes and businesses, crafting unique aquatic environments since 1997.
