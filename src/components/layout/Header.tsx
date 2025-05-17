@@ -35,10 +35,8 @@ export function Header() {
       if (currentScrollY < 10) {
         setHeaderMobileVisible(true);
       } else {
-        if (currentScrollY > lastScrollY) { 
-          if (currentScrollY > 50) { 
+        if (currentScrollY > lastScrollY && currentScrollY > 50) { 
             setHeaderMobileVisible(false);
-          }
         } else if (currentScrollY < lastScrollY) { 
           setHeaderMobileVisible(true);
         }
@@ -68,12 +66,11 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b border-border/40",
-        "transform transition-transform transition-colors transition-shadow duration-1000 ease-in-out", // Base transform and transition properties
+        "sticky top-0 z-50 w-full border-b border-border/40 transform",
+        "transition-transform transition-colors transition-shadow duration-1000 ease-in-out",
         scrolled
           ? "bg-background/90 backdrop-blur-md shadow-lg"
           : "bg-background shadow-md",
-        // Conditional transform for mobile slide based on visibility state
         isMobile && !headerMobileVisible ? "-translate-y-full" : "translate-y-0"
       )}
     >
@@ -94,8 +91,12 @@ export function Header() {
                     className={cn(
                       "text-sm font-medium transition-colors",
                       isActive
-                        ? "text-primary font-semibold underline underline-offset-4"
-                        : "text-foreground/80 hover:text-primary hover:underline hover:underline-offset-4"
+                        ? (link.label === 'Contact Us'
+                            ? "text-primary font-semibold" // Active Contact Us: no underline
+                            : "text-primary font-semibold underline underline-offset-4") // Active other links
+                        : (link.label === 'Contact Us'
+                            ? "text-foreground/80 hover:text-primary" // Inactive Contact Us: no hover underline
+                            : "text-foreground/80 hover:text-primary hover:underline hover:underline-offset-4") // Inactive other links
                     )}
                   >
                     {link.label}
@@ -156,5 +157,3 @@ export function Header() {
     </header>
   );
 }
-
-    
