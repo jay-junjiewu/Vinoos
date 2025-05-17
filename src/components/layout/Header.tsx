@@ -41,7 +41,7 @@ export function Header() {
     } else {
       setHeaderMobileVisible(true); // Always visible on desktop
     }
-  }, [isMobile, lastScrollY]);
+  }, [isMobile, lastScrollY, setScrolled, setHeaderMobileVisible, setLastScrollY]);
 
   useEffect(() => {
     if (!isClient) return;
