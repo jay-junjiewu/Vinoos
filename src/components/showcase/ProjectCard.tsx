@@ -137,7 +137,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
 
         {/* Image and Dots Column */}
-        <div className="relative flex flex-col items-center max-w-[90vw]"> {/* Added max-w-[90vw] */}
+        <div className="relative flex flex-col items-center max-w-[95vw]"> {/* Adjusted from 90vw to 95vw */}
            {!isMobile && ( // X button only for desktop
             <Button
                 variant="ghost"
@@ -150,7 +150,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             </Button>
           )}
           <div
-            className="group/modalimage overflow-hidden w-full" // Added w-full
+            className="group/modalimage overflow-hidden w-full" 
             onClick={(e) => {
               if ((!isMobile || images.length <= 1)) {
                 e.stopPropagation();
@@ -181,14 +181,14 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                       objectFit: 'contain',
                       width: 'auto', 
                       height: 'auto', 
-                      maxWidth: '100%', // Changed from 90vw
-                      maxHeight: '90vh',
+                      maxWidth: '100%', 
+                      maxHeight: '95vh', // Adjusted from 90vh to 95vh
                     }}
                     className="rounded-md" 
                     data-ai-hint={image.hint}
                     priority={index === currentIndexInModal}
-                    loading={index !== currentIndexInModal ? "eager" : undefined}
-                    sizes="90vw" 
+                    loading={index !== currentIndexInModal ? "eager" : undefined} // "eager" to preload
+                    sizes="95vw" // Adjusted from 90vw
                   />
                 </div>
               ))}
