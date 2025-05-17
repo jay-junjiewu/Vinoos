@@ -37,7 +37,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; // Stop at first image
+      if (prevIndex === 0) return 0; 
       return prevIndex - 1;
     });
   }, []);
@@ -45,7 +45,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
+      if (prevIndex === images.length - 1) return images.length - 1;
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -90,7 +90,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   }, [isOpen, initialImageIndex]);
 
   useEffect(() => {
-    if (!isOpen || images.length <= 1 || isMobile) return;
+    if (!isOpen || isMobile) return; 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
         goToPreviousModal(event);
@@ -106,14 +106,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     };
   }, [isOpen, images.length, goToPreviousModal, goToNextModal, onClose, isMobile]);
 
+
   if (!images || images.length === 0) return null;
 
   return (
-    <div className={cn(
-        "inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4",
-      )}
-    >
-      {/* Left Arrow (Desktop only) */}
+    <div className="inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4"> {/* ModalCarousel root */}
       {!isMobile && images.length > 1 && (
         <Button
           variant="ghost" size="icon"
@@ -126,11 +123,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         </Button>
       )}
 
-      {/* Image Viewport and Dots Column (Central piece) */}
-      <div // This is ImageAndDotsColumn
+      {/* This is the ImageAndDotsColumn */}
+      <div 
         className={cn(
           'relative flex flex-col items-center',
-           isMobile ? 'w-[98vw]' : 'w-[50vw]' // Explicit width
+          isMobile ? 'w-[98vw]' : 'max-w-[60vw] w-auto' // Desktop: max-width 60vw, width auto to shrink. Mobile: fixed 98vw.
         )}
       >
         {!isMobile && (
@@ -138,18 +135,19 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             variant="ghost"
             size="icon"
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute -top-2 -right-2 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            className="absolute -top-2 -right-2 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
             aria-label="Close image viewer"
           >
             <X className="h-5 w-5" />
           </Button>
         )}
         
-        <div // This is ImageAreaViewport
+        {/* This is ImageAreaViewport */}
+        <div
           className={cn(
-            'relative w-full overflow-hidden aspect-[4/3]' 
+            'relative w-full overflow-hidden aspect-[4/3]'
           )}
-          style={{ maxHeight: isMobile ? '98vh' : '50vh' }}
+          style={{ maxHeight: isMobile ? '98vh' : '60vh' }}
           onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined }
           onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
           onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -159,7 +157,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           tabIndex={isMobile && images.length <=1 ? 0 : -1}
           style={{ 
             cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default',
-            ...(isMobile ? {maxHeight: '98vh'} : {maxHeight: '50vh'}) 
+            ...(isMobile ? {maxHeight: '98vh'} : {maxHeight: '60vh'}) 
           }}
         >
           {/* Image Track (sliding div) */}
@@ -180,7 +178,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                   data-ai-hint={image.hint}
                   priority={index === currentIndexInModal}
                   loading={index !== currentIndexInModal ? "eager" : undefined}
-                  sizes={isMobile ? "98vw" : "50vw"}
+                  sizes={isMobile ? "98vw" : "60vw"}
                 />
               </div>
             ))}
@@ -252,8 +250,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) => {
       if (projectImages.length === 0) return 0;
-      // Corrected: if on last image, go to first; otherwise, go to next.
-      return prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1;
+      return (prevIndex + 1) % projectImages.length;
     });
   };
   
@@ -263,10 +260,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
       setIsModalOpen(true);
     }
   };
-
-  if (!isClient && projectImages.length === 0) {
-    // Avoid rendering image-related DOM for "no image" case on SSR
-  }
 
   const handleCloseModal = useCallback(() => setIsModalOpen(false), []);
 
@@ -283,10 +276,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
           aria-label={`View images for ${project.title}`}
           aria-haspopup="dialog"
         >
-          {projectImages.length > 0 ? (
-            <div
-              className="relative w-full group cursor-pointer aspect-[4/3]"
-            >
+          <div
+            className="relative w-full group cursor-pointer aspect-[4/3]"
+          >
+            {projectImages.length > 0 ? (
               <Image
                 src={projectImages[currentImageIndex].url}
                 alt={`${project.title} - Image ${currentImageIndex + 1} on card`}
@@ -297,50 +290,50 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 priority={project.id === '1' || project.id === '2'} 
               />
-              {projectImages.length > 1 && (
-                <>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white rounded-full h-8 w-8 sm:h-10 sm:w-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
-                    onClick={goToPreviousOnCard}
-                    aria-label="Previous image on card"
-                  >
-                    <ChevronLeft className="h-5 w-5 sm:h-6 sm-w-6" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white rounded-full h-8 w-8 sm:h-10 sm:w-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
-                    onClick={goToNextOnCard}
-                    aria-label="Next image on card"
-                  >
-                    <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
-                  </Button>
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex space-x-1.5" aria-hidden="true">
-                    {projectImages.map((_, index) => (
-                      <button
-                        key={`card-dot-${project.id}-${index}`}
-                        tabIndex={-1}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setCurrentImageIndex(index);
-                        }}
-                        className={`h-2 w-2 rounded-full transition-colors ${
-                          currentImageIndex === index ? 'bg-white' : 'bg-white/50'
-                        } hover:bg-white`}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="relative w-full bg-muted flex items-center justify-center aspect-[4/3]">
-              <p className="text-muted-foreground">No image available</p>
-            </div>
-          )}
+            ) : (
+               <div className="relative w-full bg-muted flex items-center justify-center aspect-[4/3]">
+                 <p className="text-muted-foreground">No image available</p>
+               </div>
+            )}
+            {projectImages.length > 1 && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white rounded-full h-8 w-8 sm:h-10 sm:w-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
+                  onClick={goToPreviousOnCard}
+                  aria-label="Previous image on card"
+                >
+                  <ChevronLeft className="h-5 w-5 sm:h-6 sm-w-6" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white rounded-full h-8 w-8 sm:h-10 sm:w-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"
+                  onClick={goToNextOnCard}
+                  aria-label="Next image on card"
+                >
+                  <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+                </Button>
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex space-x-1.5" aria-hidden="true">
+                  {projectImages.map((_, index) => (
+                    <button
+                      key={`card-dot-${project.id}-${index}`}
+                      tabIndex={-1}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setCurrentImageIndex(index);
+                      }}
+                      className={`h-2 w-2 rounded-full transition-colors ${
+                        currentImageIndex === index ? 'bg-white' : 'bg-white/50'
+                      } hover:bg-white`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
           <CardHeader className="pt-4 pb-2">
             <CardTitle className="text-xl">{project.title}</CardTitle>
           </CardHeader>
@@ -364,13 +357,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogOverlay /> 
            <DialogPrimitive.Content
              className={cn(
-              "fixed left-[50%] top-[50%] z-50 grid w-full max-w-none translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "p-0 overflow-visible", // Removed grid and w-full, added p-0
-              "flex items-center justify-center" 
+              "fixed left-[50%] top-[50%] z-50 flex items-center justify-center translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+              "p-0 overflow-visible"
              )}
              onClick={(e) => {
-                // Only close if the click is directly on DialogContent (backdrop)
-                // and not on ModalCarousel or its children
                 if (e.target === e.currentTarget) {
                   handleCloseModal();
                 }
@@ -389,5 +379,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
-    
