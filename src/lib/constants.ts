@@ -5,6 +5,7 @@ export const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Fish Tank' },
   { href: '/acrylic-projects', label: 'Acrylic Project' },
+  { href: '/cabinet-projects', label: 'Cabinet Projects' }, // Added Cabinet Projects link
   { href: '/equipment', label: 'Equipment' },
   { href: '/#contact', label: 'Contact Us' },
 ];
@@ -25,6 +26,13 @@ export const ACRYLIC_PROJECT_CATEGORIES: ProjectCategory[] = [
   'Box',
 ];
 
+export const CABINET_PROJECT_CATEGORIES: ProjectCategory[] = [ // New categories for cabinets
+  'All',
+  'Cabinet',
+  'Modern',
+  'Classic',
+  'Wood',
+];
 
 export const FISH_TANK_PROJECTS_DATA: Project[] = [
   {
@@ -75,16 +83,40 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
 
 export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
-    id: '2',
-    title: 'Project Title',
-    description: 'Project Description...',
+    id: 'A1', // Changed ID to avoid conflict
+    title: 'Custom Acrylic Box',
+    description: 'A clear, custom-fabricated acrylic box for display purposes.',
     images: [
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'A2-1' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'T2-2' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'acrylic box' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'transparent case' },
     ],
     categories: ['Acrylic', 'Box'],
   },
 ];
+
+export const CABINET_PROJECTS_DATA: Project[] = [ // New data for cabinets
+  {
+    id: 'C1',
+    title: 'Modern Oak Cabinet',
+    description: 'A sleek and modern cabinet made from high-quality oak, perfect for aquarium stands.',
+    images: [
+      { url: 'https://placehold.co/1200x800.png', hint: 'modern cabinet' },
+      { url: 'https://placehold.co/1200x800.png', hint: 'oak wood' },
+    ],
+    categories: ['Cabinet', 'Modern', 'Wood'],
+  },
+  {
+    id: 'C2',
+    title: 'Classic Mahogany Stand',
+    description: 'Elegant mahogany cabinet with classic design elements, providing sturdy support.',
+    images: [
+      { url: 'https://placehold.co/1200x800.png', hint: 'classic stand' },
+      { url: 'https://placehold.co/1200x800.png', hint: 'mahogany detail' },
+    ],
+    categories: ['Cabinet', 'Classic', 'Wood'],
+  },
+];
+
 
 export const EQUIPMENT_DATA: Equipment[] = [
   {
@@ -122,4 +154,3 @@ export const HERO_IMAGES: HeroImage[] = [
   { id: 'hero1', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images//Cover1.jpg', alt: 'Stunning custom aquarium build', hint: 'Cover1', },
   { id: 'hero2', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images//Cover2.jpg', alt: 'Vibrant coral reef tank', hint: 'Cover2', },
 ];
-
