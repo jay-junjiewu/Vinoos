@@ -43,7 +43,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; // Stop at first image
+      if (prevIndex === 0) return 0; 
       return prevIndex - 1;
     });
   }, []);
@@ -51,7 +51,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
+      if (prevIndex === images.length - 1) return images.length - 1; 
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -109,28 +109,15 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   if (!images || images.length === 0) return null;
   
   return (
-    // This div is centered by DialogPrimitive.Content
-    <div 
-      className="relative flex flex-col items-center max-w-[98vw]" // Max width for the entire carousel content including X button
-      onClick={(e) => e.stopPropagation()}
-    >
-      {!isMobile && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={(e) => { e.stopPropagation(); onClose(); }}
-          className="absolute -top-8 -right-8 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
-          aria-label="Close image viewer"
-        >
-          <X className="h-5 w-5" />
-        </Button>
-      )}
-
-      {/* Image Area Viewport - this is what overflows and controls image and arrow positioning */}
+    // This is the content that DialogPrimitive.Content centers.
+    // It's a flex column containing the ImageAreaViewport (with X button & arrows) and the dots below.
+    <div className="flex flex-col items-center max-w-[98vw]">
+      {/* ImageAreaViewport: This is the main container for the image and its immediate controls (X, Arrows) */}
+      {/* It establishes the 4:3 aspect ratio and is constrained by maxHeight. */}
       <div
-        className="group/modalimage relative w-full overflow-hidden" // w-full makes it take max-w-[98vw] from parent
-        style={{ maxHeight: '98vh' }} // Constrain height here
-        onClick={(!isMobile || images.length <= 1) ? (e) => { e.stopPropagation(); onClose(); } : (e) => e.stopPropagation()}
+        className="group/modalimage relative w-full overflow-hidden aspect-[4/3]"
+        style={{ maxHeight: '98vh' }}
+        onClick={(!isMobile || images.length <=1) ? (e) => { e.stopPropagation(); onClose(); } : (e) => e.stopPropagation()}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
         onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
@@ -139,6 +126,18 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
         style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
       >
+        {!isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="absolute -top-8 -right-8 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            aria-label="Close image viewer"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        )}
+
         {!isMobile && images.length > 1 && (
           <Button
             variant="ghost" size="icon"
@@ -149,29 +148,26 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           > <ChevronLeft className="h-5 w-5" /> </Button>
         )}
 
-        {/* The Track */}
+        {/* The Track for sliding images */}
         <div
           className="flex h-full transition-transform duration-300 ease-in-out"
           style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
         >
           {images.map((image, index) => (
-            <div // Each Slide
+            // Each Slide: Fills the ImageAreaViewport and centers the image
+            <div 
               key={image.url}
               className="w-full h-full flex-shrink-0 flex justify-center items-center" 
             >
               <Image
                 src={image.url} alt={`${project.title} - Image ${index + 1}`}
-                width={1200} height={800} 
-                className="max-w-full max-h-full rounded-md" // Use Tailwind for max-w/h
+                width={1200} height={900} // 4:3 aspect ratio
+                className="w-full h-full rounded-md"
                 data-ai-hint={image.hint}
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
-                style={{
-                  objectFit: 'contain',
-                  // width: '100%', // Removed
-                  // height: '100%', // Removed
-                }}
-                sizes="98vw"
+                style={{ objectFit: 'contain' }}
+                sizes="98vw" 
               />
             </div>
           ))}
@@ -187,10 +183,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           > <ChevronRight className="h-5 w-5" /> </Button>
         )}
       </div> {/* End of ImageAreaViewport */}
-
+      
+      {/* Dot Indicators - positioned below the ImageAreaViewport */}
       {images.length > 1 && (
         <div
-          className="absolute bottom-[-2rem] left-1/2 -translate-x-1/2 z-30 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full"
+          className="flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2" // Added mt-2 for spacing
           onClick={(e) => e.stopPropagation()}
         >
           {images.map((_, index) => (
@@ -362,4 +359,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
