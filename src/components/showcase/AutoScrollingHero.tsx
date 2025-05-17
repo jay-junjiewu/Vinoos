@@ -59,21 +59,21 @@ export function AutoScrollingHero() {
           <Button 
             asChild 
             size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56"
           >
             <Link href="/projects">Fish Tank Projects</Link>
           </Button>
           <Button 
             asChild 
             size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56"
           >
             <Link href="/acrylic-projects">Acrylic Projects</Link>
           </Button>
           <Button 
             asChild 
             size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-64"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56"
           >
             <Link href="/cabinet-projects">Cabinet Projects</Link>
           </Button>
