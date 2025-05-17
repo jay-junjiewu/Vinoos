@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Dialog, DialogOverlay, DialogTrigger, DialogPortal } from "@/components/ui/dialog";
+import { Dialog, DialogOverlay, DialogPortal, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Badge } from '@/components/ui/badge';
@@ -34,12 +34,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   const swipeThreshold = 50;
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!isMobile || images.length <= 1) return;
-    setTouchStartX(e.touches[0].clientX);
-    setTouchEndX(null);
-  };
-
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
@@ -55,6 +49,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       return prevIndex + 1;
     });
   }, [images.length]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile || images.length <= 1) return;
+    setTouchStartX(e.touches[0].clientX);
+    setTouchEndX(null);
+  };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isMobile || images.length <= 1 || !touchStartX) return;
@@ -109,9 +109,14 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   if (!images || images.length === 0) return null;
   
   return (
-    // This div is centered by DialogPrimitive.Content and determines the overall width of the carousel content.
-    <div className={cn('relative flex flex-col items-center', isMobile ? 'max-w-[98vw]' : 'max-w-[80vw]')}>
-      {/* X Button - absolutely positioned relative to this container */}
+    <div 
+      className={cn(
+        'relative flex flex-col items-center',
+        isMobile ? 'max-w-[98vw]' : 'max-w-[60vw]' // Adjusted for desktop
+      )}
+      onClick={(e) => e.stopPropagation()} // Stop propagation on the main content wrapper
+    >
+      {/* X Button for Desktop */}
       {!isMobile && (
         <Button
           variant="ghost"
@@ -125,18 +130,17 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       )}
 
       {/* ImageAreaViewport: This is the main container for the image and its immediate controls (Arrows) */}
-      {/* It establishes the 4:3 aspect ratio and is constrained by maxHeight. */}
       <div
         className="group/modalimage relative w-full aspect-[4/3] overflow-hidden"
-        style={{ maxHeight: isMobile ? '98vh' : '80vh' }}
-        onClick={(!isMobile || images.length <=1) ? (e) => { e.stopPropagation(); onClose(); } : (e) => e.stopPropagation()}
+        style={{ maxHeight: isMobile ? '98vh' : '60vh' }} // Adjusted for desktop
+        onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : (e) => e.stopPropagation()}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
         onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
-        role={(!isMobile || images.length <=1) ? "button" : undefined}
-        aria-label={(!isMobile || images.length <=1) ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
-        tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
-        style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
+        role={isMobile && images.length <= 1 ? "button" : undefined}
+        aria-label={isMobile && images.length <=1 ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
+        tabIndex={isMobile && images.length <=1 ? 0 : -1}
+        style={{ cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default' }}
       >
         {/* Navigation Arrows - absolutely positioned relative to ImageAreaViewport */}
         {!isMobile && images.length > 1 && (
@@ -177,7 +181,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
                 style={{ objectFit: 'contain' }}
-                sizes={isMobile ? "98vw" : "80vw"}
+                sizes={isMobile ? "98vw" : "60vw"} // Adjusted for desktop
               />
             </div>
           ))}
@@ -253,17 +257,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
-        {projectImages.length > 0 ? (
-          <DialogTrigger asChild>
+      <DialogTrigger asChild>
+        <Card 
+          className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+          onClick={handleOpenModal}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleOpenModal();} }}
+          aria-label={`View images for ${project.title}`}
+          aria-haspopup="dialog"
+        >
+          {projectImages.length > 0 ? (
             <div
               className="relative w-full aspect-[4/3] group cursor-pointer"
-              onClick={handleOpenModal}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleOpenModal();} }}
-              aria-label={`View images for ${project.title}`}
-              aria-haspopup="dialog"
             >
               <Image
                 src={projectImages[currentImageIndex].url}
@@ -314,28 +320,28 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 </>
               )}
             </div>
-          </DialogTrigger>
-        ) : (
-          <div className="relative w-full aspect-[4/3] bg-muted flex items-center justify-center">
-            <p className="text-muted-foreground">No image available</p>
-          </div>
-        )}
-        <CardHeader className="pt-4 pb-2">
-          <CardTitle className="text-xl">{project.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow pt-0 pb-4">
-          <CardDescription>{project.description}</CardDescription>
-        </CardContent>
-        {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
-          <CardFooter className="flex flex-wrap gap-2 p-4 pt-2">
-            {project.categories.filter(cat => cat !== 'All').map((category) => (
-              <Badge key={category} variant="secondary" className="text-sm">
-                {category}
-              </Badge>
-            ))}
-          </CardFooter>
-        )}
-      </Card>
+          ) : (
+            <div className="relative w-full aspect-[4/3] bg-muted flex items-center justify-center">
+              <p className="text-muted-foreground">No image available</p>
+            </div>
+          )}
+          <CardHeader className="pt-4 pb-2">
+            <CardTitle className="text-xl">{project.title}</CardTitle>
+          </CardHeader>
+          <CardContent className="flex-grow pt-0 pb-4">
+            <CardDescription>{project.description}</CardDescription>
+          </CardContent>
+          {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
+            <CardFooter className="flex flex-wrap gap-2 p-4 pt-2">
+              {project.categories.filter(cat => cat !== 'All').map((category) => (
+                <Badge key={category} variant="secondary" className="text-sm">
+                  {category}
+                </Badge>
+              ))}
+            </CardFooter>
+          )}
+        </Card>
+      </DialogTrigger>
 
       {projectImages.length > 0 && (
          <DialogPortal>
@@ -345,6 +351,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
               "fixed left-[50%] top-[50%] z-50 w-[98vw] max-w-[1800px] h-[98vh] max-h-[1200px] p-0 translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
               "flex items-center justify-center" 
              )}
+             onClick={(e) => {
+              // Only close if the click is directly on the DialogContent backdrop
+              if (e.target === e.currentTarget) {
+                onClose();
+              }
+            }}
            >
             <ModalCarousel
               project={project}
@@ -359,6 +371,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
-
-    
