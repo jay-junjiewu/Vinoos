@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -7,8 +6,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
-import { Dialog, DialogOverlay, DialogPortal, DialogTrigger } from "@/components/ui/dialog"; // Added DialogTrigger
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Dialog, DialogOverlay, DialogPortal, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Badge } from '@/components/ui/badge';
@@ -48,7 +47,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0;
+      if (prevIndex === 0) return 0; // Stop at first image
       return prevIndex - 1;
     });
   }, []);
@@ -56,7 +55,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1;
+      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -119,7 +118,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      className="w-auto h-auto"
+      className="w-auto h-auto" // Changed from p-6
     >
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
       <div className="flex flex-row items-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
@@ -137,8 +136,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
 
         {/* Image and Dots Column */}
-        <div className="relative flex flex-col items-center">
-           {!isMobile && (
+        <div className="relative flex flex-col items-center"> {/* Added relative here */}
+           {!isMobile && ( // X button only for desktop
             <Button
                 variant="ghost"
                 size="icon"
@@ -150,7 +149,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             </Button>
           )}
           <div
-            className="group/modalimage overflow-hidden"
+            className="group/modalimage overflow-hidden" // Overflow hidden for the track
             onClick={(e) => {
               if (!isMobile || images.length <= 1) {
                 e.stopPropagation();
@@ -165,29 +164,30 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
             style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
           >
+            {/* Image Track for Sliding */}
             <div
               className="flex transition-transform duration-300 ease-in-out"
               style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
             >
               {images.map((image, index) => (
-                <div key={image.url} className="w-full flex-shrink-0 flex justify-center items-center">
+                <div key={image.url} className="w-full flex-shrink-0 flex justify-center items-center"> {/* Slide container */}
                   <Image
                     src={image.url}
                     alt={`${project.title} - Image ${index + 1}`}
-                    width={1200}
-                    height={800}
+                    width={1200} 
+                    height={800} 
                     style={{
                       objectFit: 'contain',
-                      width: 'auto',
-                      height: 'auto',
+                      width: 'auto', 
+                      height: 'auto', 
                       maxWidth: '90vw',
                       maxHeight: '90vh',
                     }}
-                    className="rounded-md"
+                    className="rounded-md" 
                     data-ai-hint={image.hint}
                     priority={index === currentIndexInModal}
                     loading={index !== currentIndexInModal ? "eager" : undefined}
-                    sizes="(max-width: 1200px) 90vw, 1200px"
+                    sizes="90vw" // Simplified sizes prop
                   />
                 </div>
               ))}
@@ -196,7 +196,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
           {images.length > 1 && (
             <div
-              className="mt-4 flex items-center space-x-2 bg-black/50 p-1.5 rounded-full"
+              className="mt-4 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full" // Centering dots
               onClick={(e) => e.stopPropagation()}
             >
               {images.map((_, index) => (
@@ -260,7 +260,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === projectImages.length - 1 ? 0 : prevIndex - 1 // Bug: Should be prevIndex + 1
+      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1 
     );
   };
 
@@ -297,7 +297,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                priority={project.id === '1' || project.id === '2'}
+                priority={project.id === '1' || project.id === '2'} // Example: prioritize first few projects
               />
               {projectImages.length > 1 && (
                 <>
@@ -367,7 +367,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 w-auto translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center"
+              "flex items-center justify-center" // Removed overflow-hidden here
              )}
            >
             <ModalCarousel
