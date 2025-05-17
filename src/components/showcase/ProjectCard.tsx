@@ -37,7 +37,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; 
+      if (prevIndex === 0) return 0;
       return prevIndex - 1;
     });
   }, []);
@@ -45,7 +45,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; 
+      if (prevIndex === images.length - 1) return images.length - 1;
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -115,7 +115,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         isMobile ? 'max-w-[98vw]' : 'max-w-[50vw]' 
       )}
     >
-      {/* X Button for Desktop - positioned relative to this column */}
       {!isMobile && (
         <Button
           variant="ghost"
@@ -128,11 +127,10 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         </Button>
       )}
 
-      {/* ImageAreaViewport: This is the main container for the image */}
       <div
         className="group/modalimage relative w-full overflow-hidden aspect-[4/3]"
         style={{ maxHeight: isMobile ? '98vh' : '50vh' }}
-        onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined }
+        onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
         onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
@@ -141,13 +139,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         tabIndex={isMobile && images.length <=1 ? 0 : -1}
         style={{ cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default' }}
       >
-        {/* The Track for sliding images - fills the ImageAreaViewport */}
         <div
           className="flex h-full transition-transform duration-300 ease-in-out"
           style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
         >
           {images.map((image, index) => (
-            // Each Slide: Fills the ImageAreaViewport and centers the image
             <div 
               key={image.url}
               className="w-full h-full flex-shrink-0 flex justify-center items-center" 
@@ -165,12 +161,11 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             </div>
           ))}
         </div>
-      </div> {/* End of ImageAreaViewport */}
+      </div>
       
-      {/* Dot Indicators - positioned below the ImageAreaViewport */}
       {images.length > 1 && (
         <div
-          className="flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2" 
+          className="absolute bottom-[-2rem] flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2" 
           onClick={(e) => e.stopPropagation()}
         >
           {images.map((_, index) => (
@@ -194,7 +189,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div className="flex flex-row items-center justify-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
-      {/* Left Navigation Arrow - only on desktop and if multiple images */}
       {!isMobile && images.length > 1 && (
         <Button
           variant="ghost" size="icon"
@@ -209,7 +203,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
       {ImageAndDotsColumn}
 
-      {/* Right Navigation Arrow - only on desktop and if multiple images */}
       {!isMobile && images.length > 1 && (
         <Button
           variant="ghost" size="icon"
@@ -251,7 +244,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1
+      prevIndex === projectImages.length - 1 ? 0 : prevIndex - 1
     );
   };
 
@@ -270,7 +263,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
         <Card 
-          className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full aspect-[4/3]"
+          className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col"
           onClick={handleOpenModal}
           role="button"
           tabIndex={0}
@@ -280,7 +273,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         >
           {projectImages.length > 0 ? (
             <div
-              className="relative w-full h-full group cursor-pointer" // Changed aspect ratio to h-full
+              className="relative w-full group cursor-pointer aspect-[4/3]" 
             >
               <Image
                 src={projectImages[currentImageIndex].url}
@@ -332,7 +325,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               )}
             </div>
           ) : (
-            <div className="relative w-full h-full bg-muted flex items-center justify-center"> {/* Changed aspect ratio to h-full */}
+            <div className="relative w-full bg-muted flex items-center justify-center aspect-[4/3]">
               <p className="text-muted-foreground">No image available</p>
             </div>
           )}
@@ -376,4 +369,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-

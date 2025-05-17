@@ -9,7 +9,7 @@ interface EquipmentCardProps {
 
 export function EquipmentCard({ equipment }: EquipmentCardProps) {
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
       <div className="relative w-full aspect-[4/3]">
         <Image
           src={equipment.imageUrl}
@@ -30,4 +30,3 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
     </Card>
   );
 }
-
