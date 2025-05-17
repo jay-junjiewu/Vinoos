@@ -23,7 +23,6 @@ export const FISH_TANK_PROJECT_CATEGORIES: ProjectCategory[] = [
 
 export const ACRYLIC_PROJECT_CATEGORIES: ProjectCategory[] = [
   'All', // Special category for showing all projects
-  'Acrylic',
   'Box',
 ];
 
@@ -57,6 +56,25 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
     categories: ['Saltwater', 'Dubai'],
   },
   {
+    id: '5',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T5-1.jpeg', hint: 'T5-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T5-2.jpeg', hint: 'T5-2' },
+    ],
+    categories: ['Freshwater', 'Abu Dhabi'],
+  },
+  {
+    id: '6',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T6-1.jpeg', hint: 'T6-1' },
+    ],
+    categories: ['Freshwater', 'Abu Dhabi'],
+  },
+  {
     id: '3',
     title: 'Project Title',
     description: 'Project Description...',
@@ -74,8 +92,54 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-1.jpg', hint: 'T4-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-2.jpg', hint: 'T4-2' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-3.jpg', hint: 'T4-3' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-4.jpg', hint: 'T4-4' },
+    ],
+    categories: ['Freshwater', 'Oman'],
+  },
+  {
+    id: '7',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T7-1.jpeg', hint: 'T7-1' },
+    ],
+    categories: ['Freshwater', 'Abu Dhabi'],
+  },
+  {
+    id: '8',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T8-1.jpg', hint: 'T8-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T8-2.jpg', hint: 'T8-2' },
+    ],
+    categories: ['Freshwater', 'Oman'],
+  },
+  {
+    id: '9',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T9-2.jpeg', hint: 'T9-2' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T9-1.jpeg', hint: 'T9-1' },
+    ],
+    categories: ['Freshwater', 'Oman'],
+  },
+  {
+    id: '10',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T10-1.jpeg', hint: 'T10-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T10-2.jpeg', hint: 'T10-2' },
+    ],
+    categories: ['Freshwater', 'Oman'],
+  },
+  {
+    id: '11',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T11-1.jpeg', hint: 'T10-1' },
     ],
     categories: ['Freshwater', 'Oman'],
   },
@@ -84,26 +148,76 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
 export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
     id: 'A1',
-    title: 'Custom Acrylic Box',
-    description: 'A clear, custom-fabricated acrylic box for display purposes.',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A1-1.jpeg', hint: 'A1-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A1-2.jpeg', hint: 'A1-2' },
+    ],
+    categories: ['Box'],
+  },
+  {
+    id: 'A2',
+    title: 'Project Title',
+    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'A2-1' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'A2-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'A2-2' },
     ],
-    categories: ['Acrylic', 'Box'],
+    categories: ['Box'],
+  },
+  {
+    id: 'A3',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A3-1.jpeg', hint: 'A3-1' },
+    ],
+    categories: ['Box'],
+  },
+  {
+    id: 'A4',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A4-1.jpeg', hint: 'A4-1' },
+    ],
+    categories: ['Box'],
   },
 ];
 
 export const CABINET_PROJECTS_DATA: Project[] = [
   {
     id: 'C1',
-    title: 'Modern MDF Cabinet',
-    description: 'A sleek and modern cabinet made from high-quality MDF, perfect for aquarium stands.',
+    title: 'Project Title',
+    description: 'Project Description...',
     images: [
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'C1-1' },
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'C1-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C1-1.jpeg', hint: 'C1-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C1-2.jpeg', hint: 'C1-2' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C1-3.jpeg', hint: 'C1-3' },
+    ],
+    categories: ['Aluminum'],
+  },
+  {
+    id: 'C2',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C2-1.jpeg', hint: 'C2-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C2-2.jpeg', hint: 'C2-2' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C2-3.jpeg', hint: 'C2-3' },
     ],
     categories: ['MDF'],
+  },
+  {
+    id: 'C3',
+    title: 'Project Title',
+    description: 'Project Description...',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C3-1.jpeg', hint: 'C3-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C3-2.jpeg', hint: 'C3-2' },
+    ],
+    categories: ['Aluminum'],
   },
 ];
 
@@ -111,17 +225,10 @@ export const CABINET_PROJECTS_DATA: Project[] = [
 export const EQUIPMENT_DATA: Equipment[] = [
   {
     id: 'eq1',
-    name: 'CNC',
-    description: 'High-performance CNC.',
-    imageUrl: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Equipment/E1.png',
-    imageHint: 'E1',
-  },
-  {
-    id: 'eq2',
     name: 'Laser Cutter',
     description: 'High-performance laser cutter.',
-    imageUrl: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Equipment/E2.png',
-    imageHint: 'E2',
+    imageUrl: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Equipment/E1.jpeg',
+    imageHint: 'E1',
   },
 ];
 

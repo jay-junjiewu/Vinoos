@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +7,10 @@ import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { AutoScrollingHero } from '@/components/showcase/AutoScrollingHero';
 
 export default function HomePage() {
-  const featuredProjects = FISH_TANK_PROJECTS_DATA.slice(0, 4); // Show 4 featured projects
+  const featuredProjectIds = ['10', '7', '5', '3']; // IDs of projects to feature
+  const featuredProjects = FISH_TANK_PROJECTS_DATA.filter(project => 
+    featuredProjectIds.includes(project.id)
+  );
 
   return (
     <div className="flex flex-col">
@@ -29,7 +31,7 @@ export default function HomePage() {
             {FISH_TANK_PROJECTS_DATA.length > featuredProjects.length && (
                <div className="mt-12 text-center">
                 <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 hover:text-accent-foreground shadow-md">
-                  <Link href="/projects">View All Projects</Link>
+                  <Link href="/projects">View All Fish Tank Projects</Link>
                 </Button>
               </div>
             )}
