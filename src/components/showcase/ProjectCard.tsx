@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Dialog, DialogOverlay, DialogPortal, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogOverlay, DialogTrigger, DialogPortal } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Badge } from '@/components/ui/badge';
@@ -48,7 +48,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; 
+      if (prevIndex === 0) return 0;
       return prevIndex - 1;
     });
   }, []);
@@ -56,7 +56,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; 
+      if (prevIndex === images.length - 1) return images.length - 1;
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -67,9 +67,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       setTouchEndX(null);
       return;
     }
-
     const diff = touchStartX - touchEndX;
-
     if (diff > swipeThreshold) {
       goToNextModal();
     } else if (diff < -swipeThreshold) {
@@ -78,7 +76,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     setTouchStartX(null);
     setTouchEndX(null);
   };
-
 
   useEffect(() => {
     if (isOpen) {
@@ -92,10 +89,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     };
   }, [isOpen, initialImageIndex]);
 
-
   useEffect(() => {
     if (!isOpen || images.length <= 1 || isMobile) return;
-
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
         goToPreviousModal(event);
@@ -111,126 +106,121 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     };
   }, [isOpen, images.length, goToPreviousModal, goToNextModal, onClose, isMobile]);
 
-
   if (!images || images.length === 0) return null;
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={`modal-title-${project.id}`}
-      className="h-auto w-auto"
-    >
-      {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
-      <div className="flex flex-row items-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
-        {!isMobile && images.length > 1 && (
+    <div className="relative w-full h-full flex items-center justify-center">
+      {/* Image Display Area */}
+      <div
+        className="group/modalimage overflow-hidden w-full h-full flex items-center justify-center"
+        onClick={(e) => {
+          if (isMobile || images.length <= 1) {
+            // On mobile, or if only one image, clicking image area itself doesn't close
+            // (swipe or backdrop click will close for mobile)
+             e.stopPropagation(); // Prevent closing if on image
+          } else {
+            // Desktop with multiple images, clicking image area closes
+            onClose();
+          }
+        }}
+        onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
+        onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
+        onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
+        role={(!isMobile || images.length <=1) ? "button" : undefined}
+        aria-label={(!isMobile || images.length <=1) ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
+        tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
+        style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
+      >
+        <div
+          className="flex h-full transition-transform duration-300 ease-in-out"
+          style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
+        >
+          {images.map((image, index) => (
+            <div key={image.url} className="w-full h-full flex-shrink-0 flex justify-center items-center">
+              <Image
+                src={image.url}
+                alt={`${project.title} - Image ${index + 1}`}
+                width={1200}
+                height={800}
+                style={{
+                  objectFit: 'contain',
+                  width: 'auto',
+                  height: 'auto',
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                }}
+                className="rounded-md"
+                data-ai-hint={image.hint}
+                priority={index === currentIndexInModal}
+                loading={index !== currentIndexInModal ? "eager" : undefined}
+                sizes="98vw"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop X Button */}
+      {!isMobile && (
+        <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="absolute top-2 right-2 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0"
+            aria-label="Close image viewer"
+        >
+            <X className="h-5 w-5" />
+        </Button>
+      )}
+
+      {/* Dot Indicators */}
+      {images.length > 1 && (
+        <div
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {images.map((_, index) => (
+            <button
+              key={`modal-dot-${project.id}-${index}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentIndexInModal(index);
+              }}
+              aria-label={`Go to image ${index + 1}`}
+              className={cn(
+                'h-1.5 w-1.5 rounded-full transition-colors duration-150 outline-none focus-visible:ring-1 focus-visible:ring-white',
+                currentIndexInModal === index ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
+              )}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Desktop Navigation Arrows */}
+      {!isMobile && images.length > 1 && (
+        <>
           <Button
             variant="ghost"
             size="icon"
-            className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
             onClick={(e) => { e.stopPropagation(); goToPreviousModal(e); }}
             aria-label="Previous image"
             disabled={currentIndexInModal === 0}
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
-        )}
-
-        {/* Image and Dots Column */}
-        <div className={cn("relative flex flex-col items-center", "max-w-[98vw]")}>
-           {!isMobile && ( // X button only for desktop
-            <Button
-                variant="ghost"
-                size="icon"
-                onClick={(e) => { e.stopPropagation(); onClose(); }}
-                className="absolute -top-8 -right-8 z-[80] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
-                aria-label="Close image viewer"
-            >
-                <X className="h-5 w-5" />
-            </Button>
-          )}
-          <div
-            className="group/modalimage overflow-hidden w-full"
-            onClick={(e) => {
-              if ((!isMobile || images.length <= 1)) {
-                e.stopPropagation();
-                onClose();
-              }
-            }}
-            onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
-            onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
-            onTouchEnd={isMobile && images.length > 1 ? handleTouchEnd : undefined}
-            role={(!isMobile || images.length <=1) ? "button" : undefined}
-            aria-label={(!isMobile || images.length <=1) ? "Close image viewer (click image)" : `Image ${currentIndexInModal + 1} of ${images.length}`}
-            tabIndex={(!isMobile || images.length <=1) ? 0 : -1}
-            style={{ cursor: (isMobile && images.length > 1) ? 'grab' : ((!isMobile || images.length <= 1) ? 'pointer' : 'default') }}
-          >
-            {/* Image Track for Sliding */}
-            <div
-              className="flex transition-transform duration-300 ease-in-out"
-              style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
-            >
-              {images.map((image, index) => (
-                <div key={image.url} className="w-full flex-shrink-0 flex justify-center items-center"> {/* Slide container */}
-                  <Image
-                    src={image.url}
-                    alt={`${project.title} - Image ${index + 1}`}
-                    width={1200} 
-                    height={800} 
-                    style={{
-                      objectFit: 'contain',
-                      width: 'auto', 
-                      height: 'auto', 
-                      maxWidth: '100%', 
-                      maxHeight: '98vh', 
-                    }}
-                    className="rounded-md" 
-                    data-ai-hint={image.hint}
-                    priority={index === currentIndexInModal}
-                    loading={index !== currentIndexInModal ? "eager" : undefined} 
-                    sizes="98vw" 
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {images.length > 1 && (
-            <div
-              className="mt-4 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full" 
-              onClick={(e) => e.stopPropagation()}
-            >
-              {images.map((_, index) => (
-                <button
-                  key={`modal-dot-${project.id}-${index}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentIndexInModal(index);
-                  }}
-                  aria-label={`Go to image ${index + 1}`}
-                  className={cn(
-                    'h-1.5 w-1.5 rounded-full transition-colors duration-150 outline-none focus-visible:ring-1 focus-visible:ring-white',
-                    currentIndexInModal === index ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
-                  )}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {!isMobile && images.length > 1 && (
           <Button
             variant="ghost"
             size="icon"
-            className="bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-[70] bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9 focus-visible:ring-white focus-visible:ring-2 focus-visible:ring-offset-0 shrink-0"
             onClick={(e) => { e.stopPropagation(); goToNextModal(e); }}
             aria-label="Next image"
             disabled={currentIndexInModal === images.length - 1}
           >
             <ChevronRight className="h-5 w-5" />
           </Button>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }
@@ -247,7 +237,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   }, []);
 
   const hookIsMobile = useIsMobile();
-  const isMobile = isClient ? hookIsMobile : false;
+  const isMobile = isClient ? hookIsMobile : false; // Default to false for SSR
 
   const goToPreviousOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -261,7 +251,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1 
+      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1
     );
   };
 
@@ -298,7 +288,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                priority={project.id === '1' || project.id === '2'} 
+                priority={project.id === '1' || project.id === '2'}
               />
               {projectImages.length > 1 && (
                 <>
@@ -364,11 +354,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {projectImages.length > 0 && (
          <DialogPortal>
-           <DialogOverlay />
+           <DialogOverlay /> {/* This handles the backdrop click to close */}
            <DialogPrimitive.Content
              className={cn(
-              "fixed left-[50%] top-[50%] z-50 w-auto translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center" 
+              "fixed left-[50%] top-[50%] z-50 w-[98vw] max-w-[1800px] h-[98vh] max-h-[1200px] p-0 translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+              "flex items-center justify-center"
              )}
            >
             <ModalCarousel
@@ -384,4 +374,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
