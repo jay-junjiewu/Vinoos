@@ -48,7 +48,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; // Don't loop
+      if (prevIndex === 0) return 0; 
       return prevIndex - 1;
     });
   }, []);
@@ -56,7 +56,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; // Don't loop
+      if (prevIndex === images.length - 1) return images.length - 1; 
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -119,10 +119,10 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      className="relative w-max h-auto" // Changed w-auto to w-max
+      className="relative w-auto h-auto" 
     >
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
-      <div className="flex flex-row items-center justify-center gap-x-2 sm:gap-x-3 md:gap-x-4">
+      <div className="flex flex-row items-center justify-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
         {!isMobile && images.length > 1 && (
           <Button
             variant="ghost"
@@ -174,14 +174,14 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                   <Image
                     src={image.url}
                     alt={`${project.title} - Image ${index + 1}`}
-                    width={1200} // Intrinsic width of the source image
-                    height={800} // Intrinsic height of the source image
+                    width={1200} 
+                    height={800} 
                     style={{
                       objectFit: 'contain',
-                      width: 'auto', // Let the image scale based on height constraint first
-                      height: 'auto', // Let the image scale based on width constraint first
-                      maxWidth: '90vw', // Max width is 90% of viewport width
-                      maxHeight: '90vh', // Max height is 90% of viewport height
+                      width: 'auto', 
+                      height: 'auto', 
+                      maxWidth: '90vw', 
+                      maxHeight: '90vh', 
                     }}
                     className="rounded-md mx-auto"
                     data-ai-hint={image.hint}
@@ -367,7 +367,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 w-auto translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center" // Ensure content within is centered
+              "flex items-center justify-center" 
              )}
            >
             <ModalCarousel
@@ -383,4 +383,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+    
+
     
