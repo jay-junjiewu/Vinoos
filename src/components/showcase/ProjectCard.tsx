@@ -48,7 +48,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; // Stop at first image
+      if (prevIndex === 0) return 0; 
       return prevIndex - 1;
     });
   }, []);
@@ -56,7 +56,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
+      if (prevIndex === images.length - 1) return images.length - 1; 
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -119,7 +119,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.id}`}
-      className="w-auto h-auto" 
+      className="h-auto w-auto"
     >
       {/* Flex container for [Arrow] [Image+Dots] [Arrow] */}
       <div className="flex flex-row items-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
@@ -137,7 +137,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
 
         {/* Image and Dots Column */}
-        <div className="relative flex flex-col items-center max-w-[95vw]"> {/* Adjusted from 90vw to 95vw */}
+        <div className={cn("relative flex flex-col items-center", "max-w-[98vw]")}>
            {!isMobile && ( // X button only for desktop
             <Button
                 variant="ghost"
@@ -150,7 +150,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             </Button>
           )}
           <div
-            className="group/modalimage overflow-hidden w-full" 
+            className="group/modalimage overflow-hidden w-full"
             onClick={(e) => {
               if ((!isMobile || images.length <= 1)) {
                 e.stopPropagation();
@@ -182,13 +182,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                       width: 'auto', 
                       height: 'auto', 
                       maxWidth: '100%', 
-                      maxHeight: '95vh', // Adjusted from 90vh to 95vh
+                      maxHeight: '98vh', 
                     }}
                     className="rounded-md" 
                     data-ai-hint={image.hint}
                     priority={index === currentIndexInModal}
-                    loading={index !== currentIndexInModal ? "eager" : undefined} // "eager" to preload
-                    sizes="95vw" // Adjusted from 90vw
+                    loading={index !== currentIndexInModal ? "eager" : undefined} 
+                    sizes="98vw" 
                   />
                 </div>
               ))}
@@ -272,7 +272,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   };
 
   if (!isClient && projectImages.length === 0) {
-    // Avoid rendering image-related DOM for "no image" case on SSR if it helps simplify hydration logic
+    // Avoid rendering image-related DOM for "no image" case on SSR
   }
 
 
