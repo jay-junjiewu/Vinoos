@@ -14,6 +14,7 @@ export const FISH_TANK_PROJECT_CATEGORIES: ProjectCategory[] = [
   'All', // Special category for showing all projects
   'Freshwater',
   'Saltwater',
+  'Large',
   'Saudi Arabia',
   'Dubai',
   'Abu Dhabi',
@@ -42,7 +43,7 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T1-1.jpg', hint: 'T1-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T1-2.jpg', hint: 'T1-2' },
     ],
-    categories: ['Large Tank', 'Saudi Arabia'],
+    categories: ['Large', 'Saudi Arabia'],
   },
   {
     id: '2',
