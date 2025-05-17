@@ -273,7 +273,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {projectImages.length > 0 ? (
           <DialogTrigger asChild>
             <div
-              className="relative w-full aspect-[4/3] sm:aspect-auto sm:h-56 md:h-64 group cursor-pointer"
+              className="relative w-full aspect-[4/3] group cursor-pointer"
               onClick={handleOpenModal}
               role="button"
               tabIndex={0}
@@ -332,7 +332,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </DialogTrigger>
         ) : (
-          <div className="relative w-full aspect-[4/3] sm:aspect-auto sm:h-56 md:h-64 bg-muted flex items-center justify-center">
+          <div className="relative w-full aspect-[4/3] bg-muted flex items-center justify-center">
             <p className="text-muted-foreground">No image available</p>
           </div>
         )}
