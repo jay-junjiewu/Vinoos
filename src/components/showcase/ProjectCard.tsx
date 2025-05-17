@@ -127,7 +127,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       <div 
         className={cn(
           'relative flex flex-col items-center',
-          isMobile ? 'w-[98vw]' : 'max-w-[60vw] w-auto' // Desktop: max-width 60vw, width auto to shrink. Mobile: fixed 98vw.
+          isMobile ? 'w-[98vw]' : 'max-w-[80vw] w-auto' // Desktop: max-width 60vw, width auto to shrink. Mobile: fixed 98vw.
         )}
       >
         {!isMobile && (
@@ -135,7 +135,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             variant="ghost"
             size="icon"
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute -top-2 -right-2 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            className="absolute -top-6 -right-8 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
             aria-label="Close image viewer"
           >
             <X className="h-5 w-5" />
@@ -147,7 +147,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           className={cn(
             'relative w-full overflow-hidden aspect-[4/3]'
           )}
-          style={{ maxHeight: isMobile ? '98vh' : '60vh' }}
+          // style={{ maxHeight: isMobile ? '98vh' : '60vh' }}
           onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined }
           onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
           onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -157,7 +157,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           tabIndex={isMobile && images.length <=1 ? 0 : -1}
           style={{ 
             cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default',
-            ...(isMobile ? {maxHeight: '98vh'} : {maxHeight: '60vh'}) 
+            ...(isMobile ? {maxHeight: '98vh'} : {maxHeight: '80vh'}) 
           }}
         >
           {/* Image Track (sliding div) */}
@@ -178,7 +178,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
                   data-ai-hint={image.hint}
                   priority={index === currentIndexInModal}
                   loading={index !== currentIndexInModal ? "eager" : undefined}
-                  sizes={isMobile ? "98vw" : "60vw"}
+                  sizes={isMobile ? "98vw" : "80vw"}
                 />
               </div>
             ))}
