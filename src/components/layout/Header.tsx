@@ -95,7 +95,7 @@ export function Header() {
                   className={cn("transition-colors text-primary hover:bg-primary/10 h-10 w-10")} // Consistent icon color & size
                   aria-label="Toggle Menu"
                 >
-                  <Menu className="h-8 w-8" /> {/* Increased size */}
+                  <Menu className="h-6 w-6" /> {/* Adjusted size to match close button */}
                 </Button>
               </SheetTrigger>
               <SheetContent 
