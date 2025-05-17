@@ -37,7 +37,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0;
+      if (prevIndex === 0) return 0; // Stop at first image
       return prevIndex - 1;
     });
   }, []);
@@ -45,7 +45,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1;
+      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -112,7 +112,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     <div 
       className={cn(
         'relative flex flex-col items-center',
-        isMobile ? 'max-w-[98vw]' : 'max-w-[50vw]' 
+        isMobile ? 'max-w-[98vw]' : 'max-w-[50vw]'
       )}
     >
       {!isMobile && (
@@ -128,7 +128,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       )}
 
       <div
-        className="group/modalimage relative w-full overflow-hidden aspect-[4/3]"
+        className={cn(
+          'relative w-full overflow-hidden aspect-[4/3]'
+        )}
         style={{ maxHeight: isMobile ? '98vh' : '50vh' }}
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
@@ -188,7 +190,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   );
 
   return (
-    <div className="flex flex-row items-center justify-center w-fit mx-auto gap-x-2 sm:gap-x-3 md:gap-x-4">
+    <div className="inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4">
       {!isMobile && images.length > 1 && (
         <Button
           variant="ghost" size="icon"
@@ -244,7 +246,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === projectImages.length - 1 ? 0 : prevIndex - 1
+      prevIndex === projectImages.length - 1 ? 0 : prevIndex + 1 // Corrected to prevIndex + 1
     );
   };
 
@@ -353,8 +355,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 p-0 translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "flex items-center justify-center" 
+              "flex items-center justify-center"
              )}
+             onClick={(e) => {
+                // Check if the click target is the DialogContent itself (the backdrop)
+                if (e.target === e.currentTarget) {
+                  onClose();
+                }
+              }}
            >
             <ModalCarousel
               project={project}
