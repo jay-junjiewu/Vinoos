@@ -53,7 +53,7 @@ export function AutoScrollingHero() {
           <span>Vinoos Trading EST.</span>
         </h1>
         <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto drop-shadow-md">
-        We design and build custom, high-quality fish tanks, cabinets, and acrylic projects for homes and businesses, crafting unique aquatic environments since 1997.
+        We design and build custom, high-quality fish tanks, cabinets, and acrylic projects for homes and businesses since 1997.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button 
@@ -81,14 +81,14 @@ export function AutoScrollingHero() {
       </div>
 
       {/* Bullet Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
         {HERO_IMAGES.map((_, index) => (
           <button
             key={`hero-dot-${index}`}
             onClick={() => handleSelectImage(index)}
             aria-label={`Go to slide ${index + 1}`}
             className={cn(
-              "h-3 w-3 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/50",
+              "h-2.5 w-2.5 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/50",
               currentHeroIndex === index ? "bg-white scale-125" : "bg-white/50 hover:bg-white/75"
             )}
           />
@@ -97,4 +97,3 @@ export function AutoScrollingHero() {
     </section>
   );
 }
-
