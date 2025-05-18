@@ -337,7 +337,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <CardTitle className="text-base sm:text-xl">{project.title}</CardTitle>
           </CardHeader>
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
-            <CardFooter className="flex flex-wrap gap-2 px-3 pb-4 pt-0 sm:px-4">
+            <CardFooter className="flex flex-wrap gap-2 px-3 pt-0 pb-2 sm:px-4 sm:pb-4">
               {project.categories.filter(cat => cat !== 'All').map((category) => (
                 <Badge 
                   key={category} 
@@ -385,4 +385,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
