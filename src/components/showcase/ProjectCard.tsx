@@ -3,12 +3,12 @@
 
 import Image from 'next/image';
 import type { Project } from '@/types';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Dialog, DialogOverlay, DialogTrigger, DialogPortal } from "@/components/ui/dialog"; // Added DialogPortal
+import { Dialog, DialogTrigger, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Badge } from '@/components/ui/badge';
@@ -37,7 +37,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; 
+      if (prevIndex === 0) return 0;
       return prevIndex - 1;
     });
   }, []);
@@ -90,7 +90,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   }, [isOpen, initialImageIndex]);
 
   useEffect(() => {
-    if (!isOpen || isMobile) return; 
+    if (!isOpen || isMobile) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
         goToPreviousModal(event);
@@ -108,12 +108,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
 
   if (!images || images.length === 0) return null;
-  
+
   const ImageAndDotsColumn = (
     <div
       className={cn(
         'relative flex flex-col items-center',
-        isMobile ? 'w-[98vw]' : 'w-[80vw]'
+        isMobile ? 'w-[98vw] h-[98vh]' : 'w-[80vw] h-[80vh]', // Max dimensions for the column
+        'overflow-hidden aspect-[4/3]' // Apply aspect ratio and overflow hidden here
       )}
     >
       {!isMobile && (
@@ -130,9 +131,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       
       <div
         className={cn(
-          'relative w-full overflow-hidden aspect-[4/3]',
+          'relative w-full h-full overflow-hidden' // This is the viewport for the track
         )}
-        style={{ maxHeight: isMobile ? '98vh' : '80vh' }}
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
         onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -145,19 +145,19 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         }}
       >
         <div
-          className="flex h-full transition-transform duration-300 ease-in-out"
+          className="flex h-full transition-transform duration-300 ease-in-out" // This is the sliding track
           style={{ transform: `translateX(-${currentIndexInModal * 100}%)` }}
         >
           {images.map((image, index) => (
             <div
               key={image.url}
-              className="w-full h-full flex-shrink-0 flex justify-center items-center" 
+              className="w-full h-full flex-shrink-0 flex justify-center items-center" // Each slide
             >
               <Image
                 src={image.url} alt={`${project.title} - Image ${index + 1}`}
                 width={1200} height={900} 
-                className="rounded-md"
-                style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }}
+                className="rounded-md" // Removed max-w-full, max-h-full
+                style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} // Use style for 100% max dimensions
                 data-ai-hint={image.hint}
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
@@ -195,7 +195,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   return (
     <div className={cn(
       "inline-flex flex-row items-center relative",
-      !isMobile && "gap-x-2 sm:gap-x-3 md:gap-x-4" // Apply gap only on desktop
+      !isMobile && "gap-x-2 sm:gap-x-3 md:gap-x-4" 
     )}>
       {!isMobile && images.length > 1 && (
         <Button
@@ -238,7 +238,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   }, []);
 
   const hookIsMobile = useIsMobile();
-  const isMobile = isClient ? hookIsMobile : false; 
+  const isMobile = isClient ? hookIsMobile : false;
 
   const goToPreviousOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -252,7 +252,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) => {
-      if (projectImages.length === 0) return 0; 
+      if (projectImages.length === 0) return 0;
       return (prevIndex + 1) % projectImages.length;
     });
   };
@@ -337,14 +337,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </>
             )}
           </div>
-          <CardHeader className="pt-4 pb-2">
+          <CardHeader className="pt-4 pb-0"> {/* Adjusted padding */}
             <CardTitle className="text-xl">{project.title}</CardTitle>
           </CardHeader>
-          <CardContent className="flex-grow pt-0 pb-4">
-            {/* CardDescription removed */}
-          </CardContent>
+          {/* CardContent removed */}
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
-            <CardFooter className="flex flex-wrap gap-2 p-4 pt-2">
+            <CardFooter className="flex flex-wrap gap-2 px-4 pb-4 pt-0"> {/* Adjusted padding */}
               {project.categories.filter(cat => cat !== 'All').map((category) => (
                 <Badge key={category} variant="secondary" className="text-sm font-normal">
                   {category}
@@ -359,10 +357,16 @@ export function ProjectCard({ project }: ProjectCardProps) {
          <DialogPortal>
            <DialogOverlay /> 
            <DialogPrimitive.Content
-             className={cn(
+            className={cn(
               "fixed left-[50%] top-[50%] z-50 flex items-center justify-center translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "p-0 overflow-visible" 
-             )}
+              "p-0 overflow-visible"
+            )}
+            onClick={(e) => {
+              // Close if clicking directly on DialogPrimitive.Content (the backdrop area)
+              if (e.target === e.currentTarget) {
+                handleCloseModal();
+              }
+            }}
            >
             <ModalCarousel
               project={project}
@@ -377,4 +381,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
