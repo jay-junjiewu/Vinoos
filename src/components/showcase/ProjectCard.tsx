@@ -110,13 +110,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   if (!images || images.length === 0) return null;
 
   const ImageAndDotsColumn = (
-    <div className={cn('relative flex flex-col items-center', isMobile ? 'w-[98vw] h-[98vh]' : 'w-[80vw] h-[80vh]')}>
+     <div className={cn('relative flex flex-col items-center', isMobile ? 'w-[98vw] h-[98vh]' : 'w-[80vw] h-[80vh]')}>
       {!isMobile && (
           <Button
             variant="ghost"
             size="icon"
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute -top-4 -right-4 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            className="absolute -top-4 -right-8 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
             aria-label="Close image viewer"
           >
             <X className="h-5 w-5" />
@@ -124,7 +124,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
       <div
         className={cn(
-          'relative w-full overflow-hidden aspect-[4/3]',
+          'relative w-full overflow-hidden aspect-[4/3]'
         )}
         style={{ maxHeight: isMobile ? '98vh' : '80vh' }}
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined }
@@ -136,7 +136,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         tabIndex={isMobile && images.length <=1 ? 0 : -1}
         style={{ 
           cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default',
-          maxHeight: isMobile ? '98vh' : '80vh'
         }}
       >
         <div
@@ -151,8 +150,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
               <Image
                 src={image.url} alt={`${project.title} - Image ${index + 1}`}
                 width={1200} height={900} 
-                className="rounded-md"
-                style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} 
+                className="rounded-md max-w-full max-h-full"
+                style={{ objectFit: 'contain' }} 
                 data-ai-hint={image.hint}
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
@@ -165,7 +164,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       
       {images.length > 1 && (
         <div
-          className="absolute bottom-[-2rem] z-30 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full mt-2"
+          className="absolute bottom-[-2rem] z-30 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full"
           onClick={(e) => e.stopPropagation()}
         >
           {images.map((_, index) => (
@@ -247,7 +246,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) => {
-      if (projectImages.length === 0) return 0; // Should not happen if button is shown
+      if (projectImages.length === 0) return 0;
       return (prevIndex + 1) % projectImages.length;
     });
   };
@@ -332,13 +331,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </>
             )}
           </div>
-          <CardHeader className="pt-4 pb-4"> {/* Adjusted bottom padding */}
+          <CardHeader className="pt-4 pb-4">
             <CardTitle className="text-xl">{project.title}</CardTitle>
           </CardHeader>
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
             <CardFooter className="flex flex-wrap gap-2 px-4 pb-4 pt-0">
               {project.categories.filter(cat => cat !== 'All').map((category) => (
-                <Badge key={category} variant="secondary" className="text-sm font-normal">
+                <Badge key={category} variant="secondary" className="text-xs font-normal">
                   {category}
                 </Badge>
               ))}
@@ -356,6 +355,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
               "p-0 overflow-visible w-fit h-fit"
             )}
             onClick={(e) => {
+              // Only close if the click is directly on this DialogPrimitive.Content (the backdrop)
+              // and not on its children (ModalCarousel).
               if (e.target === e.currentTarget) {
                 handleCloseModal();
               }
@@ -374,3 +375,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
