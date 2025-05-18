@@ -7,7 +7,7 @@ export interface ProjectImage {
 export interface Project {
   id: string;
   title: string;
-  description: string;
+  // description: string; // Removed
   images: ProjectImage[];
   categories: string[]; // Added categories field
 }

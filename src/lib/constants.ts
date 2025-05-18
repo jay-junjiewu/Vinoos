@@ -12,7 +12,6 @@ export const NAV_LINKS = [
 
 export const FISH_TANK_PROJECT_CATEGORIES: ProjectCategory[] = [
   'All', // Special category for showing all projects
-  'Freshwater',
   'Saltwater',
   'Large',
   'Saudi Arabia',
@@ -29,7 +28,6 @@ export const ACRYLIC_PROJECT_CATEGORIES: ProjectCategory[] = [
 export const CABINET_PROJECT_CATEGORIES: ProjectCategory[] = [ // New categories for cabinets
   'All',
   'Aluminum',
-  'Steel',
   'MDF',
 ];
 
@@ -37,17 +35,15 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
   {
     id: '1',
     title: 'Project Title1',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T1-1.jpg', hint: 'T1-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T1-2.jpg', hint: 'T1-2' },
     ],
-    categories: ['Large', 'Saudi Arabia'],
+    categories: ['Saudi Arabia'],
   },
   {
     id: '2',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T2-1.jpg', hint: 'T2-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T2-2.jpg', hint: 'T2-2' },
@@ -58,90 +54,81 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
   {
     id: '5',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T5-1.jpeg', hint: 'T5-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T5-2.jpeg', hint: 'T5-2' },
     ],
-    categories: ['Freshwater', 'Abu Dhabi'],
+    categories: ['Abu Dhabi'],
   },
   {
     id: '6',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T6-1.jpeg', hint: 'T6-1' },
     ],
-    categories: ['Freshwater', 'Abu Dhabi'],
+    categories: ['Abu Dhabi'],
   },
   {
     id: '3',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T3-1.jpg', hint: 'T3-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T3-2.jpg', hint: 'T3-2' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T3-3.jpg', hint: 'T3-3' },
     ],
-    categories: ['Freshwater', 'Abu Dhabi'],
+    categories: ['Abu Dhabi'],
   },
   {
     id: '4',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-1.jpg', hint: 'T4-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T4-2.jpg', hint: 'T4-2' },
     ],
-    categories: ['Freshwater', 'Oman'],
+    categories: ['Oman'],
   },
   {
     id: '7',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T7-1.jpeg', hint: 'T7-1' },
     ],
-    categories: ['Freshwater', 'Abu Dhabi'],
+    categories: ['Abu Dhabi'],
   },
   {
     id: '8',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T8-1.jpg', hint: 'T8-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T8-2.jpg', hint: 'T8-2' },
     ],
-    categories: ['Freshwater', 'Oman'],
+    categories: ['Dubai'],
   },
   {
     id: '9',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T9-2.jpeg', hint: 'T9-2' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T9-1.jpeg', hint: 'T9-1' },
     ],
-    categories: ['Freshwater', 'Oman'],
+    categories: ['Dubai'],
   },
   {
     id: '10',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T10-1.jpeg', hint: 'T10-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T10-2.jpeg', hint: 'T10-2' },
     ],
-    categories: ['Freshwater', 'Oman'],
+    categories: ['Dubai'],
   },
   {
     id: '11',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T11-1.jpeg', hint: 'T10-1' },
     ],
-    categories: ['Freshwater', 'Oman'],
+    categories: ['Dubai'],
   },
 ];
 
@@ -149,7 +136,6 @@ export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
     id: 'A1',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A1-1.jpeg', hint: 'A1-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A1-2.jpeg', hint: 'A1-2' },
@@ -159,7 +145,6 @@ export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
     id: 'A2',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-1.jpg', hint: 'A2-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A2-2.jpg', hint: 'A2-2' },
@@ -169,7 +154,6 @@ export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
     id: 'A3',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A3-1.jpeg', hint: 'A3-1' },
     ],
@@ -178,7 +162,6 @@ export const ACRYLIC_PROJECTS_DATA: Project[] = [
   {
     id: 'A4',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Acrylic/A4-1.jpeg', hint: 'A4-1' },
     ],
@@ -190,7 +173,6 @@ export const CABINET_PROJECTS_DATA: Project[] = [
   {
     id: 'C1',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C1-1.jpeg', hint: 'C1-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C1-2.jpeg', hint: 'C1-2' },
@@ -201,7 +183,6 @@ export const CABINET_PROJECTS_DATA: Project[] = [
   {
     id: 'C2',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C2-1.jpeg', hint: 'C2-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C2-2.jpeg', hint: 'C2-2' },
@@ -212,7 +193,6 @@ export const CABINET_PROJECTS_DATA: Project[] = [
   {
     id: 'C3',
     title: 'Project Title',
-    description: 'Project Description...',
     images: [
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C3-1.jpeg', hint: 'C3-1' },
       { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Cabinet/C3-2.jpeg', hint: 'C3-2' },
