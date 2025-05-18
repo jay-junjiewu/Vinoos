@@ -24,7 +24,7 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-semibold mb-12 text-center text-primary">
               Featured Projects
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12"> {/* Updated grid to accommodate 4 projects */}
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8"> {/* Updated gap classes */}
               {featuredProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
