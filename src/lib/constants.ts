@@ -228,6 +228,6 @@ export const BUSINESS_INFO = {
 };
 
 export const HERO_IMAGES: HeroImage[] = [
-  { id: 'hero1', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images//Cover1.jpg', alt: 'Stunning custom aquarium build', hint: 'Cover1', },
-  { id: 'hero2', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images//Cover2.jpg', alt: 'Vibrant coral reef tank', hint: 'Cover2', },
+  { id: 'hero3', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images//Cover3.jpg', alt: 'Cover3', hint: 'Cover3', },
+  { id: 'hero2', url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T10-1.jpeg', alt: 'Cover2', hint: 'Cover2', },
 ];
