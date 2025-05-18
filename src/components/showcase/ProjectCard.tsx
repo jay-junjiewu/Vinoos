@@ -110,7 +110,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4"> {/* ModalCarousel root */}
+    <div className={cn("inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4")}>
       {!isMobile && images.length > 1 && (
         <Button
           variant="ghost" size="icon"
@@ -122,12 +122,12 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           <ChevronLeft className="h-5 w-5" />
         </Button>
       )}
-
-      {/* This is the ImageAndDotsColumn */}
+      
+      {/* ImageAndDotsColumn */}
       <div 
         className={cn(
           'relative flex flex-col items-center',
-          isMobile ? 'w-[98vw]' : 'max-w-[80vw] w-auto' // Desktop: max-width 60vw, width auto to shrink. Mobile: fixed 98vw.
+          isMobile ? 'w-[98vw] h-[98vh]' : 'w-[80vw] h-[80vh]' // Desktop: 80% viewport, Mobile: 98%
         )}
       >
         {!isMobile && (
@@ -135,19 +135,19 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
             variant="ghost"
             size="icon"
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute -top-6 -right-8 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            className="absolute -top-4 -right-4 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
             aria-label="Close image viewer"
           >
             <X className="h-5 w-5" />
           </Button>
         )}
         
-        {/* This is ImageAreaViewport */}
+        {/* ImageAreaViewport */}
         <div
           className={cn(
-            'relative w-full overflow-hidden aspect-[4/3]'
+            'relative w-full overflow-hidden aspect-[4/3]' // Main viewport for image track with 4/3 aspect
           )}
-          // style={{ maxHeight: isMobile ? '98vh' : '60vh' }}
+          style={{ maxHeight: isMobile ? '98vh' : '80vh' }} // Overall height constraint
           onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined }
           onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
           onTouchMove={isMobile && images.length > 1 && touchStartX !== null ? handleTouchMove : undefined}
@@ -157,7 +157,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
           tabIndex={isMobile && images.length <=1 ? 0 : -1}
           style={{ 
             cursor: isMobile ? (images.length > 1 ? 'grab' : 'pointer') : 'default',
-            ...(isMobile ? {maxHeight: '98vh'} : {maxHeight: '80vh'}) 
           }}
         >
           {/* Image Track (sliding div) */}
@@ -249,7 +248,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) => {
-      if (projectImages.length === 0) return 0;
+      if (projectImages.length === 0) return 0; // Should not happen if images > 0
       return (prevIndex + 1) % projectImages.length;
     });
   };
@@ -343,7 +342,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
             <CardFooter className="flex flex-wrap gap-2 p-4 pt-2">
               {project.categories.filter(cat => cat !== 'All').map((category) => (
-                <Badge key={category} variant="secondary" className="text-sm">
+                <Badge key={category} variant="secondary" className="text-sm font-normal">
                   {category}
                 </Badge>
               ))}
@@ -358,13 +357,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
              className={cn(
               "fixed left-[50%] top-[50%] z-50 flex items-center justify-center translate-x-[-50%] translate-y-[-50%] border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              "p-0 overflow-visible"
+              "p-0 overflow-visible" // Removed w-screen h-screen here
              )}
-             onClick={(e) => {
-                if (e.target === e.currentTarget) {
-                  handleCloseModal();
-                }
-              }}
+            // Removed onClick from DialogPrimitive.Content to rely on DialogOverlay for closing
            >
             <ModalCarousel
               project={project}
