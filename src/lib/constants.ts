@@ -214,7 +214,7 @@ export const EQUIPMENT_DATA: Equipment[] = [
 
 export const BUSINESS_INFO = {
   name: 'Vinoos Trading EST.',
-  phone: '+971 52 970 1938',
+  phone: '+971 50 631 3648',
   email: 'vinoos@vinoostrading.com',
   address: 'Umm Al Thuoob - UAQ - UAE',
   googleMapsLink: 'https://maps.app.goo.gl/agFPCt9HdoTREx1Z6',
