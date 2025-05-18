@@ -129,9 +129,9 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       )}
       <div 
         className={cn(
-          'group/modalimage relative w-full overflow-hidden', 
-          !isMobile && 'aspect-[4/3]' 
-        )}
+            'group/modalimage relative w-full overflow-hidden',
+            !isMobile && 'aspect-[4/3]'
+          )}
         style={{ maxHeight: isMobile ? '98vh' : '80vh' }} 
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
         onTouchStart={isMobile && images.length > 1 ? handleTouchStart : undefined}
@@ -188,6 +188,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       )}
     </div>
   );
+
 
   if (!isMobile) {
     return (
@@ -347,7 +348,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     "text-[8px] sm:text-xs", 
                     "py-0 sm:py-0.5", 
                     "px-1 sm:px-2", 
-                    "rounded-sm sm:rounded-full" 
+                    "rounded-sm" 
                   )}
                 >
                   {category}
