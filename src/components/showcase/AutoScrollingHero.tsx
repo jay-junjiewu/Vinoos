@@ -58,22 +58,19 @@ export function AutoScrollingHero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button 
             asChild 
-            size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56 h-10 px-6 text-base rounded-md"
           >
             <Link href="/projects">Fish Tank Projects</Link>
           </Button>
           <Button 
             asChild 
-            size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56 h-10 px-6 text-base rounded-md"
           >
             <Link href="/acrylic-projects">Acrylic Projects</Link>
           </Button>
           <Button 
             asChild 
-            size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56"
+            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl w-full sm:w-56 h-10 px-6 text-base rounded-md"
           >
             <Link href="/cabinet-projects">Cabinet Projects</Link>
           </Button>
