@@ -333,20 +333,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </>
             )}
           </div>
-          <CardHeader className="px-4 pt-2 pb-2 sm:pt-4 sm:pb-4">
+          <CardHeader className="px-3 pt-2 pb-2 sm:px-4 sm:pt-4 sm:pb-4">
             <CardTitle className="text-base sm:text-xl">{project.title}</CardTitle>
           </CardHeader>
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
-            <CardFooter className="flex flex-wrap gap-2 px-4 pb-4 pt-0">
+            <CardFooter className="flex flex-wrap gap-2 px-3 pb-4 pt-0 sm:px-4">
               {project.categories.filter(cat => cat !== 'All').map((category) => (
                 <Badge 
                   key={category} 
                   variant="secondary" 
                   className={cn(
                     "font-semibold", 
-                    "text-[11px] sm:text-xs", 
+                    "text-[8px] sm:text-xs", 
                     "py-0 sm:py-0.5", 
-                    "px-1.5 sm:px-2.5", 
+                    "px-1 sm:px-2", 
                     "rounded-sm sm:rounded-full" 
                   )}
                 >
@@ -385,3 +385,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
+
