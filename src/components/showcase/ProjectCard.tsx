@@ -37,7 +37,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToPreviousModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === 0) return 0; // Stop at first image
+      if (prevIndex === 0) return 0; 
       return prevIndex - 1;
     });
   }, []);
@@ -45,7 +45,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const goToNextModal = useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     e?.stopPropagation();
     setCurrentIndexInModal((prevIndex) => {
-      if (prevIndex === images.length - 1) return images.length - 1; // Stop at last image
+      if (prevIndex === images.length - 1) return images.length - 1; 
       return prevIndex + 1;
     });
   }, [images.length]);
@@ -112,7 +112,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   const ImageAndDotsColumn = (
     <div
       className={cn(
-        'relative flex flex-col items-center', 
+        'relative flex flex-col items-center justify-center', 
         isMobile ? 'max-w-[98vw] max-h-[98vh]' : 'max-w-[80vw]'
       )}
     >
@@ -129,8 +129,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       )}
       <div 
         className={cn(
-          'relative w-full overflow-hidden',
-           !isMobile && 'aspect-[4/3]' // Desktop maintains 4/3 aspect for its container
+          'group/modalimage relative w-full overflow-hidden', 
+          !isMobile && 'aspect-[4/3]' 
         )}
         style={{ maxHeight: isMobile ? '98vh' : '80vh' }} 
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined}
@@ -168,7 +168,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       {images.length > 1 && (
         <div
           className="absolute bottom-[-2rem] z-30 flex items-center justify-center space-x-2 bg-black/50 p-1.5 rounded-full"
-          onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking dots
+          onClick={(e) => e.stopPropagation()} 
         >
           {images.map((_, index) => (
             <button
@@ -189,7 +189,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
     </div>
   );
 
-  // Conditional rendering for desktop with arrows
   if (!isMobile) {
     return (
       <div className="inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4">
@@ -221,7 +220,6 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
       </div>
     );
   }
-  // Mobile layout (just the image column, arrows are handled by swipe)
   return ImageAndDotsColumn;
 }
 
@@ -251,8 +249,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const goToNextOnCard = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (projectImages.length === 0) return;
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % (projectImages.length || 1) );
+    if (!projectImages || projectImages.length === 0) return;
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % projectImages.length);
   };
   
 
@@ -335,8 +333,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </>
             )}
           </div>
-          <CardHeader className="px-4 pt-4 pb-4">
-            <CardTitle className="text-lg sm:text-xl">{project.title}</CardTitle>
+          <CardHeader className="px-4 pt-2 pb-2 sm:pt-4 sm:pb-4">
+            <CardTitle className="text-base sm:text-xl">{project.title}</CardTitle>
           </CardHeader>
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
             <CardFooter className="flex flex-wrap gap-2 px-4 pb-4 pt-0">
@@ -345,11 +343,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   key={category} 
                   variant="secondary" 
                   className={cn(
-                    "font-semibold", // Base classes
-                    "text-[11px] sm:text-xs", // Responsive font size
-                    "py-0 sm:py-0.5", // Responsive vertical padding
-                    "px-1.5 sm:px-2.5", // Responsive horizontal padding
-                    "rounded-sm sm:rounded-full" // Responsive corner radius
+                    "font-semibold", 
+                    "text-[11px] sm:text-xs", 
+                    "py-0 sm:py-0.5", 
+                    "px-1.5 sm:px-2.5", 
+                    "rounded-sm sm:rounded-full" 
                   )}
                 >
                   {category}
@@ -366,10 +364,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
            <DialogPrimitive.Content
             className={cn(
               "fixed z-50 flex items-center justify-center p-0 overflow-visible border-0 bg-transparent shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
-              isMobile ? "inset-[1vh]" : "left-[50%] top-[50%] w-fit h-fit translate-x-[-50%] translate-y-[-50%]"
+               isMobile ? "inset-[1vh]" : "left-[50%] top-[50%] w-fit h-fit translate-x-[-50%] translate-y-[-50%]"
             )}
             onClick={(e) => {
-              // Close if clicking directly on the content backdrop, not its children
               if (e.target === e.currentTarget) {
                 handleCloseModal();
               }
