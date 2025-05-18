@@ -110,13 +110,13 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
   if (!images || images.length === 0) return null;
 
   const ImageAndDotsColumn = (
-     <div className={cn('relative flex flex-col items-center', isMobile ? 'w-[98vw] h-[98vh]' : 'w-[80vw] h-[80vh]')}>
+     <div className={cn('relative flex flex-col items-center w-auto', isMobile ? 'max-w-[98vw]' : 'max-w-[80vw]')}>
       {!isMobile && (
           <Button
             variant="ghost"
             size="icon"
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute -top-4 -right-8 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
+            className="absolute -top-4 -right-4 z-[60] bg-black/50 hover:bg-black/70 text-white rounded-full h-9 w-9 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-0 transform translate-x-1/2 -translate-y-1/2"
             aria-label="Close image viewer"
           >
             <X className="h-5 w-5" />
@@ -124,7 +124,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
         )}
       <div
         className={cn(
-          'relative w-full overflow-hidden aspect-[4/3]'
+          'group/modalimage relative w-full overflow-hidden aspect-[4/3]'
         )}
         style={{ maxHeight: isMobile ? '98vh' : '80vh' }}
         onClick={isMobile && images.length <= 1 ? (e) => { e.stopPropagation(); onClose(); } : undefined }
@@ -150,8 +150,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
               <Image
                 src={image.url} alt={`${project.title} - Image ${index + 1}`}
                 width={1200} height={900} 
-                className="rounded-md max-w-full max-h-full"
-                style={{ objectFit: 'contain' }} 
+                className="rounded-md"
+                style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} 
                 data-ai-hint={image.hint}
                 priority={index === currentIndexInModal}
                 loading={index !== currentIndexInModal ? "eager" : undefined}
@@ -188,8 +188,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 
   return (
     <div className={cn(
-      "inline-flex flex-row items-center relative",
-      !isMobile && "gap-x-2 sm:gap-x-3 md:gap-x-4" 
+      "inline-flex flex-row items-center relative gap-x-2 sm:gap-x-3 md:gap-x-4"
     )}>
       {!isMobile && images.length > 1 && (
         <Button
@@ -246,7 +245,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setCurrentImageIndex((prevIndex) => {
-      if (projectImages.length === 0) return 0;
+      if (projectImages.length === 0) return 0; // Handle empty array case
       return (prevIndex + 1) % projectImages.length;
     });
   };
@@ -331,13 +330,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </>
             )}
           </div>
-          <CardHeader className="pt-4 pb-4">
+          <CardHeader className="px-4 pt-4 pb-4">
             <CardTitle className="text-xl">{project.title}</CardTitle>
           </CardHeader>
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
             <CardFooter className="flex flex-wrap gap-2 px-4 pb-4 pt-0">
               {project.categories.filter(cat => cat !== 'All').map((category) => (
-                <Badge key={category} variant="secondary" className="text-xs font-normal">
+                <Badge key={category} variant="secondary" className="text-xs font-semibold">
                   {category}
                 </Badge>
               ))}
@@ -375,4 +374,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Dialog>
   );
 }
-
