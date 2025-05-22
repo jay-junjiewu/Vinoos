@@ -124,7 +124,23 @@ export const FISH_TANK_PROJECTS_DATA: Project[] = [
     id: '11',
     title: 'Shrink-Wrapped for Delivery',
     images: [
-      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T11-1.jpeg', hint: 'T10-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T11-1.jpeg', hint: 'T11-1' },
+    ],
+    categories: ['Dubai'],
+  },
+  {
+    id: '12',
+    title: 'Fish Tank Rack',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T12-1.jpeg', hint: 'T12-1' },
+    ],
+    categories: ['Dubai'],
+  },
+  {
+    id: '13',
+    title: 'Small Tank',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T13-1.jpeg', hint: 'T13-1' },
     ],
     categories: ['Dubai'],
   },
