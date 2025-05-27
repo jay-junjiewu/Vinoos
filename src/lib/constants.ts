@@ -31,6 +31,16 @@ export const CABINET_PROJECT_CATEGORIES: ProjectCategory[] = [ // New categories
 
 export const FISH_TANK_PROJECTS_DATA: Project[] = [
   {
+    id: '14',
+    title: 'Fish Shop Tank System',
+    images: [
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T14-1.jpeg', hint: 'T14-1' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T14-2.jpeg', hint: 'T14-2' },
+      { url: 'https://kdbmcsdqyebekzmliqgh.supabase.co/storage/v1/object/public/images/Fish_Tanks/T14-3.jpeg', hint: 'T14-3' },
+    ],
+    categories: ['Dubai'],
+  },
+  {
     id: '1',
     title: 'Precision Laser Tank Balancing',
     images: [
