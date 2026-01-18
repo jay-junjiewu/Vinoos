@@ -1,5 +1,6 @@
-# Firebase Studio
+# Fish Tank Products Website (React + Supabase)
 
-This is a NextJS starter in Firebase Studio.
+A product showcase website built for a fish tank company to display their aquarium products.  
+Frontend is built with **React**, and **Supabase Storage** is used for hosting and serving product images.
 
-To get started, take a look at src/app/page.tsx.
+## Live Demo: https://www.vinoostrading.com/
