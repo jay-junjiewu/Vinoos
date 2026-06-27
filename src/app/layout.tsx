@@ -93,6 +93,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <Toaster /> {/* Add Toaster here */}
+        <Analytics />
       </body>
     </html>
   );
