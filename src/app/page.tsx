@@ -6,6 +6,7 @@ import { Mail, MapPinIcon, Phone, Instagram, Facebook } from 'lucide-react';
 import { BUSINESS_INFO, FISH_TANK_PROJECTS_DATA } from '@/lib/constants';
 import { ProjectCard } from '@/components/showcase/ProjectCard';
 import { AutoScrollingHero } from '@/components/showcase/AutoScrollingHero';
+import { FaqSection } from '@/components/showcase/FaqSection';
 
 export default function HomePage() {
   const featuredProjectIds = ['10', '7', '5', '3']; // IDs of projects to feature
@@ -44,6 +45,9 @@ export default function HomePage() {
         </section>
       )}
       
+      {/* FAQ Section */}
+      <FaqSection />
+
       {/* Business Information Section */}
       <section id="contact" className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4">

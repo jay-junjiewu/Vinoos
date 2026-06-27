@@ -51,6 +51,9 @@ export function AutoScrollingHero() {
       <div className="container mx-auto px-4 h-full flex flex-col items-center justify-center text-center relative z-10">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg flex flex-col items-center">
           <span>Vinoos Trading EST.</span>
+          <span className="mt-3 text-xl sm:text-2xl md:text-3xl font-semibold">
+            Custom Fish Tanks &amp; Aquariums in the UAE
+          </span>
         </h1>
         <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto drop-shadow-md">
         We design and build custom, high-quality fish tanks, cabinets, and acrylic projects for homes and businesses since 1997.
