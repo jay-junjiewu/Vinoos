@@ -57,6 +57,7 @@ export function getLocalBusinessSchema() {
       '@type': 'PostalAddress',
       streetAddress: 'Umm Al Thuoob',
       addressLocality: 'Umm Al Quwain',
+      addressRegion: 'Umm Al Quwain',
       addressCountry: 'AE',
     },
     hasMap: BUSINESS_INFO.googleMapsLink,

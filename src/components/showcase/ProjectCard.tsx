@@ -291,7 +291,7 @@ export function ProjectCard({ project, href }: ProjectCardProps) {
                 data-ai-hint={projectImages[currentImageIndex].hint}
                 className="transition-transform duration-500 ease-in-out group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                priority={project.id === '1' || project.id === '2' || project.id === '10' || project.id === '7' || project.id === '5' || project.id === '3'} 
+                loading="lazy"
               />
             ) : (
                <div className="relative w-full bg-muted flex items-center justify-center aspect-[4/3]">
