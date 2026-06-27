@@ -29,8 +29,13 @@ export function AcrylicProjectsClientContent() {
     <div className="container mx-auto px-4 py-12">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-primary tracking-tight sm:text-5xl">
-          Acrylic Projects
+          Custom Acrylic Projects
         </h1>
+        <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+          Precision acrylic fabrication by Vinoos Trading EST. — display boxes,
+          filter boxes and bespoke acrylic components for aquariums and
+          businesses across the UAE and the GCC.
+        </p>
       </header>
 
       {/* Category Filters for Desktop */}

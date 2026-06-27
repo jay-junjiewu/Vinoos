@@ -13,7 +13,7 @@ export function EquipmentCard({ equipment }: EquipmentCardProps) {
       <div className="relative w-full aspect-[4/3]">
         <Image
           src={equipment.imageUrl}
-          alt={equipment.name}
+          alt={`${equipment.name} — aquarium fabrication equipment at Vinoos Trading EST.`}
           fill
           style={{ objectFit: 'cover' }}
           data-ai-hint={equipment.imageHint}

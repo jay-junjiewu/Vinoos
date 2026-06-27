@@ -151,8 +151,8 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
               className="w-full h-full flex-shrink-0 flex justify-center items-center"
             >
               <Image
-                src={image.url} alt={`${project.title} - Image ${index + 1}`}
-                width={1200} height={900} 
+                src={image.url} alt={`${project.title} — custom aquarium project by Vinoos Trading EST., image ${index + 1} of ${images.length}`}
+                width={1200} height={900}
                 className="rounded-md" 
                 style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} 
                 data-ai-hint={image.hint}
@@ -282,7 +282,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             {projectImages.length > 0 ? (
               <Image
                 src={projectImages[currentImageIndex].url}
-                alt={`${project.title} - Image ${currentImageIndex + 1} on card`}
+                alt={`${project.title} — custom aquarium project by Vinoos Trading EST.`}
                 fill
                 style={{ objectFit: 'cover' }}
                 data-ai-hint={projectImages[currentImageIndex].hint}

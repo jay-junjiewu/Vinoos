@@ -29,8 +29,13 @@ export function CabinetProjectsClientContent() {
     <div className="container mx-auto px-4 py-12">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-primary tracking-tight sm:text-5xl">
-          Cabinet Projects
+          Aquarium Cabinet Projects
         </h1>
+        <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+          Aluminium and MDF aquarium cabinets and stands by Vinoos Trading EST.,
+          engineered to support and complement custom fish tanks across the UAE
+          and the GCC.
+        </p>
       </header>
 
       {/* Category Filters for Desktop */}

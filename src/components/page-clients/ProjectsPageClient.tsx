@@ -29,8 +29,13 @@ export function ProjectsPageClientContent() {
     <div className="container mx-auto px-4 py-12">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-primary tracking-tight sm:text-5xl">
-          Fish Tank Projects
+          Custom Fish Tank Projects
         </h1>
+        <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+          A selection of custom fish tanks and aquariums designed and built by
+          Vinoos Trading EST. for clients across Dubai, Abu Dhabi, Saudi Arabia
+          and Oman — from saltwater display tanks to commercial rack systems.
+        </p>
       </header>
 
       {/* Category Filters for Desktop */}
