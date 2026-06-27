@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { ProjectCard } from '@/components/showcase/ProjectCard';
-import { FISH_TANK_PROJECTS_DATA, FISH_TANK_PROJECT_CATEGORIES } from '@/lib/constants';
+import { FISH_TANK_PROJECTS_DATA, FISH_TANK_PROJECT_CATEGORIES, SERVICE_AREA_TEXT } from '@/lib/constants';
 import type { ProjectCategory } from '@/types';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -33,8 +33,9 @@ export function ProjectsPageClientContent() {
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           A selection of custom fish tanks and aquariums designed and built by
-          Vinoos Trading EST. for clients across Dubai, Abu Dhabi, Saudi Arabia
-          and Oman, from saltwater display tanks to commercial rack systems.
+          Vinoos Trading EST. for clients across the UAE and the wider region,
+          including {SERVICE_AREA_TEXT}, from saltwater display tanks to
+          commercial rack systems.
         </p>
       </header>
 

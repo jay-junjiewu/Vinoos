@@ -34,7 +34,7 @@ export function CabinetProjectsClientContent() {
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           Aluminium and MDF aquarium cabinets and stands by Vinoos Trading EST.,
           engineered to support and complement custom fish tanks across the UAE
-          and the GCC.
+          and the wider region.
         </p>
       </header>
 

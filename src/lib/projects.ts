@@ -63,5 +63,5 @@ export function buildProjectDescription(
   const { kind } = PROJECT_COLLECTIONS[key];
   const cats = project.categories.filter((c) => c !== 'All');
   const catText = cats.length ? ` (${cats.join(', ')})` : '';
-  return `${project.title}${catText} is a ${kind} project designed and built by Vinoos Trading EST. It is part of our custom aquarium and fabrication work delivered to homes and businesses across the UAE and the GCC since 1997.`;
+  return `${project.title}${catText} is a ${kind} project designed and built by Vinoos Trading EST. It is part of our custom aquarium and fabrication work delivered to homes and businesses across the UAE and the wider region since 1997.`;
 }

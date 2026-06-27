@@ -6,7 +6,7 @@ import { getBreadcrumbSchema, getItemListSchema, SITE_URL } from '@/lib/seo';
 import { ACRYLIC_PROJECTS_DATA } from '@/lib/constants';
 
 const description =
-  'Custom acrylic fabrication by Vinoos Trading: display boxes, filter boxes and bespoke acrylic aquarium components precision-built for homes and businesses across the UAE and the GCC.';
+  'Custom acrylic fabrication by Vinoos Trading: display boxes, filter boxes and bespoke acrylic aquarium components precision-built for homes and businesses across the UAE and the wider region.';
 
 export const metadata: Metadata = {
   title: 'Custom Acrylic Fabrication & Aquarium Boxes',

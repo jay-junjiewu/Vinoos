@@ -236,6 +236,23 @@ export const EQUIPMENT_DATA: Equipment[] = [
   },
 ];
 
+// Canonical list of areas Vinoos serves. Update here to change it everywhere
+// (structured data, metadata descriptions and on-page copy all reference this).
+export const SERVICE_AREAS = [
+  'United Arab Emirates',
+  'Dubai',
+  'Abu Dhabi',
+  'Sharjah',
+  'Saudi Arabia',
+  'Oman',
+  'Lebanon',
+  'Bahrain',
+];
+
+// Human-readable list for prose (excludes the umbrella "United Arab Emirates").
+export const SERVICE_AREA_TEXT =
+  'Dubai, Abu Dhabi, Sharjah, Saudi Arabia, Oman, Lebanon and Bahrain';
+
 export const BUSINESS_INFO = {
   name: 'Vinoos Trading EST.',
   phone: '+971 50 631 3648',

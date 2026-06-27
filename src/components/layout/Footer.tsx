@@ -14,7 +14,7 @@ export function Footer() {
             <h2 className="text-lg font-bold text-primary">{BUSINESS_INFO.name}</h2>
             <p className="mt-3 text-sm text-muted-foreground max-w-xs">
               Custom fish tanks, aquariums, acrylic fabrication and cabinets for
-              homes and businesses across the UAE and the GCC since 1997.
+              homes and businesses across the UAE and the wider region since 1997.
             </p>
             <div className="mt-4 flex gap-4">
               {BUSINESS_INFO.instagramUrl && (

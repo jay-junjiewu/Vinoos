@@ -1,4 +1,9 @@
-import { BUSINESS_INFO, HERO_IMAGES } from '@/lib/constants';
+import {
+  BUSINESS_INFO,
+  HERO_IMAGES,
+  SERVICE_AREAS,
+  SERVICE_AREA_TEXT,
+} from '@/lib/constants';
 
 /**
  * Canonical production URL. Set NEXT_PUBLIC_SITE_URL in Vercel to the exact
@@ -15,7 +20,7 @@ export const SITE_TITLE =
   'Vinoos Trading EST. | Custom Fish Tanks & Aquariums in the UAE';
 
 export const DEFAULT_DESCRIPTION =
-  'Vinoos Trading EST. designs and builds custom, high-quality fish tanks, aquariums, acrylic fabrication and cabinets for homes and businesses across the UAE and the GCC. Trusted aquarium manufacturer based in Umm Al Quwain since 1997.';
+  `Vinoos Trading EST. designs and builds custom, high-quality fish tanks, aquariums, acrylic fabrication and cabinets for homes and businesses across the UAE and the wider region, including ${SERVICE_AREA_TEXT}. Trusted aquarium manufacturer based in Umm Al Quwain since 1997.`;
 
 export const DEFAULT_KEYWORDS = [
   'custom fish tanks UAE',
@@ -27,8 +32,11 @@ export const DEFAULT_KEYWORDS = [
   'saltwater aquarium UAE',
   'aquarium equipment UAE',
   'fish tank maker Abu Dhabi',
+  'fish tank builder Sharjah',
   'aquarium builder Saudi Arabia',
   'aquarium builder Oman',
+  'aquarium builder Bahrain',
+  'aquarium builder Lebanon',
   'Vinoos Trading',
 ];
 
@@ -61,13 +69,10 @@ export function getLocalBusinessSchema() {
       addressCountry: 'AE',
     },
     hasMap: BUSINESS_INFO.googleMapsLink,
-    areaServed: [
-      'United Arab Emirates',
-      'Dubai',
-      'Abu Dhabi',
-      'Saudi Arabia',
-      'Oman',
-    ].map((name) => ({ '@type': 'AdministrativeArea', name })),
+    areaServed: SERVICE_AREAS.map((name) => ({
+      '@type': 'AdministrativeArea',
+      name,
+    })),
     sameAs: [BUSINESS_INFO.instagramUrl, BUSINESS_INFO.facebookUrl].filter(
       Boolean
     ),
