@@ -32,7 +32,7 @@ export function AcrylicProjectsClientContent() {
           Custom Acrylic Projects
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Precision acrylic fabrication by Vinoos Trading EST. — display boxes,
+          Precision acrylic fabrication by Vinoos Trading EST. Display boxes,
           filter boxes and bespoke acrylic components for aquariums and
           businesses across the UAE and the GCC.
         </p>

@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-// Favicon generated at build time — no binary asset needed.
+// Favicon generated at build time; no binary asset needed.
 export const size = { width: 32, height: 32 };
 export const contentType = 'image/png';
 

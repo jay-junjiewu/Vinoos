@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border/40 bg-background">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-3 max-w-5xl mx-auto">
           {/* Business identity */}
           <div>
             <h2 className="text-lg font-bold text-primary">{BUSINESS_INFO.name}</h2>
@@ -101,7 +101,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 border-t border-border/40 pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; {year} {BUSINESS_INFO.name}. All rights reserved.</p>
+          <p>&copy; {year} {BUSINESS_INFO.name} All rights reserved.</p>
         </div>
       </div>
     </footer>

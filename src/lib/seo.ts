@@ -36,7 +36,7 @@ export const DEFAULT_KEYWORDS = [
 const PRIMARY_IMAGE = HERO_IMAGES[0]?.url ?? `${SITE_URL}/opengraph-image`;
 
 /**
- * LocalBusiness JSON-LD — the highest-impact structured data for a
+ * LocalBusiness JSON-LD: the highest-impact structured data for a
  * location-based business. Rendered once in the root layout.
  */
 export function getLocalBusinessSchema() {

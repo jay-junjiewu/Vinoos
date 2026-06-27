@@ -11,17 +11,17 @@ const FAQ_ITEMS = [
   {
     question: 'Do you build custom fish tanks and aquariums?',
     answer:
-      'Yes. We design and build fully custom fish tanks and aquariums for homes and businesses, tailored to your space, water type and requirements — in both glass and acrylic.',
+      'Yes. We design and build fully custom fish tanks and aquariums for homes and businesses, tailored to your space, water type and requirements, in both glass and acrylic.',
   },
   {
     question: 'Which areas do you serve?',
     answer:
-      'We are based in Umm Al Quwain, UAE, and deliver projects across the UAE and the wider GCC, including Dubai, Abu Dhabi, Saudi Arabia and Oman.',
+      'We are based in Umm Al Quwain, UAE, and deliver projects across the UAE and the wider GCC, including Dubai, Abu Dhabi, Sharjah, Saudi Arabia, Oman, Lebanon, and Bahrain.',
   },
   {
     question: 'What types of tanks do you make?',
     answer:
-      'Saltwater and freshwater display tanks, coral reef tanks, commercial rack systems, and lobster or holding tanks — from small home aquariums to large commercial installations.',
+      'Saltwater and freshwater display tanks, coral reef tanks, commercial rack systems, and lobster or holding tanks, from small home aquariums to large commercial installations.',
   },
   {
     question: 'Do you make aquarium cabinets and stands?',
@@ -34,7 +34,7 @@ const FAQ_ITEMS = [
       'Yes. We produce custom acrylic boxes, filter boxes and components using precision laser cutting.',
   },
   {
-    question: 'How long has Vinoos Trading been in business?',
+    question: 'How long has Vinoos Trading EST. been in business?',
     answer:
       'We have been designing and building custom aquariums and fabrication projects since 1997.',
   },

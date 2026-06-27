@@ -6,7 +6,7 @@ import { getBreadcrumbSchema, getItemListSchema, SITE_URL } from '@/lib/seo';
 import { CABINET_PROJECTS_DATA } from '@/lib/constants';
 
 const description =
-  'Aquarium cabinets and stands by Vinoos Trading — aluminium and MDF cabinets engineered to support and complement custom fish tanks across the UAE and the GCC.';
+  'Aquarium cabinets and stands by Vinoos Trading. Aluminium and MDF cabinets engineered to support and complement custom fish tanks across the UAE and the GCC.';
 
 export const metadata: Metadata = {
   title: 'Aquarium Cabinets & Stands (Aluminium & MDF)',

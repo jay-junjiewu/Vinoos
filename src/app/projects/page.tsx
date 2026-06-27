@@ -6,7 +6,7 @@ import { getBreadcrumbSchema, getItemListSchema, SITE_URL } from '@/lib/seo';
 import { FISH_TANK_PROJECTS_DATA } from '@/lib/constants';
 
 const description =
-  'Explore Vinoos Trading’s portfolio of custom fish tank and aquarium builds across Dubai, Abu Dhabi, Saudi Arabia and Oman — from saltwater display tanks to commercial rack systems.';
+  'Explore Vinoos Trading’s portfolio of custom fish tank and aquarium builds across Dubai, Abu Dhabi, Saudi Arabia and Oman, from saltwater display tanks to commercial rack systems.';
 
 export const metadata: Metadata = {
   title: 'Custom Fish Tank Projects in the UAE',

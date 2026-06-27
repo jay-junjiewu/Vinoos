@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const alt =
-  'Vinoos Trading EST. — Custom Fish Tanks & Aquariums in the UAE';
+  'Vinoos Trading EST. Custom Fish Tanks & Aquariums in the UAE';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -32,7 +32,7 @@ export default function OpengraphImage() {
             maxWidth: 900,
           }}
         >
-          Custom fish tanks, aquariums, acrylic &amp; cabinets — built in the UAE
+          Custom fish tanks, aquariums, acrylic &amp; cabinets, built in the UAE
           since 1997.
         </div>
         <div style={{ display: 'flex', marginTop: 56 }}>

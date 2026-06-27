@@ -95,7 +95,7 @@ export function ProjectDetail({ collectionKey, project }: ProjectDetailProps) {
           >
             <Image
               src={img.url}
-              alt={`${project.title} — ${collection.kind} project by Vinoos Trading EST., image ${index + 1} of ${project.images.length}`}
+              alt={`${project.title}, a ${collection.kind} project by Vinoos Trading EST., image ${index + 1} of ${project.images.length}`}
               fill
               style={{ objectFit: 'cover' }}
               sizes="(max-width: 640px) 100vw, 50vw"

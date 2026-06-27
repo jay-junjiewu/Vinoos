@@ -34,7 +34,7 @@ export function ProjectsPageClientContent() {
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           A selection of custom fish tanks and aquariums designed and built by
           Vinoos Trading EST. for clients across Dubai, Abu Dhabi, Saudi Arabia
-          and Oman — from saltwater display tanks to commercial rack systems.
+          and Oman, from saltwater display tanks to commercial rack systems.
         </p>
       </header>
 
