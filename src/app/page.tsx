@@ -26,7 +26,11 @@ export default function HomePage() {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8"> {/* Updated gap classes */}
               {featuredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  href={`/projects/${project.id}`}
+                />
               ))}
             </div>
             {FISH_TANK_PROJECTS_DATA.length > featuredProjects.length && (

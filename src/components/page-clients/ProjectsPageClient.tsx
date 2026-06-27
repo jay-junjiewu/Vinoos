@@ -74,7 +74,11 @@ export function ProjectsPageClientContent() {
       {filteredProjects.length > 0 ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
           {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              href={`/projects/${project.id}`}
+            />
           ))}
         </div>
       ) : (

@@ -2,6 +2,7 @@
 "use client";
 
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Project } from '@/types';
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,8 @@ import { Badge } from '@/components/ui/badge';
 
 interface ProjectCardProps {
   project: Project;
+  /** When provided, the title links to this project's detail page (crawlable). */
+  href?: string;
 }
 
 interface ModalCarouselProps {
@@ -225,7 +228,7 @@ function ModalCarousel({ project, initialImageIndex, isOpen, onClose, isMobile }
 }
 
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, href }: ProjectCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const projectImages = project.images || [];
@@ -335,7 +338,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
             )}
           </div>
           <CardHeader className="px-3 pt-2 pb-2 sm:px-4 sm:pt-4 sm:pb-4">
-            <CardTitle className="text-base sm:text-xl">{project.title}</CardTitle>
+            <CardTitle className="text-base sm:text-xl">
+              {href ? (
+                <Link
+                  href={href}
+                  onClick={(e) => e.stopPropagation()}
+                  className="hover:text-accent transition-colors"
+                >
+                  {project.title}
+                </Link>
+              ) : (
+                project.title
+              )}
+            </CardTitle>
           </CardHeader>
           {project.categories && project.categories.filter(cat => cat !== 'All').length > 0 && (
             <CardFooter className="flex flex-wrap gap-2 px-3 pt-0 pb-2 sm:px-4 sm:pb-4">

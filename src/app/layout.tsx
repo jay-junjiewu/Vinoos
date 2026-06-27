@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from "@/components/ui/toaster"; // Import Toaster
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { JsonLd } from '@/components/seo/JsonLd';
 import {
   SITE_URL,
@@ -94,6 +95,7 @@ export default function RootLayout({
         <Footer />
         <Toaster /> {/* Add Toaster here */}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
