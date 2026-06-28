@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 
 // Favicon generated at build time from the official logo (public/logo.svg),
-// set on a white circle so it reads on light or dark browser chrome.
+// scaled to fill the tile on a white background.
 export const size = { width: 32, height: 32 };
 export const contentType = 'image/png';
 
@@ -23,11 +23,11 @@ export default function Icon() {
           alignItems: 'center',
           justifyContent: 'center',
           background: '#ffffff',
-          borderRadius: '50%',
+          borderRadius: 5,
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoDataUri()} width={26} height={12} alt="" />
+        <img src={logoDataUri()} width={32} height={15} alt="" />
       </div>
     ),
     { ...size }

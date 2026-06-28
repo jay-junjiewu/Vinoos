@@ -2,8 +2,8 @@ import { ImageResponse } from 'next/og';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-// Apple touch icon generated from the official logo (public/logo.svg) on a
-// white circle. Apple does not support SVG touch icons, so this stays a PNG.
+// Apple touch icon from the official logo (public/logo.svg), scaled to fill a
+// full white tile (iOS applies its own rounded mask, so no transparency here).
 export const size = { width: 180, height: 180 };
 export const contentType = 'image/png';
 
@@ -23,11 +23,10 @@ export default function AppleIcon() {
           alignItems: 'center',
           justifyContent: 'center',
           background: '#ffffff',
-          borderRadius: '50%',
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoDataUri()} width={150} height={72} alt="" />
+        <img src={logoDataUri()} width={172} height={83} alt="" />
       </div>
     ),
     { ...size }
