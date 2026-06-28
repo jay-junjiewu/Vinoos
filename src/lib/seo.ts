@@ -55,7 +55,7 @@ export function getLocalBusinessSchema() {
     name: SITE_NAME,
     url: SITE_URL,
     image: PRIMARY_IMAGE,
-    logo: `${SITE_URL}/icon`,
+    logo: `${SITE_URL}/apple-icon`,
     description: DEFAULT_DESCRIPTION,
     telephone: BUSINESS_INFO.phone,
     email: BUSINESS_INFO.email,

@@ -76,8 +76,13 @@ export function Header() {
     >
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-6 pl-4">
-          <Link href="/" className="flex items-center gap-2" aria-label="Vinoos Trading EST. Home">
-            <span className={cn("font-bold text-xl text-primary whitespace-nowrap transition-opacity duration-300 hover:opacity-80")}>Vinoos Trading EST.</span>
+          <Link
+            href="/"
+            className="flex items-center transition-opacity duration-300 hover:opacity-80"
+            aria-label="Vinoos Trading EST. Home"
+          >
+            {/* Decorative: the link is already labelled, so the logo is alt="" */}
+            <img src="/logo.svg" alt="" className="h-9 w-auto sm:h-10" />
           </Link>
           
           {!isMobile && (
@@ -126,13 +131,13 @@ export function Header() {
                 className="w-full h-full p-6 bg-background"
               >
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                <Link 
+                <Link
                   href="/"
-                  className="flex items-center gap-2 mb-8"
+                  className="flex items-center mb-8"
                   onClick={() => setMobileMenuOpen(false)}
                   aria-label="Vinoos Trading EST. Home"
                 >
-                  <span className="font-bold text-xl text-primary">Vinoos Trading EST.</span>
+                  <img src="/logo.svg" alt="" className="h-11 w-auto" />
                 </Link>
                 <nav className="flex flex-col gap-4">
                   {NAV_LINKS.map((link) => (
