@@ -8,6 +8,8 @@ import { Toaster } from "@/components/ui/toaster"; // Import Toaster
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { VisitTracker } from '@/components/analytics/VisitTracker';
+import { ChatWidget } from '@/components/chat/ChatWidget';
 import {
   SITE_URL,
   SITE_NAME,
@@ -94,6 +96,8 @@ export default function RootLayout({
         </main>
         <Footer />
         <Toaster /> {/* Add Toaster here */}
+        <ChatWidget />
+        <VisitTracker />
         <Analytics />
         <SpeedInsights />
       </body>
